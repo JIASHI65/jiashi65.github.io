@@ -109,15 +109,17 @@ var ACTIVE_TAB = 'dashboard';
 
 // ── API ──
 async function loadData(){
-  var hr = await fetch('/api/health'); HEALTH = await hr.json();
-  var rr = await fetch('/api/records'); RECORDS = await rr.json();
+  try{var ls=localStorage.getItem('health_data');if(ls){var d=JSON.parse(ls);HEALTH=d.health;RECORDS=d.records;return;}}catch(e){}
+  var hr = await fetch('health.json'); HEALTH = await hr.json();
+  var rr = await fetch('records.json'); RECORDS = await rr.json();
+  try{localStorage.setItem('health_data',JSON.stringify({health:HEALTH,records:RECORDS}));}catch(e){}
 }
 async function saveHealth(){
-  await fetch('/api/health', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(HEALTH)});
+  try{localStorage.setItem('health_data',JSON.stringify({health:HEALTH,records:RECORDS}));}catch(e){}
   renderAll();
 }
 async function saveRecords(){
-  await fetch('/api/records', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(RECORDS)});
+  
 }
 
 // ── Tab switching ──

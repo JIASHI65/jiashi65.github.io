@@ -163,8 +163,8 @@ let currentQ = null;
 async function init(){
   try{
     const [d, p] = await Promise.all([
-      fetch('/api/armory').then(r=>r.json()),
-      fetch('/api/progress').then(r=>r.json())
+      /* localStorage first */ (()=>{try{var ls=localStorage.getItem('armory_data');if(ls){var d=JSON.parse(ls);RESOLVE({armory:d.armory,progress:d.progress});return;}}catch(e){};fetch('armory.json').then(r=>r.json()).then(d=>{try{localStorage.setItem('armory_data',JSON.stringify({armory:d,progress:null}));}catch(e){};RESOLVE({armory:d,progress:null})})})(),
+      fetch('progress.json').then(r=>r.json()).then(d=>{try{var ls=JSON.parse(localStorage.getItem('armory_data')||'{}');ls.progress=d;localStorage.setItem('armory_data',JSON.stringify(ls));}catch(e){};RESOLVE({progress:d})})
     ]);
     DATA = d; PROGRESS = p;
   }catch(e){
@@ -181,7 +181,7 @@ async function init(){
   renderResume();
   renderDaily();
 }
-function save(){fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(PROGRESS)})}
+function save(){try{var ls=JSON.parse(localStorage.getItem('armory_data')||'{}');ls.progress=PROGRESS;localStorage.setItem('armory_data',JSON.stringify(ls));}catch(e){};console.log('saved')}
 function switchTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
   document.querySelectorAll('.content').forEach(c=>c.classList.toggle('active', c.id==='tab-'+name));

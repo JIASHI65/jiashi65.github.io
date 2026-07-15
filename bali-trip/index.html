@@ -170,8 +170,7 @@ let TRIP = null, PROGRESS = null;
 async function init(){
   try{
     const [t, p] = await Promise.all([
-      fetch('/api/trip').then(r=>r.json()),
-      fetch('/api/progress').then(r=>r.json())
+      /* localStorage first */ (()=>{try{var ls=localStorage.getItem('bali_data');if(ls){var d=JSON.parse(ls);RESOLVE({trip:d.trip,progress:d.progress});return;}}catch(e){};Promise.all([fetch('trip.json').then(r=>r.json()),fetch('progress.json').then(r=>r.json())]).then(([trip,progress]) => {try{localStorage.setItem('bali_data',JSON.stringify({trip,progress}));}catch(e){};RESOLVE({trip,progress})})})()
     ]);
     TRIP = t; PROGRESS = p;
   }catch(e){

@@ -100,10 +100,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
 var DATA = null, ACTIVE_TAB = 'dashboard';
 
 async function loadData(){
-  var r = await fetch('/api/data'); DATA = await r.json();
+  try{var ls=localStorage.getItem('adv_data');if(ls){DATA=JSON.parse(ls);document.getElementById('headerMeta').textContent='localStorage';return;}}catch(e){}
+  var r = await fetch('adventure.json'); DATA = await r.json(); try{localStorage.setItem('adv_data',JSON.stringify(DATA));}catch(e){}
+  document.getElementById('headerMeta').textContent='GitHub Pages';
 }
 async function saveData(){
-  await fetch('/api/data', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DATA)});
+  try{localStorage.setItem('adv_data',JSON.stringify(DATA));}catch(e){}
   renderAll();
 }
 

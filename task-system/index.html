@@ -166,8 +166,10 @@ let pendingAction = null;
 async function init(){
   todayStr = new Date().toISOString().slice(0,10);
   try{
-    const rt = await fetch('/api/tasks'); TASKS = await rt.json();
-    const rr = await fetch('/api/records'); RECORDS = await rr.json();
+    try{var ls=localStorage.getItem('task_data');if(ls){var d=JSON.parse(ls);TASKS=d.tasks;RECORDS=d.records;return;}}catch(e){}
+    const rt = await fetch('tasks.json'); TASKS = await rt.json();
+    const rr = await fetch('records.json'); RECORDS = await rr.json();
+    try{localStorage.setItem('task_data',JSON.stringify({tasks:TASKS,records:RECORDS}));}catch(e){}
   }catch(e){
     document.getElementById('tab-daily').innerHTML='<div class="empty-state">⚠ 加载失败，请确认服务已启动</div>';
     return;
@@ -184,7 +186,7 @@ async function init(){
   updateStarDisplay();
 }
 function saveRecords(){
-  fetch('/api/records', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(RECORDS)});
+  try{localStorage.setItem('task_data',JSON.stringify({tasks:TASKS,records:RECORDS}));}catch(e){}
 }
 
 // ── Tab Switch ──

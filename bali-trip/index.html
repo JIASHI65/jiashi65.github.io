@@ -169,10 +169,11 @@ let TRIP = null, PROGRESS = null;
 
 async function init(){
   try{
-    const [t, p] = await Promise.all([
-      /* localStorage first */ (()=>{try{var ls=localStorage.getItem('bali_data');if(ls){var d=JSON.parse(ls);RESOLVE({trip:d.trip,progress:d.progress});return;}}catch(e){};Promise.all([fetch('trip.json').then(r=>r.json()),fetch('progress.json').then(r=>r.json())]).then(([trip,progress]) => {try{localStorage.setItem('bali_data',JSON.stringify({trip,progress}));}catch(e){};RESOLVE({trip,progress})})})()
-    ]);
-    TRIP = t; PROGRESS = p;
+    try{var ls=localStorage.getItem('bali_data');if(ls){var x=JSON.parse(ls);TRIP=x.trip;PROGRESS=x.progress;if(TRIP&&PROGRESS)console.log('loaded from localStorage');else throw 1;}else throw 1;}catch(e){
+      var [trip,progress]=await Promise.all([fetch('trip.json').then(r=>r.json()),fetch('progress.json').then(r=>r.json())]);
+      TRIP=trip;PROGRESS=progress;
+      try{localStorage.setItem('bali_data',JSON.stringify({trip:TRIP,progress:PROGRESS}));}catch(ee){}
+    }
   }catch(e){
     document.getElementById('tab-timeline').innerHTML='<div class="empty-state">⚠ 加载失败</div>';
     return;

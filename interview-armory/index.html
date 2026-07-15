@@ -162,11 +162,12 @@ let currentQ = null;
 
 async function init(){
   try{
-    const [d, p] = await Promise.all([
-      /* localStorage first */ (()=>{try{var ls=localStorage.getItem('armory_data');if(ls){var d=JSON.parse(ls);RESOLVE({armory:d.armory,progress:d.progress});return;}}catch(e){};fetch('armory.json').then(r=>r.json()).then(d=>{try{localStorage.setItem('armory_data',JSON.stringify({armory:d,progress:null}));}catch(e){};RESOLVE({armory:d,progress:null})})})(),
-      fetch('progress.json').then(r=>r.json()).then(d=>{try{var ls=JSON.parse(localStorage.getItem('armory_data')||'{}');ls.progress=d;localStorage.setItem('armory_data',JSON.stringify(ls));}catch(e){};RESOLVE({progress:d})})
-    ]);
-    DATA = d; PROGRESS = p;
+    // Try localStorage first
+    try{var ls=localStorage.getItem('armory_data');if(ls){var x=JSON.parse(ls);DATA=x.armory;PROGRESS=x.progress;if(DATA&&PROGRESS)console.log('loaded from localStorage');else throw 1;}else throw 1;}catch(e){
+      var [armory,progress]=await Promise.all([fetch('armory.json').then(r=>r.json()),fetch('progress.json').then(r=>r.json())]);
+      DATA=armory;PROGRESS=progress;
+      try{localStorage.setItem('armory_data',JSON.stringify({armory:DATA,progress:PROGRESS}));}catch(ee){}
+    }
   }catch(e){
     document.getElementById('tab-stories').innerHTML='<div class="empty-state">⚠ 加载失败</div>';
     return;

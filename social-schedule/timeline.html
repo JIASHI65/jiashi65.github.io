@@ -404,64 +404,7 @@ const RAW_URL = 'https://cdn.jsdelivr.net/gh/'+GH_USER+'/'+GH_REPO+'@'+GH_BRANCH
 const LS_KEY = 'smm_v3_fallback';
 
 const REF_DEFAULTS = {"1": [{"type": "版本", "text": "沁夏臻境套间"}, {"type": "IP", "text": "联动签到 12天 持续一个月"}, {"type": "IP", "text": "kitty拼图"}, {"type": "IP", "text": "kitty委托 7/1-7/30"}, {"type": "版本", "text": "沁夏插画动态视频"}, {"type": "IP", "text": "KT上线PV"}, {"type": "IP", "text": "更换kitty联动头像&Banner"}], "2": [{"type": "版本", "text": "滑雪礼包 7/2-7/27"}, {"type": "版本", "text": "滑雪服装礼包宣发"}], "3": [], "4": [{"type": "节日", "text": "🎆 美国独立日"}], "5": [{"type": "IP", "text": "kitty小镇打卡二创活动"}], "6": [], "7": [{"type": "版本", "text": "儿童节家具礼包"}, {"type": "IP", "text": "KT联动预告三（转盘+寻物）"}, {"type": "IP", "text": "KT创作大赛 投稿：7/7-7/22"}], "8": [], "9": [{"type": "版本", "text": "绒雪套间展示（转盘预告）国服复用"}], "10": [{"type": "版本", "text": "往日预购"}, {"type": "版本", "text": "限时转盘"}, {"type": "IP", "text": "kitty转盘开启（融雪动态KV）"}], "11": [{"type": "版本", "text": "庙会服装礼包"}], "12": [], "13": [{"type": "版本", "text": "往日回响套间"}, {"type": "活动", "text": "玫瑰卡牌 7/13-7/22"}], "14": [], "15": [], "16": [], "17": [{"type": "节日", "text": "世界emoji日"}, {"type": "版本", "text": "烘焙套间展示（寻物预告）国服复用"}], "18": [{"type": "IP", "text": "kitty寻物"}, {"type": "IP", "text": "kitty寻物开启（烘焙动态KV）"}, {"type": "IP", "text": "kitty端内寻物社区配套活动"}], "19": [{"type": "版本", "text": "劳动节签到礼包"}], "20": [{"type": "版本", "text": "花影预购"}], "21": [], "22": [], "23": [{"type": "版本", "text": "花影乞巧套间"}, {"type": "活动", "text": "乞巧敲敲寻宝 7/23-8/1"}], "24": [], "25": [{"type": "版本", "text": "服装（男）礼包"}], "26": [], "27": [{"type": "版本", "text": "鹊桥星轨进阶礼包（主界面）"}], "28": [], "29": [], "30": [{"type": "版本", "text": "齿轮预购"}], "31": []};
-const DEFAULT_SLOTS = {
-    "11_uw_0": {"t":"🌸 日式庭院别墅AI渲染，禅意满满","l":"","pd":"2026-07-11","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "13_uw_0": {"t":"🌌 星空下的玻璃房｜AI建筑设计","l":"","pd":"2026-07-13","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "14_hkig_0": {"t":"📖 条漫《星星落在你肩上》EP.1","l":"","pd":"2026-07-14","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "14_tt_0": {"t":"🏔️ 滑雪服装礼包实穿测评来了","l":"","pd":"2026-07-14","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "14_usigoff_0": {"t":"🎀 Official IG: Kitty Collab Behind the Scenes","l":"","pd":"2026-07-14","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "15_usfb_0": {"t":"📢 New Kitty Collaboration Event! Join Now","l":"","pd":"2026-07-15","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "15_usig_0": {"t":"✨ Webcomic: Stars on Your Shoulder Ep.1","l":"","pd":"2026-07-15","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "15_uw_0": {"t":"🏯 未来城市公寓概念设计","l":"","pd":"2026-07-15","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "16_tt_0": {"t":"🎪 庙会服装礼包展示｜节日氛围拉满","l":"","pd":"2026-07-16","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "16_usigoff_0": {"t":"🏔️ Official IG: July New Items Preview","l":"","pd":"2026-07-16","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "16_ustt_0": {"t":"✨ Stars on Your Shoulder - Full Episode 🎬","l":"","pd":"2026-07-16","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "17_hkig_0": {"t":"📖 条漫《星星落在你肩上》EP.2","l":"","pd":"2026-07-17","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "17_usfb_0": {"t":"🎁 July Event Calendar - Don\'t Miss Out!","l":"","pd":"2026-07-17","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "17_usig_0": {"t":"✨ Webcomic: Stars on Your Shoulder Ep.2","l":"","pd":"2026-07-17","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "18_usigoff_0": {"t":"🌸 Official IG: Community Artwork Showcase","l":"","pd":"2026-07-18","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "18_uw_0": {"t":"🎭 复古欧式风格室内AI创意设计","l":"","pd":"2026-07-18","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "1_uw_0": {"t":"🏠 超治愈！AI设计的未来之家室内设计","l":"","pd":"2026-07-01","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "20_usfb_0": {"t":"🌟 Creator Spotlight: Meet Our Top KOC","l":"","pd":"2026-07-20","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "20_ustt_0": {"t":"🍋 Summer Lemonade - Full Episode 🎬","l":"","pd":"2026-07-20","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "20_uw_0": {"t":"🌿 森林中的玻璃豪宅｜AI景观设计","l":"","pd":"2026-07-20","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "21_hkig_0": {"t":"📖 条漫《夏日柠檬汽水》EP.1","l":"","pd":"2026-07-21","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "21_tt_0": {"t":"🦋 花影乞巧套间｜七夕限定美哭","l":"","pd":"2026-07-21","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "21_usigoff_0": {"t":"🎪 Official IG: Event Calendar July Week 3","l":"","pd":"2026-07-21","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "22_usfb_0": {"t":"📣 Exclusive: New Furniture Collection Sneak Peek","l":"","pd":"2026-07-22","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "22_usig_0": {"t":"🍋 Webcomic: Summer Lemonade Ep.1","l":"","pd":"2026-07-22","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "22_uw_0": {"t":"💫 极简主义卧室AI概念，高级感满满","l":"","pd":"2026-07-22","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "23_tt_0": {"t":"🏠 烘焙套间开箱｜KitchenAid联名款","l":"","pd":"2026-07-23","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "23_usigoff_0": {"t":"📸 Official IG: Fan Art Friday Feature","l":"","pd":"2026-07-23","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "23_ustt_0": {"t":"🌙 Moonlight Promise - Episode 1 🎬","l":"","pd":"2026-07-23","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "24_hkig_0": {"t":"📖 条漫《夏日柠檬汽水》EP.2","l":"","pd":"2026-07-24","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "24_usfb_0": {"t":"🎪 Community Event: Share Your Best Design!","l":"","pd":"2026-07-24","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "24_usig_0": {"t":"🍋 Webcomic: Summer Lemonade Ep.2","l":"","pd":"2026-07-24","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "25_usigoff_0": {"t":"💫 Official IG: New Update Highlights","l":"","pd":"2026-07-25","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "25_uw_0": {"t":"🏡 智能家居未来概念AI渲染图","l":"","pd":"2026-07-25","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "27_usfb_0": {"t":"📢 Weekly Event Roundup - July 3rd Week","l":"","pd":"2026-07-27","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "27_ustt_0": {"t":"☕ Cloud Cafe - Full Episode 🎬","l":"","pd":"2026-07-27","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "27_uw_0": {"t":"🌺 热带雨林风格浴室设计AI创意","l":"","pd":"2026-07-27","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "28_hkig_0": {"t":"📖 條漫《月光下的約定》EP.1","l":"","pd":"2026-07-28","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "28_tt_0": {"t":"🎠 旋转木马家具套间展示｜童话感满满","l":"","pd":"2026-07-28","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "28_usigoff_0": {"t":"🎭 Official IG: Creator Interview Series","l":"","pd":"2026-07-28","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "29_usfb_0": {"t":"🌟 Creator Tips: How to Make Viral Content","l":"","pd":"2026-07-29","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "29_usig_0": {"t":"🌙 Webcomic: Moonlight Promise Ep.1","l":"","pd":"2026-07-29","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "29_uw_0": {"t":"🪐 太空站风格室内设计｜未来感MAX","l":"","pd":"2026-07-29","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "2_tt_0": {"t":"🌸 沁夏套间开箱｜每一件都想拥有","l":"","pd":"2026-07-02","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "30_tt_0": {"t":"🌟 往日回响套间返场｜经典永不过时","l":"","pd":"2026-07-30","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "30_usigoff_0": {"t":"🎀 Official IG: Kitty Collab Behind the Scenes","l":"","pd":"2026-07-30","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "30_ustt_0": {"t":"🌸 New Webcomic Sneak Peek! 🎬","l":"","pd":"2026-07-30","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "31_hkig_0": {"t":"📖 條漫《月光下的約定》EP.2","l":"","pd":"2026-07-31","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "31_usfb_0": {"t":"📢 New Kitty Collaboration Event! Join Now","l":"","pd":"2026-07-31","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "31_usig_0": {"t":"🌙 Webcomic: Moonlight Promise Ep.2","l":"","pd":"2026-07-31","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "4_uw_0": {"t":"🎨 用AI生成的梦幻卧室，每一帧都是壁纸","l":"","pd":"2026-07-04","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "6_uw_0": {"t":"🌊 水下宫殿概念设计｜AI视觉震撼","l":"","pd":"2026-07-06","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "7_tt_0": {"t":"🎀 Kitty联动最新套装展示，可爱暴击！","l":"","pd":"2026-07-07","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "8_uw_0": {"t":"✨ 赛博朋克风格客厅设计，科技感拉满","l":"","pd":"2026-07-08","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "9_tt_0": {"t":"✨ 7月新版本预告：滑雪礼包抢先看","l":"","pd":"2026-07-09","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"}
-  };
-
+const DEFAULT_SLOTS = {};
 const DOW=['日','一','二','三','四','五','六'];
 const DOW_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const PROGRESS=['素材未到位','制作中','已完成','待发布','已发布'];
@@ -486,16 +429,14 @@ async function loadFromServer(){
   // 2. Fallback: localStorage
   try{
     const ls=localStorage.getItem(LS_KEY);
-    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};setSync(false);
-    // Strip non-user-added refs from localStorage (old code may have saved REF_DEFAULTS)
-    for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
-    document.getElementById('dataSource').textContent='本地';return true}
-  }catch(e2){}
-  // 3. Ultimate fallback: embedded defaults
-  S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));
-  setSync(true);
-  document.getElementById('dataSource').textContent='默认';
-  try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e){}
+    if(ls){const p=JSON.parse(ls);
+      // v2+: slots from user actions, not old DEFAULT_SLOTS
+      if(p.v===2){S=p.slots||{};R=p.refs||{};}else{S={};R=p.refs||{};}
+      setSync(false);
+      // Strip non-user-added refs from localStorage (old code may have saved REF_DEFAULTS)
+      for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
+      document.getElementById('dataSource').textContent='本地';return true}
+    }catch(e2){}
   return true;
 }
 
@@ -509,7 +450,7 @@ function scheduleSave(){
 }
 
 async function saveToServer(){
-  const payload = JSON.stringify({slots:S, refs:R});
+  const payload = JSON.stringify({v:2, slots:S, refs:R});
   try{
     localStorage.setItem(LS_KEY, payload);
     setSync(true);

@@ -441,7 +441,7 @@ const MONTH_LABEL = ["","1月","2月","3月","4月","5月","6月","7月","8月",
 async function loadData(){
   // 1. GitHub CDN seed (source of truth)
   try {
-    const r = await fetch(WEB3_RAW_URL, {cache:'no-store'});
+    const r = await fetch(WEB3_RAW_URL + '?v=' + Date.now(), {cache:'no-store'});
     if(r.ok) {
       const d = await r.json();
       S = d.slots || {};

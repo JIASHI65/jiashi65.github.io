@@ -91,7 +91,6 @@ body{
 /* ── Column Headers ── */
 .col-header{
   display:grid;grid-template-columns:54px 1fr 260px;
-  position:sticky;top:72px;z-index:98;
   background:var(--surface);
   border-bottom:2px solid var(--accent);
   font-size:10px;font-weight:600;letter-spacing:.4px;color:var(--text-dim);
@@ -338,6 +337,13 @@ body{
   background:var(--surface);border-bottom:2px solid var(--accent);
 }
 
+
+/* ── Sticky Top Section ── */
+.sticky-chunk{position:sticky;top:0;z-index:200;}
+.sticky-view{position:sticky;top:0;z-index:199;}
+.sticky-nav{position:sticky;top:38px;z-index:198;}
+.sticky-col{position:sticky;top:68px;z-index:197;}
+
 </style>
 </head>
 <body>
@@ -378,7 +384,7 @@ body{
 </div>
 
 
-<div style="display:flex;gap:6px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border-light);position:sticky;top:39px;z-index:98;align-items:center">
+<div class="sticky-view" style="display:flex;gap:6px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border-light);align-items:center">
   <span style="font-size:11px;color:var(--text-dim)">👁️ 视图:</span>
   <button class="btn btn-sm" onclick="setView('timeline')" id="viewTimelineBtn" style="background:var(--accent);color:#fff;border-color:var(--accent)">⏳ 时间线</button>
   <button class="btn btn-sm" onclick="setView('group')" id="viewGroupBtn">📂 按账号分组</button>

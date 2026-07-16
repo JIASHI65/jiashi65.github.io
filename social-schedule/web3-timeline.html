@@ -428,17 +428,43 @@ function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
 const MONTH_LABEL = ["","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 
 // ── Storage (localStorage only — no server needed) ──
-function loadData(){
+async function loadData(){
+  // 1. Try localStorage first
   try {
     const ls = localStorage.getItem(LS_KEY);
-    if(ls) S = JSON.parse(ls);
-    const lr = localStorage.getItem(REF_KEY);
-    if(lr) R = JSON.parse(lr);
-  } catch(e) { console.warn('Load failed:', e); }
+    if(ls && JSON.parse(ls) && Object.keys(JSON.parse(ls)).length > 0) {
+      S = JSON.parse(ls);
+      const lr = localStorage.getItem(REF_KEY);
+      if(lr) R = JSON.parse(lr);
+      for(let d=1;d<=31;d++){
+        if(!R[d]) R[d] = JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
+      }
+      setSync(true);
+      document.getElementById('dataSource').textContent='本地';
+      return;
+    }
+  } catch(e) {}
+  // 2. Fallback: GitHub CDN seed
+  try {
+    const r = await fetch(WEB3_RAW_URL, {cache:'no-store'});
+    if(r.ok) {
+      const d = await r.json();
+      if(d.slots && Object.keys(d.slots).length > 0) {
+        S = d.slots;
+        R = d.refs || {};
+        localStorage.setItem(LS_KEY, JSON.stringify(S));
+        localStorage.setItem(REF_KEY, JSON.stringify(R));
+        document.getElementById('dataSource').textContent='GitHub';
+        setSync(true);
+        return;
+      }
+    }
+  } catch(e) {}
   for(let d=1;d<=31;d++){
     if(!R[d]) R[d] = JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
   }
   setSync(true);
+  document.getElementById('dataSource').textContent='无数据';
 }
 
 function scheduleSave(){
@@ -470,10 +496,10 @@ function setSync(on){
 }
 
 // ── Init ──
-function init(){
+async function init(){
   curM = (new Date()).getMonth() + 1;
   curY = (new Date()).getFullYear();
-  loadData();
+  await loadData();
   updateMonthDisplay();
   render();
 

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🌐 Web3 排期 · 账号分组</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f1a;--surface:#1c1c30;--surface2:#252540;--surface3:#2a2a48;
+  --border:#2e2e50;--border-light:#3a3a5c;
+  --text:#e8e8f0;--text-dim:#9898b8;--text-muted:#6868a0;
+  --accent:#179EDE;--green:#2dd4a0;--orange:#f59e0b;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#179EDE,#8774E1,#E14EC0);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.header h1{font-size:14px;font-weight:700;color:#fff}
+.btn{padding:4px 10px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;background:rgba(255,255,255,0.08);color:#fff;font-size:10px;cursor:pointer;text-decoration:none;transition:.15s}
+.btn:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.25)}
+.container{max-width:800px;margin:0 auto;padding:10px 12px}
+.sec{margin-bottom:14px;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.sec-hdr{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:13px;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sec-body{background:var(--surface);overflow:hidden}
+.post{display:flex;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,0.04);align-items:flex-start;gap:10px;font-size:12px}
+.post:last-child{border-bottom:none}
+.post:hover{background:rgba(23,158,222,0.06)}
+.pd{font-size:11px;color:var(--text-muted);white-space:nowrap;min-width:44px;line-height:1.5}
+.pt{font-size:10px;color:var(--text-muted)}
+.pc{flex:1;min-width:0}
+.pn{font-weight:600;font-size:12px;color:var(--text)}
+.pdsc{font-size:11px;color:var(--text-dim);margin-top:2px;line-height:1.4}
+.tags{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap}
+.tag{font-size:9px;padding:2px 7px;border-radius:4px;background:rgba(23,158,222,0.12);color:#179EDE;white-space:nowrap}
+.tag.s{background:rgba(45,212,160,0.15);color:#2dd4a0}
+.tag.w{background:rgba(245,158,11,0.15);color:#f59e0b}
+.empty{text-align:center;padding:30px;color:var(--text-muted);font-size:12px}
+.loading{text-align:center;padding:40px;color:var(--text-dim);font-size:12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10px;color:var(--text-dim)}
+.stats span{display:flex;align-items:center;gap:3px}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌐 Web3 排期 · 账号分组</h1>
+  <div style="display:flex;align-items:center;gap:6px">
+    <button type="button" class="btn" onclick="goToMonth(-1)" title="上个月">◀</button>
+    <span id="monthLabel" style="font-size:13px;font-weight:600;min-width:80px;text-align:center"></span>
+    <button type="button" class="btn" onclick="goToMonth(1)" title="下个月">▶</button>
+    <a href="web3-timeline.html" class="btn">⬅ 返回时间线</a>
+  </div>
+</div>
+<div class="container" id="app">
+  <div class="loading">⏳ 加载中...</div>
+</div>
+
+<script>
+const GH_USER = 'JIASHI65';
+const GH_REPO = 'jiashi65.github.io';
+const GH_BRANCH = 'main';
+const RAW_URL = 'https://cdn.jsdelivr.net/gh/'+GH_USER+'/'+GH_REPO+'@'+GH_BRANCH+'/social-schedule/web3-data.json';
+
+const ACCOUNTS = [
+  {id:'news', label:'📰 60秒早报', color:'#4361ee', bg:'rgba(67,97,238,0.1)'},
+  {id:'article', label:'📝 长文观点', color:'#7c3aed', bg:'rgba(124,58,237,0.1)'},
+  {id:'repost', label:'🔄 小红书转发', color:'#e11d48', bg:'rgba(225,29,72,0.1)'},
+  {id:'video', label:'🎬 短视频', color:'#0891b2', bg:'rgba(8,145,178,0.1)'},
+  {id:'thread', label:'🧵 推特长帖', color:'#059669', bg:'rgba(5,150,105,0.1)'},
+];
+
+const PROGRESS = ['素材未到位','制作中','已完成','待发布','已发布'];
+
+const LS_KEY = 'web3_v1_slots';
+
+function loadLocal(){
+  try{const ls=localStorage.getItem(LS_KEY);if(ls){const j=JSON.parse(ls);if(j&&Object.keys(j).length>0) return j;}return null;}catch(e){return null}
+}
+
+async function loadData(){
+  // 1. Try localStorage first
+  const local = loadLocal();
+  if(local && Object.keys(local).length > 5) return local;
+  // 2. Fallback: GitHub CDN
+  try {
+    const r=await fetch(RAW_URL, {cache:'no-store'});
+    if(r.ok){const j=await r.json(); if(j&&j.slots) return j.slots;}
+  }catch(e){}
+  return null;
+}
+
+function render(data){
+  const app = document.getElementById('app');
+  if(!data || Object.keys(data).length===0){
+    app.innerHTML = '<div class="empty">暂无排期数据</div>';
+    return;
+  }
+  // Filter by current month
+  const prefix = curY+'-'+String(curM).padStart(2,'0');
+  const filtered = {};
+  for(const k in data){
+    const pd = data[k].pd || '';
+    if(pd.startsWith(prefix) || (!pd && curM===(new Date()).getMonth()+1)){
+      filtered[k] = data[k];
+    }
+  }
+  data = filtered;
+
+  // Group by account
+  const grouped = {};
+  ACCOUNTS.forEach(a => { grouped[a.id] = []; });
+
+  Object.keys(data).forEach(k => {
+    const m = k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
+    if(m){
+      const prefix = m[2];
+      const slot = data[k];
+      if(slot.t && slot.t.trim()){
+        if(grouped[prefix]) grouped[prefix].push({key:k, day:parseInt(m[1]), idx:parseInt(m[3]), ...slot});
+      }
+    }
+  });
+
+  let html = '';
+
+  // Stats bar
+  let total = 0;
+  ACCOUNTS.forEach(a => { total += grouped[a.id].length; });
+  html += '<div class="stats"><span>📊 总计 ' + total + ' 条</span></div>';
+
+  ACCOUNTS.forEach(a => {
+    const items = grouped[a.id];
+    if(items.length === 0){
+      html += '<div class="sec"><div class="sec-hdr" style="background:'+a.bg+';color:'+a.color+'">'+a.label+' <span style="font-weight:400;font-size:11px;color:var(--text-muted)">· 0条</span></div><div class="sec-body"><div class="empty">暂无排期</div></div></div>';
+      return;
+    }
+
+    items.sort((a,b) => a.day-b.day || a.idx-b.idx);
+
+    html += '<div class="sec"><div class="sec-hdr" style="background:'+a.bg+';color:'+a.color+'">'+a.label+' <span style="font-weight:400;font-size:11px;color:var(--text-muted)">· '+items.length+'条</span></div><div class="sec-body">';
+
+    items.forEach(item => {
+      const pd = item.pd || '';
+      const d = pd ? pd.slice(5) : '';
+      const progIdx = PROGRESS.indexOf(item.p);
+      const progClass = progIdx >= 3 ? 's' : (progIdx >= 1 ? 'w' : '');
+      const statusTag = item.p ? '<span class="tag '+progClass+'">'+item.p+'</span>' : '';
+      const linkTag = item.l ? '<span class="tag">🔗 有链接</span>' : '';
+
+      html += '<div class="post">';
+      html += '<div class="pd">'+d+'</div>';
+      html += '<div class="pc">';
+      html += '<div class="pn">'+esc(item.t)+'</div>';
+      html += '<div class="tags">';
+      html += statusTag + linkTag;
+      if(item.s) html += '<span class="tag">'+esc(item.s)+'</span>';
+      if(item.n) html += '<span class="tag">'+esc(item.n)+'</span>';
+      html += '</div></div></div>';
+    });
+
+    html += '</div></div>';
+  });
+
+  app.innerHTML = html;
+}
+
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let curM = (new Date()).getMonth()+1;
+let curY = (new Date()).getFullYear();
+
+function goToMonth(delta){
+  let newM = Number(curM) + delta;
+  let newY = Number(curY);
+  if(isNaN(newM)) newM = (new Date()).getMonth()+1;
+  if(isNaN(newY)) newY = (new Date()).getFullYear();
+  if(newM > 12){ newM = 1; newY++; }
+  if(newM < 1){ newM = 12; newY--; }
+  curM = newM; curY = newY;
+  document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
+  loadAndRender();
+}
+
+async function loadAndRender(){
+  const data = await loadData();
+  if(data) render(data);
+  else render(null);
+}
+
+document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
+loadAndRender();
+</script>
+</body>
+</html>

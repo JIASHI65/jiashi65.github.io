@@ -348,9 +348,9 @@ body{
 </div>
 
 <div class="month-nav">
-  <button class="btn" onclick="switchMonth(-1)">◀ 上月</button>
+  <button class="btn" onclick="goToMonth(-1)">◀ 上月</button>
   <span class="month-label" id="navMonthLabel">2026年7月</span>
-  <button class="btn" onclick="switchMonth(1)">下月 ▶</button>
+  <button class="btn" onclick="goToMonth(1)">下月 ▶</button>
   <button class="today-btn" onclick="goToday()">📅 今天</button>
 </div>
 
@@ -395,6 +395,11 @@ body{
 // ── Data ──
 const LS_KEY = 'web3_v1_slots';
 const REF_KEY = 'web3_v1_refs';
+const GH_USER = 'JIASHI65';
+const GH_REPO = 'jiashi65.github.io';
+const GH_BRANCH = 'main';
+const WEB3_RAW_URL = 'https://cdn.jsdelivr.net/gh/'+GH_USER+'/'+GH_REPO+'@'+GH_BRANCH+'/social-schedule/web3-data.json';
+const REF_KEY = 'web3_v1_refs';
 
 const REF_DEFAULTS = {};
 
@@ -428,17 +433,39 @@ function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
 const MONTH_LABEL = ["","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 
 // ── Storage (localStorage only — no server needed) ──
-function loadData(){
-  try {
-    const ls = localStorage.getItem(LS_KEY);
-    if(ls) S = JSON.parse(ls);
-    const lr = localStorage.getItem(REF_KEY);
-    if(lr) R = JSON.parse(lr);
-  } catch(e) { console.warn('Load failed:', e); }
+async function loadFromServer(){
+  // 1. Try GitHub CDN
+  try{
+    const r=await fetch(WEB3_RAW_URL, {cache:'no-store'});
+    if(r.ok){
+      const d=await r.json();
+      if(d.slots&&Object.keys(d.slots).length>0){
+        S=d.slots;R=d.refs||{};setSync(true);
+        document.getElementById('dataSource').textContent='GitHub';return true}}
+  }catch(e){}
+  // 2. Fallback: localStorage
+  try{
+    const ls=localStorage.getItem(LS_KEY);
+    if(ls) S=JSON.parse(ls);
+    const lr=localStorage.getItem(REF_KEY);
+    if(lr) R=JSON.parse(lr);
+  }catch(e){console.warn('Load failed:',e)}
   for(let d=1;d<=31;d++){
-    if(!R[d]) R[d] = JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
+    if(!R[d]) R[d]=JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
   }
   setSync(true);
+  document.getElementById('dataSource').textContent='本地';
+  return true;
+}
+
+function loadData(){
+  return Object.keys(S).filter(k => {
+    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
+    return m && parseInt(m[1])<=daysInMonth(curY,curM);
+  }).map(k => {
+    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
+    return {key:k, day:parseInt(m[1]), account:m[2], idx:parseInt(m[3]), data:S[k]};
+  });
 }
 
 function scheduleSave(){
@@ -446,22 +473,27 @@ function scheduleSave(){
   document.getElementById('syncText').textContent = '待保存...';
   document.getElementById('syncDot').className = 'sync-dot saving';
   if(saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveData, 300);
+  saveTimer = setTimeout(saveToServer, 300);
 }
 
 let saveTimer = null;
-function saveData(){
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(S));
+async function saveToServer(){
+  const payload = JSON.stringify({slots:S, refs:R});
+  try{
+    localStorage.setItem(LS_KEY, payload);
     localStorage.setItem(REF_KEY, JSON.stringify(R));
     setSync(true);
-    document.getElementById('syncText').textContent = '已同步';
-    dirty = false;
-  } catch(e) {
-    console.warn('Save failed:', e);
+    document.getElementById('syncText').textContent='已保存';
+    dirty=false;
+  }catch(e){
     setSync(false);
+    document.getElementById('syncText').textContent='保存失败';
   }
   updateCount();
+}
+
+function saveData(){
+  saveToServer();
 }
 
 function setSync(on){
@@ -470,16 +502,20 @@ function setSync(on){
 }
 
 // ── Init ──
-function init(){
+async function init(){
   curM = (new Date()).getMonth() + 1;
   curY = (new Date()).getFullYear();
-  loadData();
+  await loadFromServer();
   updateMonthDisplay();
   render();
 
   // Auto-save every 30s
-  setInterval(() => {
-    if(dirty) saveData();
+  setInterval(async () => {
+    if(dirty) saveToServer();
+    else {
+      const fresh = await loadFromServer();
+      if(fresh) render();
+    }
   }, 30000);
 }
 
@@ -505,7 +541,8 @@ function us(d,t,i,f,v){
 function as(d,t){
   let i = 0;
   while(S[sk(d,t,i)]) i++;
-  S[sk(d,t,i)] = {t:'', l:'', pd:'', p:'素材未到位', s:'AI生成', n:''};
+  const autoPd = curY+'-'+String(curM).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  S[sk(d,t,i)] = {t:'', l:'', pd:autoPd, p:'素材未到位', s:'AI生成', n:''};
   scheduleSave();
   render();
   expandSlot(d,t,i);
@@ -714,13 +751,16 @@ function render(){
   updateCount();
 }
 
-function switchMonth(delta){
-  curM += delta;
-  if(curM > 12){ curM = 1; curY++; }
-  if(curM < 1){ curM = 12; curY--; }
+function goToMonth(delta){
+  let newM = curM + delta;
+  let newY = curY;
+  if(newM>12){newM=1;newY++}
+  if(newM<1){newM=12;newY--}
+  curM=newM; curY=newY;
   updateMonthDisplay();
   render();
 }
+function switchMonth(delta){ goToMonth(delta); }
 function goToday(){
   const n = new Date();
   curM = n.getMonth() + 1;
@@ -887,7 +927,7 @@ function setView(view){
 function renderGroupView(){
   var el = document.getElementById('groupView');
   var html = '';
-  var slots = loadData(LS_KEY);
+  var slots = loadData();
   
   for(var acct of ACCOUNTS){
     var posts = slots.filter(function(s){return s.account === acct.id});

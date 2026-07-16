@@ -348,9 +348,9 @@ body{
 </div>
 
 <div class="month-nav">
-  <button class="btn" onclick="goToMonth(-1)">◀ 上月</button>
+  <button class="btn" onclick="switchMonth(-1)">◀ 上月</button>
   <span class="month-label" id="navMonthLabel">2026年7月</span>
-  <button class="btn" onclick="goToMonth(1)">下月 ▶</button>
+  <button class="btn" onclick="switchMonth(1)">下月 ▶</button>
   <button class="today-btn" onclick="goToday()">📅 今天</button>
 </div>
 
@@ -366,8 +366,11 @@ body{
 
 <div style="display:flex;gap:6px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border-light);position:sticky;top:39px;z-index:98;align-items:center">
   <span style="font-size:11px;color:var(--text-dim)">👁️ 视图:</span>
-  <a href="web3-grouping.html" class="btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff">📂 账号分组</a>
+  <button class="btn btn-sm" onclick="setView('timeline')" id="viewTimelineBtn" style="background:var(--accent);color:#fff;border-color:var(--accent)">⏳ 时间线</button>
+  <button class="btn btn-sm" onclick="setView('group')" id="viewGroupBtn">📂 按账号分组</button>
+  <span id="groupInfo" style="font-size:10px;color:var(--text-dim);margin-left:auto;display:none">按账号分组展示</span>
 </div>
+<div id="groupView" style="display:none;padding:10px 16px;max-width:1200px;margin:0 auto"></div>
 <div class="container">
   <div class="col-header">
     <div><span class="ch-label">📅 日期</span></div>
@@ -392,10 +395,6 @@ body{
 // ── Data ──
 const LS_KEY = 'web3_v1_slots';
 const REF_KEY = 'web3_v1_refs';
-const GH_USER = 'JIASHI65';
-const GH_REPO = 'jiashi65.github.io';
-const GH_BRANCH = 'main';
-const WEB3_RAW_URL = 'https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/'+GH_BRANCH+'/social-schedule/web3-data.json';
 
 const REF_DEFAULTS = {};
 
@@ -429,56 +428,17 @@ function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
 const MONTH_LABEL = ["","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 
 // ── Storage (localStorage only — no server needed) ──
-async function loadFromServer(){
-  // 1. Try localStorage first (user's own edits)
-  try{
-    const ls=localStorage.getItem(LS_KEY);
-    if(ls){
-      const j=JSON.parse(ls);
-      if(j&&Object.keys(j).length>0){
-        S=j;
-        const lr=localStorage.getItem(REF_KEY);
-        if(lr) R=JSON.parse(lr);
-        for(let d=1;d<=31;d++){
-          if(!R[d]) R[d]=JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
-        }
-        setSync(true);
-        document.getElementById('dataSource').textContent='本地';
-        return true;
-      }
-    }
-  }catch(e){}
-  // 2. Fallback: GitHub CDN (initial seed)
-  try{
-    const r=await fetch(WEB3_RAW_URL, {cache:'no-store'});
-    if(r.ok){
-      const d=await r.json();
-      if(d.slots&&Object.keys(d.slots).length>0){
-        S=d.slots;R=d.refs||{};setSync(true);
-        document.getElementById('dataSource').textContent='GitHub';
-        // Save the seed to localStorage so user edits persist
-        localStorage.setItem(LS_KEY, JSON.stringify(S));
-        localStorage.setItem(REF_KEY, JSON.stringify(R));
-        return true;
-      }
-    }
-  }catch(e){}
+function loadData(){
+  try {
+    const ls = localStorage.getItem(LS_KEY);
+    if(ls) S = JSON.parse(ls);
+    const lr = localStorage.getItem(REF_KEY);
+    if(lr) R = JSON.parse(lr);
+  } catch(e) { console.warn('Load failed:', e); }
   for(let d=1;d<=31;d++){
-    if(!R[d]) R[d]=JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
+    if(!R[d]) R[d] = JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
   }
   setSync(true);
-  document.getElementById('dataSource').textContent='无数据';
-  return true;
-}
-
-function loadData(){
-  return Object.keys(S).filter(k => {
-    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-    return m && parseInt(m[1])<=daysInMonth(curY,curM);
-  }).map(k => {
-    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-    return {key:k, day:parseInt(m[1]), account:m[2], idx:parseInt(m[3]), data:S[k]};
-  });
 }
 
 function scheduleSave(){
@@ -486,27 +446,22 @@ function scheduleSave(){
   document.getElementById('syncText').textContent = '待保存...';
   document.getElementById('syncDot').className = 'sync-dot saving';
   if(saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveToServer, 300);
+  saveTimer = setTimeout(saveData, 300);
 }
 
 let saveTimer = null;
-async function saveToServer(){
-  const payload = JSON.stringify({slots:S, refs:R});
-  try{
-    localStorage.setItem(LS_KEY, payload);
+function saveData(){
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(S));
     localStorage.setItem(REF_KEY, JSON.stringify(R));
     setSync(true);
-    document.getElementById('syncText').textContent='已保存';
-    dirty=false;
-  }catch(e){
+    document.getElementById('syncText').textContent = '已同步';
+    dirty = false;
+  } catch(e) {
+    console.warn('Save failed:', e);
     setSync(false);
-    document.getElementById('syncText').textContent='保存失败';
   }
   updateCount();
-}
-
-function saveData(){
-  saveToServer();
 }
 
 function setSync(on){
@@ -515,20 +470,16 @@ function setSync(on){
 }
 
 // ── Init ──
-async function init(){
+function init(){
   curM = (new Date()).getMonth() + 1;
   curY = (new Date()).getFullYear();
-  await loadFromServer();
+  loadData();
   updateMonthDisplay();
   render();
 
   // Auto-save every 30s
-  setInterval(async () => {
-    if(dirty) saveToServer();
-    else {
-      const fresh = await loadFromServer();
-      if(fresh) render();
-    }
+  setInterval(() => {
+    if(dirty) saveData();
   }, 30000);
 }
 
@@ -554,8 +505,7 @@ function us(d,t,i,f,v){
 function as(d,t){
   let i = 0;
   while(S[sk(d,t,i)]) i++;
-  const autoPd = curY+'-'+String(curM).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-  S[sk(d,t,i)] = {t:'', l:'', pd:autoPd, p:'素材未到位', s:'AI生成', n:''};
+  S[sk(d,t,i)] = {t:'', l:'', pd:'', p:'素材未到位', s:'AI生成', n:''};
   scheduleSave();
   render();
   expandSlot(d,t,i);
@@ -764,16 +714,13 @@ function render(){
   updateCount();
 }
 
-function goToMonth(delta){
-  let newM = curM + delta;
-  let newY = curY;
-  if(newM>12){newM=1;newY++}
-  if(newM<1){newM=12;newY--}
-  curM=newM; curY=newY;
+function switchMonth(delta){
+  curM += delta;
+  if(curM > 12){ curM = 1; curY++; }
+  if(curM < 1){ curM = 12; curY--; }
   updateMonthDisplay();
   render();
 }
-function switchMonth(delta){ goToMonth(delta); }
 function goToday(){
   const n = new Date();
   curM = n.getMonth() + 1;
@@ -912,6 +859,64 @@ function esc(s){
 
 init();
 
-// ── View toggle ──</script>
+// ── View toggle ──
+function setView(view){
+  document.getElementById('viewTimelineBtn').style.background = view==='timeline' ? 'var(--accent)' : 'transparent';
+  document.getElementById('viewTimelineBtn').style.color = view==='timeline' ? '#fff' : '';
+  document.getElementById('viewTimelineBtn').style.borderColor = view==='timeline' ? 'var(--accent)' : '';
+  document.getElementById('viewGroupBtn').style.background = view==='group' ? 'var(--accent)' : 'transparent';
+  document.getElementById('viewGroupBtn').style.color = view==='group' ? '#fff' : '';
+  document.getElementById('viewGroupBtn').style.borderColor = view==='group' ? 'var(--accent)' : '';
+  
+  var container = document.querySelector('.container');
+  var groupView = document.getElementById('groupView');
+  var groupInfo = document.getElementById('groupInfo');
+  
+  if(view === 'timeline'){
+    container.style.display = 'block';
+    groupView.style.display = 'none';
+    groupInfo.style.display = 'none';
+  } else {
+    container.style.display = 'none';
+    groupView.style.display = 'block';
+    groupInfo.style.display = 'inline';
+    renderGroupView();
+  }
+}
+
+function renderGroupView(){
+  var el = document.getElementById('groupView');
+  var html = '';
+  var slots = loadData(LS_KEY);
+  
+  for(var acct of ACCOUNTS){
+    var posts = slots.filter(function(s){return s.account === acct.id});
+    if(!posts.length) continue;
+    
+    html += '<div style="margin-bottom:12px">';
+    html += '<div style="display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px 6px 0 0;font-size:12px;font-weight:600;background:'+acct.color+'22;color:'+acct.color+'">';
+    html += acct.label+' <span style="font-weight:400;font-size:10px;color:var(--text-dim)">· '+posts.length+'条</span></div>';
+    html += '<div style="background:var(--surface);border:1px solid var(--border-light);border-top:none;border-radius:0 0 6px 6px">';
+    
+    posts.sort(function(a,b){return a.date.localeCompare(b.date)});
+    for(var p of posts){
+      var dow = DOW[new Date(p.date+'T12:00:00').getDay()];
+      var dateLabel = p.date.slice(5) + ' 周' + dow;
+      var progLabel = PROGRESS[p.progress] || '未知';
+      var progColor = ['#888','#f59e0b','#2dd4a0','#3b82f6','#10b981'][p.progress] || '#888';
+      
+      html += '<div style="padding:6px 10px;border-bottom:1px solid var(--border-light);font-size:12px;display:flex;gap:6px">';
+      html += '<span style="color:var(--text-muted);white-space:nowrap;min-width:60px;font-size:11px">'+dateLabel+'</span>';
+      html += '<span style="flex:1">'+(p.title||p.content||'')+'</span>';
+      html += '<span style="color:'+progColor+';font-size:10px;white-space:nowrap">'+progLabel+'</span>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+  
+  if(!html) html = '<div style="padding:20px;text-align:center;color:var(--text-dim)">暂无排期数据</div>';
+  el.innerHTML = html;
+}
+</script>
 </body>
 </html>

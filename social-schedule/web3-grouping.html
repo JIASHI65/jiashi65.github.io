@@ -80,6 +80,8 @@ const DEFAULT_SLOTS = {};
 const LS_KEY = 'web3_v1_slots';
 
 function loadData(){
+  // CLEAR stale localStorage data
+  try{localStorage.removeItem('web3_v1_slots');}catch(e){}
   // Start with embedded defaults, override with localStorage
   const data = JSON.parse(JSON.stringify(DEFAULT_SLOTS));
   try{

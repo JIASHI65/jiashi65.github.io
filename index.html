@@ -81,6 +81,9 @@ const ALL_ITEMS = [
   { id:'trading-audit',     icon:'📊', label:'审计台',     url:'/trading-audit/', group:'own' },
   { id:'social-timeline',   icon:'📅', label:'社媒排期',   url:'/social-schedule/timeline.html', group:'own' },
   { id:'social-grouping',   icon:'📱', label:'平台分组',   url:'/social-schedule/grouping.html', group:'own' },
+  { divider: true },
+  { id:'finance',          icon:'💰',  label:'金融',        groupHeader: true },
+  { id:'web3-schedule',     icon:'🔗',  label:'Web3 排期',  url:'/social-schedule/web3-timeline.html', group:'finance' },
 ];
 
 const ITEMS_MAP = {};
@@ -123,7 +126,7 @@ function renderNav(){
   // Add group headers in place, then items in saved order
   let divIdx = 0;
   let lastGroup = null;
-  const groups = ['top','work','personal','own'];
+  const groups = ['top','work','personal','own','finance'];
 
   for(const group of groups){
     if(group === 'top'){

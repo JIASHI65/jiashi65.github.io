@@ -1,320 +1,330 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<!-- v=1784094578 1784094299 -->
+<!-- v2.1 - refs fix -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌐 Web3 内容排期 · 竖排时间线</title>
+<title>🌸 7月社媒排期 · 竖排时间线</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0f0f1a;
-  --surface:#1c1c30;
-  --surface2:#252540;
-  --surface3:#2a2a48;
-  --border:#2e2e50;
-  --border-light:#3a3a5c;
-  --text:#e8e8f0;
-  --text-dim:#9898b8;
-  --text-muted:#6868a0;
-  --accent:#179EDE;
-  --accent2:#8774E1;
-  --accent3:#E14EC0;
-  --green:#2dd4a0;
-  --orange:#f59e0b;
-  --amber:#d97706;
-  --pink:#f472b6;
-  --red:#ef4444;
-  --purple:#8b5cf6;
-  --cyan:#06b6d4;
-  --blue:#3b82f6;
-  --today:rgba(23,158,222,0.12);
-  --glow:0 0 30px rgba(23,158,222,0.15);
-  --header-gradient:linear-gradient(135deg,#179EDE,#8774E1,#E14EC0);
-  --card-glow:0 4px 20px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
-  --card-hover:0 8px 30px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+  --bg:#fef6f9;--surface:#ffffff;--surface2:#fff0f5;--surface3:#ffeaf2;
+  --border:#e0c4d4;--border-light:#eccedc;
+  --text:#2d1b3d;--text-dim:#8a7a9a;--text-muted:#baaaba;
+  --accent:#ff6b9d;--green:#34d399;--orange:#f59e0b;--amber:#d97706;
+  --pink:#f472b6;--red:#ef4444;--purple:#8b5cf6;--cyan:#06b6d4;--blue:#6366f1;
+  --today:#fff0f5;--glow:0 0 20px rgba(255,107,157,0.12)
 }
 body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
+  background:var(--bg);color:var(--text);min-height:100vh;
 }
 .header{
   position:sticky;top:0;z-index:100;
-  background:var(--header-gradient);
-  padding:12px 18px;
+  background:linear-gradient(135deg,#ff6b9d,#c084fc);
+  border-bottom:1px solid rgba(255,255,255,0.2);padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
 }
-.header h1{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;color:#fff}
-.header h1 span{color:rgba(255,255,255,0.55);font-weight:400;font-size:11px}
-.header .meta{font-size:10px;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.header h1{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.header h1 span{color:var(--text-dim);font-weight:400;font-size:11px}
+.header .meta{font-size:10px;color:var(--text-dim);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .header .actions{display:flex;gap:4px}
 .btn{
-  padding:4px 10px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;
-  background:rgba(255,255,255,0.08);color:#fff;font-size:10px;cursor:pointer;
-  transition:all .15s;backdrop-filter:blur(4px);
+  padding:3px 8px;border:1px solid var(--border);border-radius:4px;
+  background:var(--surface2);color:var(--text);font-size:10px;cursor:pointer;transition:all .1s;
 }
-.btn:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.25)}
-.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-sm{padding:2px 6px;font-size:9px}
-
-/* Month Nav */
-.month-nav{
-  position:sticky;top:41px;z-index:99;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  background:var(--surface);padding:6px 12px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
-.month-nav .month-label{font-weight:700;min-width:120px;text-align:center;color:var(--text)}
-.month-nav .today-btn{
-  font-size:10px;padding:2px 10px;cursor:pointer;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;border:none;border-radius:6px;font-weight:600;
-}
-
-/* Legend Bar */
-.legend-bar{
-  display:flex;gap:14px;flex-wrap:wrap;padding:8px 14px;
-  background:var(--surface2);border-bottom:1px solid var(--border);
-  font-size:9px;color:var(--text-dim);
-}
-.legend-bar .lg-item{display:flex;align-items:center;gap:5px}
-.legend-bar .lg-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-.legend-bar .lg-dot.news{background:var(--accent);box-shadow:0 0 6px rgba(23,158,222,0.5)}
-.legend-bar .lg-dot.article{background:var(--accent2);box-shadow:0 0 6px rgba(135,116,225,0.5)}
-.legend-bar .lg-dot.repost{background:var(--accent3);box-shadow:0 0 6px rgba(225,78,192,0.5)}
-.legend-bar .lg-dot.video{background:var(--cyan);box-shadow:0 0 6px rgba(6,182,212,0.5)}
-.legend-bar .lg-dot.thread{background:var(--green);box-shadow:0 0 6px rgba(45,212,160,0.5)}
-.legend-bar .lg-item-tip{color:var(--text-muted);font-style:italic;margin-left:auto}
-
-.container{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;padding:0 4px}
+.btn:hover{border-color:#ff6b9d;color:#ff6b9d;background:rgba(255,107,157,0.06)}
+.btn-primary{background:#ff6b9d;border-color:#ff6b9d;color:#fff}
+.btn-sm{padding:2px 5px;font-size:9px}
+.container{max-width:1360px;margin:0 auto;display:flex;flex-direction:column}
 
 /* ── Column Headers ── */
 .col-header{
   display:grid;grid-template-columns:54px 1fr 260px;
-  position:sticky;top:72px;z-index:98;
+  position:sticky;top:39px;z-index:99;
   background:var(--surface);
   border-bottom:2px solid var(--accent);
   font-size:10px;font-weight:600;letter-spacing:.4px;color:var(--text-dim);
 }
-.col-header>div{padding:7px 8px}
-.col-header>div:first-child{text-align:center;border-right:1px solid var(--border)}
-.col-header>div:nth-child(2){text-align:left;border-right:1px solid var(--border);padding-left:12px}
+.col-header>div{
+  padding:7px 8px;
+}
+.col-header>div:first-child{text-align:center;border-right:1.5px solid var(--border)}
+.col-header>div:nth-child(2){
+  text-align:left;border-right:1.5px solid var(--border);
+  padding-left:12px;
+}
 .col-header>div:last-child{text-align:left;padding-left:10px}
+.col-header .ch-label{display:flex;align-items:center;gap:4px}
+.col-header .ch-label .ch-icon{opacity:0.5}
 
-/* ── Day Row (Telegram message bubble) ── */
+/* ── Day Row ── */
 .day-row{
   display:grid;grid-template-columns:54px 1fr 260px;
-  margin:6px 0;
-  transition:all .2s;position:relative;
-  background:var(--surface);
-  border-radius:12px;
+  margin-bottom:8px;
+  transition:all .15s;position:relative;
+  background:rgba(255,255,255,0.5);
+  border-radius:8px;
   overflow:hidden;
-  box-shadow:var(--card-glow);
-  border:1px solid var(--border);
+  box-shadow:0 1px 3px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02);
 }
+.day-row:nth-child(4n+2):not(.today):not(.weekend){background:rgba(255,250,252,0.7)}
+.day-row:nth-child(4n+3):not(.today):not(.weekend){background:rgba(255,255,255,0.5)}
 .day-row:hover{
-  box-shadow:var(--card-hover);
-  border-color:var(--accent2);
+  box-shadow:0 3px 10px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
 }
 .day-row.today{
-  background:var(--today);
-  border-color:var(--accent);
-  box-shadow:0 0 0 1px rgba(23,158,222,0.3), var(--glow);
+  background:#fff2f6;
+  border-left:3px solid var(--accent);
+  box-shadow:0 3px 12px rgba(255,107,157,0.12), 0 1px 4px rgba(255,107,157,0.07);
 }
-.day-row.weekend{border-left:3px solid var(--accent3)}
-.day-row.weekend.today{border-left:3px solid var(--accent)}
-.day-row.week-start{margin-top:12px;border-top:2px solid var(--accent2)}
+.day-row.weekend{background:rgba(248,242,248,0.45)}
+.day-row.weekend.today{background:#fff2f6}
 
-/* ── Date Cell ── */
+/* ── Week separator ── */
+.day-row.week-start{border-top:3px solid #ff6b9d80;margin-top:-1px}
+.day-row.week-start .day-date .tag{color:var(--accent);font-weight:700}
+.day-row.week-start .day-date .tag::before{content:'· ';font-weight:700;color:var(--accent)}
+
+/* ── Week label banner ── */
+.week-banner{
+  grid-column:1/-1;background:linear-gradient(90deg,var(--accent),#c084fc);
+  color:#fff;font-size:9px;font-weight:600;letter-spacing:1px;
+  padding:2px 12px;text-align:center;
+}
+
+/* Date */
 .day-date{
-  padding:10px 4px 8px;text-align:center;
-  border-right:1px solid var(--border);
-  background:linear-gradient(180deg,rgba(23,158,222,0.08),transparent);
-  position:relative;
+  padding:8px 2px 6px;text-align:center;
+  border-right:2px solid var(--border);
+  background:rgba(255,107,157,0.06);
+  position:relative;border-radius:8px 0 0 8px;
 }
-.day-date .num{
-  font-size:20px;font-weight:800;line-height:1.1;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+.day-date .num{font-size:17px;font-weight:800;line-height:1.2;color:#2d1b3d}
+.day-date .dow{
+  font-size:9px;color:#8a7a9a;
+  text-transform:uppercase;letter-spacing:.5px;margin-top:2px;
 }
-.day-date .dow{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.day-date .dow.we{color:var(--accent3);font-weight:700}
-.day-date .tag{font-size:8px;color:var(--text-muted);margin-top:2px;font-weight:500}
-.day-row.today .day-date{
-  background:linear-gradient(180deg,rgba(23,158,222,0.18),rgba(23,158,222,0.04));
-}
+.day-date .dow.we{color:#d97706;font-weight:700}
+.day-date .tag{font-size:8px;color:#baaaba;margin-top:2px;font-weight:500;letter-spacing:.5px}
+
+/* Today dot indicator */
+.day-row.today .day-date .num{color:var(--accent)}
 .day-row.today .day-date .num::after{
   content:'';display:inline-block;width:6px;height:6px;
-  background:var(--green);border-radius:50%;margin-left:4px;vertical-align:super;
-  box-shadow:0 0 6px var(--green);
+  background:var(--accent);border-radius:50%;margin-left:3px;vertical-align:super
 }
 
 /* ── Schedule Column ── */
 .day-schedule{
-  padding:6px 8px;display:flex;flex-direction:column;gap:4px;
-  border-right:1px solid var(--border);min-height:40px;
+  padding:6px 8px;display:flex;flex-direction:column;gap:3px;
+  border-right:1px solid var(--border-light);min-height:36px;
 }
 
 /* ── Slot Card ── */
 .slot{
-  border-radius:6px;cursor:pointer;
-  transition:all .15s ease;
-  display:flex;align-items:center;gap:5px;padding:3px 6px;
+  border-radius:4px;cursor:pointer;
+  transition:all .1s ease;
+  display:flex;align-items:center;gap:4px;padding:2px 4px;
 }
-.slot:hover{background:rgba(23,158,222,0.06)}
-.slot.collapsed{min-height:22px}
+.slot:hover{
+  background:rgba(255,107,157,0.04);
+}
+.slot.collapsed{min-height:20px}
 .slot .badge{
-  font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;
+  font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;
   white-space:nowrap;flex-shrink:0;letter-spacing:.2px;
 }
-.slot .badge.news{
-  background:linear-gradient(135deg,rgba(23,158,222,0.15),rgba(23,158,222,0.05));
-  color:#56CCF2;border:1px solid rgba(23,158,222,0.3);
+.slot .badge.uw{
+  background:rgba(139,92,246,0.06);
+  color:#8b5cf6;border:none;
 }
-.slot .badge.article{
-  background:linear-gradient(135deg,rgba(135,116,225,0.15),rgba(135,116,225,0.05));
-  color:#b794f4;border:1px solid rgba(135,116,225,0.3);
+.slot .badge.tt{
+  background:rgba(16,185,129,0.06);
+  color:#10b981;border:none;
 }
-.slot .badge.repost{
-  background:linear-gradient(135deg,rgba(225,78,192,0.15),rgba(225,78,192,0.05));
-  color:#f687b3;border:1px solid rgba(225,78,192,0.3);
+.slot .badge.hkig{
+  background:rgba(251,146,60,0.06);
+  color:#f59e0b;border:none;
 }
-.slot .badge.video{
-  background:linear-gradient(135deg,rgba(6,182,212,0.15),rgba(6,182,212,0.05));
-  color:#67e8f9;border:1px solid rgba(6,182,212,0.3);
+.slot .badge.usig{
+  background:rgba(99,102,241,0.06);
+  color:#6366f1;border:none;
 }
-.slot .badge.thread{
-  background:linear-gradient(135deg,rgba(45,212,160,0.15),rgba(45,212,160,0.05));
-  color:#6ee7b7;border:1px solid rgba(45,212,160,0.3);
+.slot .badge.ustt{
+  background:rgba(6,182,212,0.05);
+  color:#06b6d4;border:none;
+}
+.slot .badge.usfb{
+  background:rgba(24,119,242,0.05);
+  color:#1877F2;border:none;
+}
+.slot .badge.usigoff{
+  background:rgba(244,63,94,0.05);
+  color:#e11d48;border:none;
 }
 .slot .summary{
   display:flex;align-items:center;gap:4px;min-width:0;
   flex:1;font-size:10px;color:var(--text);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.slot .summary .tp{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot .summary .tp{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
 .slot .summary .sp{color:var(--text-muted);font-size:9px;flex-shrink:0}
 .slot .summary .pg{
-  font-size:7px;font-weight:600;padding:1px 5px;border-radius:3px;
+  font-size:7px;font-weight:500;padding:1px 4px;border-radius:2px;
   white-space:nowrap;flex-shrink:0;letter-spacing:.1px;
 }
-.pg.p0{background:rgba(148,163,184,0.1);color:#94a3b8}
-.pg.p1{background:rgba(245,158,11,0.12);color:#fbbf24}
-.pg.p2{background:rgba(6,182,212,0.12);color:#67e8f9}
-.pg.p3{background:rgba(16,185,129,0.12);color:#6ee7b7}
-.pg.p4{background:rgba(16,185,129,0.15);color:#6ee7b7}
+.pg.p0{background:rgba(148,163,184,0.08);color:#94a3b8;border:none}
+.pg.p1{background:rgba(245,158,11,0.07);color:#f59e0b;border:none}
+.pg.p2{background:rgba(6,182,212,0.06);color:#06b6d4;border:none}
+.pg.p3{background:rgba(16,185,129,0.06);color:#10b981;border:none}
+.pg.p4{background:rgba(16,185,129,0.08);color:#10b981;border:none}
 .slot .cl{
   background:none;border:none;color:var(--text-muted);font-size:10px;cursor:pointer;
   padding:0 3px;border-radius:2px;opacity:0;transition:all .1s;flex-shrink:0;
 }
-.slot:hover .cl{opacity:0.5}
-.cl:hover{opacity:1!important;color:var(--accent);background:rgba(23,158,222,0.15)}
+.slot:hover .cl{opacity:0.4}
+.cl:hover{opacity:1!important;color:#ff6b9d;background:rgba(255,107,157,0.08)}
 .slot .del{
   background:none;border:none;color:var(--text-muted);font-size:9px;cursor:pointer;
   padding:0 3px;border-radius:2px;opacity:0;transition:all .1s;flex-shrink:0;margin-left:auto;
 }
-.slot:hover .del{opacity:0.3}
-.del:hover{opacity:1!important;color:var(--red);background:rgba(239,68,68,0.15)}
+.slot:hover .del{opacity:0.2}
+.del:hover{opacity:1!important;color:var(--red);background:rgba(239,68,68,0.1)}
 
-/* Expanded edit card */
+/* Expanded */
 .slot.expanded{
-  background:var(--surface2);border:1px solid var(--accent2);
-  cursor:default;flex-wrap:wrap;padding:8px 10px;gap:6px;
-  box-shadow:0 0 20px rgba(135,116,225,0.1);
-  border-radius:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  cursor:default;flex-wrap:wrap;padding:6px 8px;gap:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
 }
-.slot.expanded .sg{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;width:100%}
-.sg .fd{display:flex;flex-direction:column;gap:2px}
+.slot.expanded .sg{display:grid;grid-template-columns:1fr 1fr;gap:3px 6px;width:100%}
+.sg .fd{display:flex;flex-direction:column;gap:1px}
 .sg .fd.fu{grid-column:1/-1}
-.sg .fd label{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.sg .fd label{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.2px}
 .sg .fd input,.sg .fd select,.sg .fd textarea{
-  background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:6px;
-  padding:4px 6px;color:var(--text);font-size:10px;font-family:inherit;width:100%;
+  background:rgba(255,255,255,0.5);border:1px solid var(--border-light);border-radius:4px;
+  padding:3px 5px;color:var(--text);font-size:10px;font-family:inherit;width:100%;
 }
 .sg .fd input:focus,.sg .fd select:focus,.sg .fd textarea:focus{
-  outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(23,158,222,0.15)
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,107,157,0.1)
 }
-.sg .fd textarea{resize:vertical;min-height:18px}
+.sg .fd textarea{resize:vertical;min-height:16px}
+.cb{
+  background:none;border:none;color:var(--text-muted);font-size:11px;cursor:pointer;
+  padding:0 4px;border-radius:3px;flex-shrink:0;
+}
+.cb:hover{color:var(--accent);background:rgba(255,107,157,0.08)}
 
-.add-bar{display:flex;gap:3px;padding:2px 4px;margin-top:2px;flex-wrap:wrap}
+.add-bar{display:flex;gap:2px;padding:1px 4px;margin-top:1px;flex-wrap:wrap}
+.account-picker{position:relative;margin-top:4px}
+.picker-header{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:5px 10px;border:1.5px solid #ff6b9d;border-radius:8px;background:linear-gradient(135deg,#fff5f8,#fff0f5);color:#d6336c;cursor:pointer;font-weight:500;transition:.2s}
+.picker-header:hover{background:linear-gradient(135deg,#fff0f5,#ffe8ef)}
+.picker-arrow{font-size:10px;transition:.3s}
+.account-picker.open .picker-arrow{transform:rotate(180deg)}
+.picker-body{display:none;margin-top:6px;flex-direction:column;gap:8px}
+.account-picker.open .picker-body{display:flex}
+.picker-group{background:#fff;border:1px solid #f0e4e8;border-radius:10px;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.picker-group-label{font-size:11px;font-weight:600;color:#666;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed #f0e4e8}
+.picker-btn{display:inline-block;font-size:11px;padding:4px 10px;margin:2px 3px;border:1px solid #ffc0d0;border-radius:6px;background:#fffafc;color:#d6336c;cursor:pointer;transition:.15s}
+.picker-btn:hover{background:#ff6b9d;color:#fff;border-color:#ff6b9d}
 .add-btn{
-  background:rgba(23,158,222,0.08);border:1px dashed rgba(23,158,222,0.25);border-radius:6px;
-  color:var(--accent);font-size:8px;padding:2px 7px;cursor:pointer;
-  opacity:0.85;transition:all .12s;font-weight:600;
+  background:rgba(255,107,157,0.06);border:1px dashed var(--accent);border-radius:4px;
+  color:var(--accent);font-size:8px;padding:1px 6px;cursor:pointer;
+  opacity:0.9;transition:all .12s;font-weight:600;
 }
-.day-row:hover .add-btn{opacity:0.9}
+.day-row:hover .add-btn{opacity:0.95}
 .add-btn:hover{opacity:1!important;border-color:var(--accent);color:#fff!important;background:var(--accent);border-style:solid}
 
 /* ── Reference Column ── */
 .day-ref{
-  padding:8px 10px;display:flex;flex-direction:column;gap:3px;
-  position:relative;background:rgba(23,158,222,0.015);
+  padding:6px 10px;display:flex;flex-direction:column;gap:2px;
+  position:relative;background:rgba(255,107,157,0.008);border-radius:0 8px 8px 0;
 }
 .ref-item{
   display:flex;gap:4px;align-items:flex-start;
-  padding:3px 0;border-left:3px solid transparent;
-  padding-left:6px;transition:all .1s;border-radius:0 4px 4px 0;
+  padding:2px 0;border-left:3px solid transparent;
+  padding-left:6px;transition:all .1s;border-radius:0 3px 3px 0;
 }
-.ref-item:hover{background:rgba(23,158,222,0.04)}
+.ref-item:hover{
+  background:rgba(255,107,157,0.025);
+}
 .ref-item.range-start{
   border-left-color:var(--accent);
-  background:linear-gradient(90deg,rgba(23,158,222,0.06),transparent);
+  background:linear-gradient(90deg,rgba(255,107,157,0.04),transparent);
 }
-.ref-item.range-mid{border-left-color:var(--accent);opacity:0.7}
+.ref-item.range-mid{border-left-color:var(--accent);opacity:0.8}
 .ref-item.range-end{
   border-left-color:var(--accent);
-  background:linear-gradient(90deg,rgba(23,158,222,0.06),transparent);
+  background:linear-gradient(90deg,rgba(255,107,157,0.04),transparent);
 }
 .ref-item .rt{
-  font-size:8px;font-weight:600;padding:1px 6px;border-radius:3px;
-  white-space:nowrap;flex-shrink:0;margin-top:1px;cursor:pointer;letter-spacing:.3px;
+  font-size:8px;font-weight:600;padding:1px 6px;border-radius:4px;
+  white-space:nowrap;flex-shrink:0;margin-top:1px;cursor:pointer;
+  letter-spacing:.3px;
 }
-.rt.h{background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.25)}
-.rt.v{background:rgba(99,102,241,0.2);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25)}
-.rt.i{background:rgba(244,114,182,0.2);color:#f9a8d4;border:1px solid rgba(244,114,182,0.25)}
-.rt.e{background:rgba(6,182,212,0.2);color:#67e8f9;border:1px solid rgba(6,182,212,0.25)}
-.ref-item .rtx{font-size:10px;color:var(--text);line-height:1.5;cursor:pointer;flex:1;padding:0 3px;border-radius:2px;font-weight:500}
-.ref-item .rtx:hover{background:rgba(23,158,222,0.06)}
+.rt.h{
+  background:rgba(245,158,11,0.28);color:#b45309;
+  border:1px solid rgba(245,158,11,0.35);
+}
+.rt.v{
+  background:rgba(99,102,241,0.22);color:#4f46e5;
+  border:1px solid rgba(99,102,241,0.28);
+}
+.rt.i{
+  background:rgba(244,114,182,0.22);color:#be185d;
+  border:1px solid rgba(244,114,182,0.28);
+}
+.rt.e{
+  background:rgba(6,182,212,0.2);color:#0e7490;
+  border:1px solid rgba(6,182,212,0.25);
+}
+.ref-item .rtx{
+  font-size:10px;color:#2d1b3d;line-height:1.5;cursor:pointer;flex:1;
+  padding:0 3px;border-radius:2px;font-weight:500;
+}
+.ref-item .rtx:hover{background:rgba(255,107,157,0.04)}
 .ref-item .rd{
   background:none;border:none;color:var(--red);font-size:8px;cursor:pointer;
   opacity:0;padding:0 3px;margin-top:2px;border-radius:2px;
 }
 .ref-item:hover .rd{opacity:0.35}
-.rd:hover{opacity:1!important;background:rgba(239,68,68,0.15)}
-.ref-empty{color:var(--text-muted);opacity:0.35;font-size:9px;font-style:italic;padding:5px 0}
-.ref-add{
-  background:transparent;border:1px dashed var(--border);border-radius:6px;
-  color:var(--text-muted);font-size:9px;padding:2px 8px;cursor:pointer;
-  opacity:0.4;transition:all .12s;margin-top:3px;align-self:flex-start;font-weight:500;
+.rd:hover{opacity:1!important;background:rgba(239,68,68,0.08)}
+.ref-empty{
+  color:var(--text-dim);opacity:0.35;font-size:9px;font-style:italic;padding:5px 0;
 }
-.day-row:hover .ref-add{opacity:0.6}
-.ref-add:hover{opacity:1!important;border-color:var(--accent);color:var(--accent);background:rgba(23,158,222,0.06)}
+.ref-add{
+  background:transparent;border:1px dashed var(--border);border-radius:4px;
+  color:var(--text-dim);font-size:9px;padding:1px 8px;cursor:pointer;
+  opacity:0.5;transition:all .12s;margin-top:2px;align-self:flex-start;font-weight:500;
+}
+.day-row:hover .ref-add{opacity:0.7}
+.ref-add:hover{opacity:1!important;border-color:var(--accent);color:var(--accent);background:rgba(255,107,157,0.04)}
 
 /* Modal */
 .modal-overlay{
   display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(0,0,0,0.8);z-index:200;justify-content:center;align-items:center;
-  backdrop-filter:blur(4px);
+  background:rgba(0,0,0,0.75);z-index:200;justify-content:center;align-items:center
 }
 .modal-overlay.active{display:flex}
 .modal{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:16px;max-width:500px;width:90%;max-height:70vh;overflow-y:auto;
-  box-shadow:0 0 40px rgba(0,0,0,0.4);
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:14px;max-width:500px;width:90%;max-height:70vh;overflow-y:auto
 }
-.modal h2{font-size:13px;margin-bottom:6px;color:var(--text)}
+.modal h2{font-size:13px;margin-bottom:6px}
 .modal textarea{
-  width:100%;min-height:150px;background:rgba(0,0,0,0.3);
-  border:1px solid var(--border);border-radius:6px;
-  padding:8px;color:var(--text);font-size:10px;font-family:monospace;resize:vertical
+  width:100%;min-height:150px;background:var(--bg);
+  border:1px solid var(--border);border-radius:4px;
+  padding:6px;color:var(--text);font-size:10px;font-family:monospace;resize:vertical
 }
-.modal .br{display:flex;gap:5px;margin-top:8px;justify-content:flex-end}
-.status-bar{display:flex;align-items:center;gap:4px;font-size:9px;color:rgba(255,255,255,0.7)}
+.modal .br{display:flex;gap:5px;margin-top:6px;justify-content:flex-end}
+.status-bar{display:flex;align-items:center;gap:4px;font-size:9px}
 .sync-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
-.sync-dot.on{background:var(--green);box-shadow:0 0 6px rgba(45,212,160,0.6)}
-.sync-dot.off{background:var(--red);box-shadow:0 0 6px rgba(239,68,68,0.6)}
+.sync-dot.on{background:#34d399;box-shadow:0 0 4px rgba(63,185,80,0.4)}
+.sync-dot.off{background:var(--red);box-shadow:0 0 4px rgba(248,81,73,0.4)}
 .sync-dot.saving{background:var(--orange);animation:pulse .6s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 
@@ -325,12 +335,29 @@ body{
   .day-ref{display:none}
 }
 </style>
+<script>
+// NUCLEAR CLEANUP: force-remove ALL non-user-added refs from localStorage
+try{const r=localStorage.getItem('smm_v3_fallback');if(r){const d=JSON.parse(r);if(d&&d.refs){let c=0;for(const k in d.refs){if(d.refs[k]&&d.refs[k].length>0&&!d.refs[k][0].userAdded){delete d.refs[k];c++;}}localStorage.setItem('smm_v3_fallback',JSON.stringify(d));console.log('[boom] cleaned',c,'old refs');}}}catch(e){}
+// VERSION CHECK - added 1784094385
+document.addEventListener('DOMContentLoaded', function(){
+  console.log('✅ TIMELINE VERSION: 2026-07-15-fix3 (REF_DEFAULTS from constant)');
+  console.log('localStorage smm_v3_fallback:', localStorage.getItem('smm_v3_fallback') ? 'EXISTS' : 'EMPTY');
+});
+</script>
 </head>
 <body>
+<div style="background:#d6336c;color:white;text-align:center;padding:4px;font-size:12px;font-weight:bold;position:sticky;top:0;z-index:9999">
+  🟢 最新版本 2026-07-15-fix7 | 8月右边应是空的 | 按 F12→Console 看 [boom] 日志
+</div>
 
 <div class="header">
   <div style="display:flex;align-items:center;gap:6px">
-    <h1>🌐 Web3 内容排期 <span>| 竖排时间线</span></h1>
+    <h1>📅 7月社媒排期 <span>| 竖排时间线</span></h1>
+  <div class="month-nav">
+    <button type="button" class="month-nav-btn" onclick="goToMonth(-1)" title="上个月">◀</button>
+    <span class="month-label" id="navMonthLabel" style="font-size:13px;font-weight:600;color:var(--text);min-width:80px;text-align:center;display:inline-block"></span>
+    <button type="button" class="month-nav-btn" onclick="goToMonth(1)" title="下个月">▶</button>
+  </div>
     <div class="status-bar" id="syncStatus">
       <span class="sync-dot on" id="syncDot"></span>
       <span id="syncText">已同步</span>
@@ -339,40 +366,20 @@ body{
   <div class="meta">
     <span id="slotCount">0</span>
     <span>|</span>
-    <span id="dataSource">本地</span>
+    <span id="dataSource">云端</span>
   </div>
   <div class="actions">
-    <button class="btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff" onclick="exportData()">📤 导出</button>
-    <button class="btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff" onclick="clearAll()">🗑️</button>
+    <button class="btn" onclick="exportData()">📤 导出</button>
+    <a href="社媒排期_平台分组.html" class="btn" style="background:#ff6b9d;border-color:#ff6b9d;color:#fff">📂 平台分组</a>
+    <button class="btn btn-sm" onclick="clearAll()">🗑️</button>
   </div>
 </div>
 
-<div class="month-nav">
-  <button class="btn" onclick="goToMonth(-1)">◀ 上月</button>
-  <span class="month-label" id="navMonthLabel">2026年7月</span>
-  <button class="btn" onclick="goToMonth(1)">下月 ▶</button>
-  <button class="today-btn" onclick="goToday()">📅 今天</button>
-</div>
-
-<div class="legend-bar">
-  <span class="lg-item"><span class="lg-dot news"></span> 60秒早报 · 每天</span>
-  <span class="lg-item"><span class="lg-dot article"></span> 长文观点 · 周3更</span>
-  <span class="lg-item"><span class="lg-dot repost"></span> 小红书转发 · 每天</span>
-  <span class="lg-item"><span class="lg-dot video"></span> 短视频 · 不定期</span>
-  <span class="lg-item"><span class="lg-dot thread"></span> 推特长帖 · 周2更</span>
-  <span class="lg-item-tip">📎 右栏：热点·事件·选题</span>
-</div>
-
-
-<div style="display:flex;gap:6px;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--border-light);position:sticky;top:39px;z-index:98;align-items:center">
-  <span style="font-size:11px;color:var(--text-dim)">👁️ 视图:</span>
-  <a href="web3-grouping.html" class="btn" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.2);color:#fff">📂 账号分组</a>
-</div>
 <div class="container">
   <div class="col-header">
     <div><span class="ch-label">📅 日期</span></div>
-    <div><span class="ch-label">📋 内容排期</span></div>
-    <div><span class="ch-label">📎 热点·事件·选题</span></div>
+    <div><span class="ch-label"><span class="ch-icon">📋</span> 排期</span></div>
+    <div><span class="ch-label"><span class="ch-icon">📎</span> 版本·活动·IP</span></div>
   </div>
   <div id="timeline"></div>
 </div>
@@ -390,92 +397,65 @@ body{
 
 <script>
 // ── Data ──
-const LS_KEY = 'web3_v1_slots';
-const REF_KEY = 'web3_v1_refs';
+const GH_USER = 'JIASHI65';
+const GH_REPO = 'jiashi65.github.io';
+const GH_BRANCH = 'main';
+const RAW_URL = 'https://cdn.jsdelivr.net/gh/'+GH_USER+'/'+GH_REPO+'@'+GH_BRANCH+'/social-schedule/data.json';
+const LS_KEY = 'smm_v3_fallback';
 
-const REF_DEFAULTS = {};
+const REF_DEFAULTS = {"1": [{"type": "版本", "text": "沁夏臻境套间"}, {"type": "IP", "text": "联动签到 12天 持续一个月"}, {"type": "IP", "text": "kitty拼图"}, {"type": "IP", "text": "kitty委托 7/1-7/30"}, {"type": "版本", "text": "沁夏插画动态视频"}, {"type": "IP", "text": "KT上线PV"}, {"type": "IP", "text": "更换kitty联动头像&Banner"}], "2": [{"type": "版本", "text": "滑雪礼包 7/2-7/27"}, {"type": "版本", "text": "滑雪服装礼包宣发"}], "3": [], "4": [{"type": "节日", "text": "🎆 美国独立日"}], "5": [{"type": "IP", "text": "kitty小镇打卡二创活动"}], "6": [], "7": [{"type": "版本", "text": "儿童节家具礼包"}, {"type": "IP", "text": "KT联动预告三（转盘+寻物）"}, {"type": "IP", "text": "KT创作大赛 投稿：7/7-7/22"}], "8": [], "9": [{"type": "版本", "text": "绒雪套间展示（转盘预告）国服复用"}], "10": [{"type": "版本", "text": "往日预购"}, {"type": "版本", "text": "限时转盘"}, {"type": "IP", "text": "kitty转盘开启（融雪动态KV）"}], "11": [{"type": "版本", "text": "庙会服装礼包"}], "12": [], "13": [{"type": "版本", "text": "往日回响套间"}, {"type": "活动", "text": "玫瑰卡牌 7/13-7/22"}], "14": [], "15": [], "16": [], "17": [{"type": "节日", "text": "世界emoji日"}, {"type": "版本", "text": "烘焙套间展示（寻物预告）国服复用"}], "18": [{"type": "IP", "text": "kitty寻物"}, {"type": "IP", "text": "kitty寻物开启（烘焙动态KV）"}, {"type": "IP", "text": "kitty端内寻物社区配套活动"}], "19": [{"type": "版本", "text": "劳动节签到礼包"}], "20": [{"type": "版本", "text": "花影预购"}], "21": [], "22": [], "23": [{"type": "版本", "text": "花影乞巧套间"}, {"type": "活动", "text": "乞巧敲敲寻宝 7/23-8/1"}], "24": [], "25": [{"type": "版本", "text": "服装（男）礼包"}], "26": [], "27": [{"type": "版本", "text": "鹊桥星轨进阶礼包（主界面）"}], "28": [], "29": [], "30": [{"type": "版本", "text": "齿轮预购"}], "31": []};
+const DEFAULT_SLOTS = {"1_news_0": {"t": "📰 7月1日 Web3 早报", "l": "", "pd": "2026-07-01", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "1_repost_0": {"t": "🔄 7月1日 优质内容转发", "l": "", "pd": "2026-07-01", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "1_video_0": {"t": "🎬 7月1日 项目解读短视频", "l": "", "pd": "2026-07-01", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "2_news_0": {"t": "📰 7月2日 Web3 早报", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "2_article_0": {"t": "🧵 7月2日 市场深度分析", "l": "", "pd": "2026-07-02", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "2_repost_0": {"t": "🔄 7月2日 优质内容转发", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "2_thread_0": {"t": "🧵 7月2日 赛道周报", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "3_news_0": {"t": "📰 7月3日 Web3 早报", "l": "", "pd": "2026-07-03", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "3_repost_0": {"t": "🔄 7月3日 优质内容转发", "l": "", "pd": "2026-07-03", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "3_video_0": {"t": "🎬 7月3日 项目解读短视频", "l": "", "pd": "2026-07-03", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "4_news_0": {"t": "📰 7月4日 Web3 早报", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "4_article_0": {"t": "🧵 7月4日 市场深度分析", "l": "", "pd": "2026-07-04", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "4_repost_0": {"t": "🔄 7月4日 优质内容转发", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "4_thread_0": {"t": "🧵 7月4日 赛道周报", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "5_news_0": {"t": "📰 7月5日 Web3 早报", "l": "", "pd": "2026-07-05", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "5_repost_0": {"t": "🔄 7月5日 优质内容转发", "l": "", "pd": "2026-07-05", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "5_video_0": {"t": "🎬 7月5日 项目解读短视频", "l": "", "pd": "2026-07-05", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "6_news_0": {"t": "📰 7月6日 Web3 早报", "l": "", "pd": "2026-07-06", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "6_article_0": {"t": "🧵 7月6日 市场深度分析", "l": "", "pd": "2026-07-06", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "6_repost_0": {"t": "🔄 7月6日 优质内容转发", "l": "", "pd": "2026-07-06", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "7_news_0": {"t": "📰 7月7日 Web3 早报", "l": "", "pd": "2026-07-07", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "7_repost_0": {"t": "🔄 7月7日 优质内容转发", "l": "", "pd": "2026-07-07", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "7_video_0": {"t": "🎬 7月7日 项目解读短视频", "l": "", "pd": "2026-07-07", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "8_news_0": {"t": "📰 7月8日 Web3 早报", "l": "", "pd": "2026-07-08", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "8_article_0": {"t": "🧵 7月8日 市场深度分析", "l": "", "pd": "2026-07-08", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "8_repost_0": {"t": "🔄 7月8日 优质内容转发", "l": "", "pd": "2026-07-08", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "8_thread_0": {"t": "🧵 7月8日 赛道周报", "l": "", "pd": "2026-07-08", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "9_news_0": {"t": "📰 7月9日 Web3 早报", "l": "", "pd": "2026-07-09", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "9_repost_0": {"t": "🔄 7月9日 优质内容转发", "l": "", "pd": "2026-07-09", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "9_video_0": {"t": "🎬 7月9日 项目解读短视频", "l": "", "pd": "2026-07-09", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "10_news_0": {"t": "📰 7月10日 Web3 早报", "l": "", "pd": "2026-07-10", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "10_article_0": {"t": "🧵 7月10日 市场深度分析", "l": "", "pd": "2026-07-10", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "10_repost_0": {"t": "🔄 7月10日 优质内容转发", "l": "", "pd": "2026-07-10", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "10_thread_0": {"t": "🧵 7月10日 赛道周报", "l": "", "pd": "2026-07-10", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "11_news_0": {"t": "📰 7月11日 Web3 早报", "l": "", "pd": "2026-07-11", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "11_repost_0": {"t": "🔄 7月11日 优质内容转发", "l": "", "pd": "2026-07-11", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "11_video_0": {"t": "🎬 7月11日 项目解读短视频", "l": "", "pd": "2026-07-11", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "12_news_0": {"t": "📰 7月12日 Web3 早报", "l": "", "pd": "2026-07-12", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "12_article_0": {"t": "🧵 7月12日 市场深度分析", "l": "", "pd": "2026-07-12", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "12_repost_0": {"t": "🔄 7月12日 优质内容转发", "l": "", "pd": "2026-07-12", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "13_news_0": {"t": "📰 7月13日 Web3 早报", "l": "", "pd": "2026-07-13", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "13_repost_0": {"t": "🔄 7月13日 优质内容转发", "l": "", "pd": "2026-07-13", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "13_video_0": {"t": "🎬 7月13日 项目解读短视频", "l": "", "pd": "2026-07-13", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "14_news_0": {"t": "📰 7月14日 Web3 早报", "l": "", "pd": "2026-07-14", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "14_article_0": {"t": "🧵 7月14日 市场深度分析", "l": "", "pd": "2026-07-14", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "14_repost_0": {"t": "🔄 7月14日 优质内容转发", "l": "", "pd": "2026-07-14", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "14_thread_0": {"t": "🧵 7月14日 赛道周报", "l": "", "pd": "2026-07-14", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "15_news_0": {"t": "📰 7月15日 Web3 早报", "l": "", "pd": "2026-07-15", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "15_repost_0": {"t": "🔄 7月15日 优质内容转发", "l": "", "pd": "2026-07-15", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "15_video_0": {"t": "🎬 7月15日 项目解读短视频", "l": "", "pd": "2026-07-15", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "16_news_0": {"t": "📰 7月16日 Web3 早报", "l": "", "pd": "2026-07-16", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "16_article_0": {"t": "🧵 7月16日 市场深度分析", "l": "", "pd": "2026-07-16", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "16_repost_0": {"t": "🔄 7月16日 优质内容转发", "l": "", "pd": "2026-07-16", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "16_thread_0": {"t": "🧵 7月16日 赛道周报", "l": "", "pd": "2026-07-16", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "17_news_0": {"t": "📰 7月17日 Web3 早报", "l": "", "pd": "2026-07-17", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "17_repost_0": {"t": "🔄 7月17日 优质内容转发", "l": "", "pd": "2026-07-17", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "17_video_0": {"t": "🎬 7月17日 项目解读短视频", "l": "", "pd": "2026-07-17", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "18_news_0": {"t": "📰 7月18日 Web3 早报", "l": "", "pd": "2026-07-18", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "18_article_0": {"t": "🧵 7月18日 市场深度分析", "l": "", "pd": "2026-07-18", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "18_repost_0": {"t": "🔄 7月18日 优质内容转发", "l": "", "pd": "2026-07-18", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "19_news_0": {"t": "📰 7月19日 Web3 早报", "l": "", "pd": "2026-07-19", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "19_repost_0": {"t": "🔄 7月19日 优质内容转发", "l": "", "pd": "2026-07-19", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "19_video_0": {"t": "🎬 7月19日 项目解读短视频", "l": "", "pd": "2026-07-19", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "20_news_0": {"t": "📰 7月20日 Web3 早报", "l": "", "pd": "2026-07-20", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "20_article_0": {"t": "🧵 7月20日 市场深度分析", "l": "", "pd": "2026-07-20", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "20_repost_0": {"t": "🔄 7月20日 优质内容转发", "l": "", "pd": "2026-07-20", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "20_thread_0": {"t": "🧵 7月20日 赛道周报", "l": "", "pd": "2026-07-20", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "21_news_0": {"t": "📰 7月21日 Web3 早报", "l": "", "pd": "2026-07-21", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "21_repost_0": {"t": "🔄 7月21日 优质内容转发", "l": "", "pd": "2026-07-21", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "21_video_0": {"t": "🎬 7月21日 项目解读短视频", "l": "", "pd": "2026-07-21", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "22_news_0": {"t": "📰 7月22日 Web3 早报", "l": "", "pd": "2026-07-22", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "22_article_0": {"t": "🧵 7月22日 市场深度分析", "l": "", "pd": "2026-07-22", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "22_repost_0": {"t": "🔄 7月22日 优质内容转发", "l": "", "pd": "2026-07-22", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "22_thread_0": {"t": "🧵 7月22日 赛道周报", "l": "", "pd": "2026-07-22", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "23_news_0": {"t": "📰 7月23日 Web3 早报", "l": "", "pd": "2026-07-23", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "23_repost_0": {"t": "🔄 7月23日 优质内容转发", "l": "", "pd": "2026-07-23", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "23_video_0": {"t": "🎬 7月23日 项目解读短视频", "l": "", "pd": "2026-07-23", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "24_news_0": {"t": "📰 7月24日 Web3 早报", "l": "", "pd": "2026-07-24", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "24_article_0": {"t": "🧵 7月24日 市场深度分析", "l": "", "pd": "2026-07-24", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "24_repost_0": {"t": "🔄 7月24日 优质内容转发", "l": "", "pd": "2026-07-24", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "25_news_0": {"t": "📰 7月25日 Web3 早报", "l": "", "pd": "2026-07-25", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "25_repost_0": {"t": "🔄 7月25日 优质内容转发", "l": "", "pd": "2026-07-25", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "25_video_0": {"t": "🎬 7月25日 项目解读短视频", "l": "", "pd": "2026-07-25", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "26_news_0": {"t": "📰 7月26日 Web3 早报", "l": "", "pd": "2026-07-26", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "26_article_0": {"t": "🧵 7月26日 市场深度分析", "l": "", "pd": "2026-07-26", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "26_repost_0": {"t": "🔄 7月26日 优质内容转发", "l": "", "pd": "2026-07-26", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "26_thread_0": {"t": "🧵 7月26日 赛道周报", "l": "", "pd": "2026-07-26", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "27_news_0": {"t": "📰 7月27日 Web3 早报", "l": "", "pd": "2026-07-27", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "27_repost_0": {"t": "🔄 7月27日 优质内容转发", "l": "", "pd": "2026-07-27", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "27_video_0": {"t": "🎬 7月27日 项目解读短视频", "l": "", "pd": "2026-07-27", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "28_news_0": {"t": "📰 7月28日 Web3 早报", "l": "", "pd": "2026-07-28", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "28_article_0": {"t": "🧵 7月28日 市场深度分析", "l": "", "pd": "2026-07-28", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "28_repost_0": {"t": "🔄 7月28日 优质内容转发", "l": "", "pd": "2026-07-28", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "28_thread_0": {"t": "🧵 7月28日 赛道周报", "l": "", "pd": "2026-07-28", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "29_news_0": {"t": "📰 7月29日 Web3 早报", "l": "", "pd": "2026-07-29", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "29_repost_0": {"t": "🔄 7月29日 优质内容转发", "l": "", "pd": "2026-07-29", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "30_news_0": {"t": "📰 7月30日 Web3 早报", "l": "", "pd": "2026-07-30", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "30_article_0": {"t": "🧵 7月30日 市场深度分析", "l": "", "pd": "2026-07-30", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "30_repost_0": {"t": "🔄 7月30日 优质内容转发", "l": "", "pd": "2026-07-30", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "31_news_0": {"t": "📰 7月31日 Web3 早报", "l": "", "pd": "2026-07-31", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "31_repost_0": {"t": "🔄 7月31日 优质内容转发", "l": "", "pd": "2026-07-31", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}};
 
-// Init month ref defaults
-for(let d=1;d<=31;d++){
-  REF_DEFAULTS[d] = [];
-}
+const DOW=['日','一','二','三','四','五','六'];
+const DOW_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const PROGRESS=['素材未到位','制作中','已完成','待发布','已发布'];
+const SOURCES=['投放视频','自制视频','脚本输出','外部KOC','官方素材','其他'];
+const CONTENT_TYPES=['图文','视频','直播','共创','其他'];
 
-const DOW = ['日','一','二','三','四','五','六'];
-const DOW_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const PROGRESS = ['素材未到位','制作中','已完成','待发布','已发布'];
-const SOURCES = ['AI生成','手动撰写','转载/翻译','外部投稿','其他'];
-
-const ACCOUNTS = [
-  {id:'news', label:'📰 60秒早报', freq:'每天', color:'#4361ee'},
-  {id:'article', label:'📝 长文观点', freq:'周3更', color:'#7c3aed'},
-  {id:'repost', label:'🔄 小红书转发', freq:'每天', color:'#e11d48'},
-  {id:'video', label:'🎬 短视频', freq:'不定期', color:'#0891b2'},
-  {id:'thread', label:'🧵 推特长帖', freq:'周2更', color:'#059669'},
-];
-const LABELS = {};
-ACCOUNTS.forEach(a => { LABELS[a.id] = a.label; });
-
-let S = {}; // slots
-let R = {}; // refs
-let curM = 7, curY = 2026;
+let S={}, R={}; // slots, refs
 let editingSlot = null;
 let dirty = false;
 
-function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
-const MONTH_LABEL = ["","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-
-// ── Storage ──
-// Embedded default data (same as web3-data.json)
-const DEFAULT_SLOTS = {"1_news_0": {"t": "📰 7月1日 Web3 早报", "l": "", "pd": "2026-07-01", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "1_repost_0": {"t": "🔄 7月1日 优质内容转发", "l": "", "pd": "2026-07-01", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "1_video_0": {"t": "🎬 7月1日 项目解读短视频", "l": "", "pd": "2026-07-01", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "2_news_0": {"t": "📰 7月2日 Web3 早报", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "2_article_0": {"t": "🧵 7月2日 市场深度分析", "l": "", "pd": "2026-07-02", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "2_repost_0": {"t": "🔄 7月2日 优质内容转发", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "2_thread_0": {"t": "🧵 7月2日 赛道周报", "l": "", "pd": "2026-07-02", "p": "已完成", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "3_news_0": {"t": "📰 7月3日 Web3 早报", "l": "", "pd": "2026-07-03", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "3_repost_0": {"t": "🔄 7月3日 优质内容转发", "l": "", "pd": "2026-07-03", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "3_video_0": {"t": "🎬 7月3日 项目解读短视频", "l": "", "pd": "2026-07-03", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "4_news_0": {"t": "📰 7月4日 Web3 早报", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "4_article_0": {"t": "🧵 7月4日 市场深度分析", "l": "", "pd": "2026-07-04", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "4_repost_0": {"t": "🔄 7月4日 优质内容转发", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "4_thread_0": {"t": "🧵 7月4日 赛道周报", "l": "", "pd": "2026-07-04", "p": "已完成", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "5_news_0": {"t": "📰 7月5日 Web3 早报", "l": "", "pd": "2026-07-05", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "5_repost_0": {"t": "🔄 7月5日 优质内容转发", "l": "", "pd": "2026-07-05", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "5_video_0": {"t": "🎬 7月5日 项目解读短视频", "l": "", "pd": "2026-07-05", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "6_news_0": {"t": "📰 7月6日 Web3 早报", "l": "", "pd": "2026-07-06", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "6_article_0": {"t": "🧵 7月6日 市场深度分析", "l": "", "pd": "2026-07-06", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "6_repost_0": {"t": "🔄 7月6日 优质内容转发", "l": "", "pd": "2026-07-06", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "7_news_0": {"t": "📰 7月7日 Web3 早报", "l": "", "pd": "2026-07-07", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "7_repost_0": {"t": "🔄 7月7日 优质内容转发", "l": "", "pd": "2026-07-07", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "7_video_0": {"t": "🎬 7月7日 项目解读短视频", "l": "", "pd": "2026-07-07", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "8_news_0": {"t": "📰 7月8日 Web3 早报", "l": "", "pd": "2026-07-08", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "8_article_0": {"t": "🧵 7月8日 市场深度分析", "l": "", "pd": "2026-07-08", "p": "已发布", "s": "手动撰写", "n": "长文观点 · 周3更"}, "8_repost_0": {"t": "🔄 7月8日 优质内容转发", "l": "", "pd": "2026-07-08", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "8_thread_0": {"t": "🧵 7月8日 赛道周报", "l": "", "pd": "2026-07-08", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "9_news_0": {"t": "📰 7月9日 Web3 早报", "l": "", "pd": "2026-07-09", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "9_repost_0": {"t": "🔄 7月9日 优质内容转发", "l": "", "pd": "2026-07-09", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "9_video_0": {"t": "🎬 7月9日 项目解读短视频", "l": "", "pd": "2026-07-09", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "10_news_0": {"t": "📰 7月10日 Web3 早报", "l": "", "pd": "2026-07-10", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "10_article_0": {"t": "🧵 7月10日 市场深度分析", "l": "", "pd": "2026-07-10", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "10_repost_0": {"t": "🔄 7月10日 优质内容转发", "l": "", "pd": "2026-07-10", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "10_thread_0": {"t": "🧵 7月10日 赛道周报", "l": "", "pd": "2026-07-10", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "11_news_0": {"t": "📰 7月11日 Web3 早报", "l": "", "pd": "2026-07-11", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "11_repost_0": {"t": "🔄 7月11日 优质内容转发", "l": "", "pd": "2026-07-11", "p": "已完成", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "11_video_0": {"t": "🎬 7月11日 项目解读短视频", "l": "", "pd": "2026-07-11", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "12_news_0": {"t": "📰 7月12日 Web3 早报", "l": "", "pd": "2026-07-12", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "12_article_0": {"t": "🧵 7月12日 市场深度分析", "l": "", "pd": "2026-07-12", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "12_repost_0": {"t": "🔄 7月12日 优质内容转发", "l": "", "pd": "2026-07-12", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "13_news_0": {"t": "📰 7月13日 Web3 早报", "l": "", "pd": "2026-07-13", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "13_repost_0": {"t": "🔄 7月13日 优质内容转发", "l": "", "pd": "2026-07-13", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "13_video_0": {"t": "🎬 7月13日 项目解读短视频", "l": "", "pd": "2026-07-13", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "14_news_0": {"t": "📰 7月14日 Web3 早报", "l": "", "pd": "2026-07-14", "p": "已完成", "s": "AI生成", "n": "60秒早报 · 每天"}, "14_article_0": {"t": "🧵 7月14日 市场深度分析", "l": "", "pd": "2026-07-14", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "14_repost_0": {"t": "🔄 7月14日 优质内容转发", "l": "", "pd": "2026-07-14", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "14_thread_0": {"t": "🧵 7月14日 赛道周报", "l": "", "pd": "2026-07-14", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "15_news_0": {"t": "📰 7月15日 Web3 早报", "l": "", "pd": "2026-07-15", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "15_repost_0": {"t": "🔄 7月15日 优质内容转发", "l": "", "pd": "2026-07-15", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "15_video_0": {"t": "🎬 7月15日 项目解读短视频", "l": "", "pd": "2026-07-15", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "16_news_0": {"t": "📰 7月16日 Web3 早报", "l": "", "pd": "2026-07-16", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "16_article_0": {"t": "🧵 7月16日 市场深度分析", "l": "", "pd": "2026-07-16", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "16_repost_0": {"t": "🔄 7月16日 优质内容转发", "l": "", "pd": "2026-07-16", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "16_thread_0": {"t": "🧵 7月16日 赛道周报", "l": "", "pd": "2026-07-16", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "17_news_0": {"t": "📰 7月17日 Web3 早报", "l": "", "pd": "2026-07-17", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "17_repost_0": {"t": "🔄 7月17日 优质内容转发", "l": "", "pd": "2026-07-17", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "17_video_0": {"t": "🎬 7月17日 项目解读短视频", "l": "", "pd": "2026-07-17", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "18_news_0": {"t": "📰 7月18日 Web3 早报", "l": "", "pd": "2026-07-18", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "18_article_0": {"t": "🧵 7月18日 市场深度分析", "l": "", "pd": "2026-07-18", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "18_repost_0": {"t": "🔄 7月18日 优质内容转发", "l": "", "pd": "2026-07-18", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "19_news_0": {"t": "📰 7月19日 Web3 早报", "l": "", "pd": "2026-07-19", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "19_repost_0": {"t": "🔄 7月19日 优质内容转发", "l": "", "pd": "2026-07-19", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "19_video_0": {"t": "🎬 7月19日 项目解读短视频", "l": "", "pd": "2026-07-19", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "20_news_0": {"t": "📰 7月20日 Web3 早报", "l": "", "pd": "2026-07-20", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "20_article_0": {"t": "🧵 7月20日 市场深度分析", "l": "", "pd": "2026-07-20", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "20_repost_0": {"t": "🔄 7月20日 优质内容转发", "l": "", "pd": "2026-07-20", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "20_thread_0": {"t": "🧵 7月20日 赛道周报", "l": "", "pd": "2026-07-20", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "21_news_0": {"t": "📰 7月21日 Web3 早报", "l": "", "pd": "2026-07-21", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "21_repost_0": {"t": "🔄 7月21日 优质内容转发", "l": "", "pd": "2026-07-21", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "21_video_0": {"t": "🎬 7月21日 项目解读短视频", "l": "", "pd": "2026-07-21", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "22_news_0": {"t": "📰 7月22日 Web3 早报", "l": "", "pd": "2026-07-22", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "22_article_0": {"t": "🧵 7月22日 市场深度分析", "l": "", "pd": "2026-07-22", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "22_repost_0": {"t": "🔄 7月22日 优质内容转发", "l": "", "pd": "2026-07-22", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "22_thread_0": {"t": "🧵 7月22日 赛道周报", "l": "", "pd": "2026-07-22", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "23_news_0": {"t": "📰 7月23日 Web3 早报", "l": "", "pd": "2026-07-23", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "23_repost_0": {"t": "🔄 7月23日 优质内容转发", "l": "", "pd": "2026-07-23", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "23_video_0": {"t": "🎬 7月23日 项目解读短视频", "l": "", "pd": "2026-07-23", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "24_news_0": {"t": "📰 7月24日 Web3 早报", "l": "", "pd": "2026-07-24", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "24_article_0": {"t": "🧵 7月24日 市场深度分析", "l": "", "pd": "2026-07-24", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "24_repost_0": {"t": "🔄 7月24日 优质内容转发", "l": "", "pd": "2026-07-24", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "25_news_0": {"t": "📰 7月25日 Web3 早报", "l": "", "pd": "2026-07-25", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "25_repost_0": {"t": "🔄 7月25日 优质内容转发", "l": "", "pd": "2026-07-25", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "25_video_0": {"t": "🎬 7月25日 项目解读短视频", "l": "", "pd": "2026-07-25", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "26_news_0": {"t": "📰 7月26日 Web3 早报", "l": "", "pd": "2026-07-26", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "26_article_0": {"t": "🧵 7月26日 市场深度分析", "l": "", "pd": "2026-07-26", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "26_repost_0": {"t": "🔄 7月26日 优质内容转发", "l": "", "pd": "2026-07-26", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "26_thread_0": {"t": "🧵 7月26日 赛道周报", "l": "", "pd": "2026-07-26", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "27_news_0": {"t": "📰 7月27日 Web3 早报", "l": "", "pd": "2026-07-27", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "27_repost_0": {"t": "🔄 7月27日 优质内容转发", "l": "", "pd": "2026-07-27", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "27_video_0": {"t": "🎬 7月27日 项目解读短视频", "l": "", "pd": "2026-07-27", "p": "制作中", "s": "AI生成", "n": "短视频 · 不定期"}, "28_news_0": {"t": "📰 7月28日 Web3 早报", "l": "", "pd": "2026-07-28", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "28_article_0": {"t": "🧵 7月28日 市场深度分析", "l": "", "pd": "2026-07-28", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "28_repost_0": {"t": "🔄 7月28日 优质内容转发", "l": "", "pd": "2026-07-28", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "28_thread_0": {"t": "🧵 7月28日 赛道周报", "l": "", "pd": "2026-07-28", "p": "素材未到位", "s": "手动撰写", "n": "推特长帖 · 周2更"}, "29_news_0": {"t": "📰 7月29日 Web3 早报", "l": "", "pd": "2026-07-29", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "29_repost_0": {"t": "🔄 7月29日 优质内容转发", "l": "", "pd": "2026-07-29", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "30_news_0": {"t": "📰 7月30日 Web3 早报", "l": "", "pd": "2026-07-30", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "30_article_0": {"t": "🧵 7月30日 市场深度分析", "l": "", "pd": "2026-07-30", "p": "素材未到位", "s": "手动撰写", "n": "长文观点 · 周3更"}, "30_repost_0": {"t": "🔄 7月30日 优质内容转发", "l": "", "pd": "2026-07-30", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}, "31_news_0": {"t": "📰 7月31日 Web3 早报", "l": "", "pd": "2026-07-31", "p": "制作中", "s": "AI生成", "n": "60秒早报 · 每天"}, "31_repost_0": {"t": "🔄 7月31日 优质内容转发", "l": "", "pd": "2026-07-31", "p": "待发布", "s": "转载/翻译", "n": "小红书转发 · 每天"}};
-const DEFAULT_REFS = {"1": [{"type": "事件", "text": "BTC 月度开盘"}, {"type": "热点", "text": "ETH ETF 资金流数据"}], "5": [{"type": "事件", "text": "美联储会议纪要"}], "7": [{"type": "事件", "text": "BTC 减半倒计时"}], "10": [{"type": "事件", "text": "ProjectA TGE"}, {"type": "行情", "text": "BTC 周线分析"}], "15": [{"type": "政策", "text": "香港虚拟资产新规"}, {"type": "事件", "text": "ETH ETF 决议"}], "20": [{"type": "项目", "text": "Layer2 主网上线"}, {"type": "行情", "text": "山寨季指标"}], "25": [{"type": "事件", "text": "美联储利率决议"}, {"type": "热点", "text": "NFT 市场数据"}], "28": [{"type": "事件", "text": "季度交割"}]};
-
-function loadSlots(){
-  // 1. Start with embedded defaults
-  S = JSON.parse(JSON.stringify(DEFAULT_SLOTS));
-  R = JSON.parse(JSON.stringify(DEFAULT_REFS));
-
-  // 2. Override with localStorage (user edits)
+// ── API ──
+async function loadFromServer(){
+  // 1. Try GitHub CDN data
+  try{
+    const r=await fetch(RAW_URL, {cache:'no-store'});
+    if(r.ok){
+      const d=await r.json();
+      if(d.slots&&Object.keys(d.slots).length>0){
+        S=d.slots;R=d.refs||{};setSync(true);
+        document.getElementById('dataSource').textContent='GitHub';return true}}
+  }catch(e){}
+  // 2. Fallback: localStorage
   try{
     const ls=localStorage.getItem(LS_KEY);
-    if(ls){
-      const p=JSON.parse(ls);
-      if(p.slots) Object.assign(S, p.slots);
-      else Object.assign(S, p); // legacy format
-    }
-    const lr=localStorage.getItem(REF_KEY);
-    if(lr) Object.assign(R, JSON.parse(lr));
-  }catch(e){console.warn('Load failed:',e)}
-  for(let d=1;d<=31;d++){
-    if(!R[d]) R[d]=JSON.parse(JSON.stringify(REF_DEFAULTS[d]||[]));
-  }
+    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};setSync(false);
+    // Strip non-user-added refs from localStorage (old code may have saved REF_DEFAULTS)
+    for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
+    document.getElementById('dataSource').textContent='本地';return true}
+  }catch(e2){}
+  // 3. Ultimate fallback: embedded defaults
+  S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));
   setSync(true);
-  document.getElementById('dataSource').textContent='本地';
+  document.getElementById('dataSource').textContent='默认';
+  try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e){}
   return true;
 }
 
-function loadData(){
-  return Object.keys(S).filter(k => {
-    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-    return m && parseInt(m[1])<=daysInMonth(curY,curM);
-  }).map(k => {
-    const m=k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-    return {key:k, day:parseInt(m[1]), account:m[2], idx:parseInt(m[3]), data:S[k]};
-  });
-}
-
+let saveTimer = null;
 function scheduleSave(){
   dirty = true;
-  document.getElementById('syncText').textContent = '待保存...';
-  document.getElementById('syncDot').className = 'sync-dot saving';
+  document.getElementById('syncText').textContent='待保存...';
+  document.getElementById('syncDot').className='sync-dot saving';
   if(saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveToServer, 300);
+  saveTimer = setTimeout(saveToServer, 800);
 }
 
-let saveTimer = null;
-function saveToServer(){
+async function saveToServer(){
+  const payload = JSON.stringify({slots:S, refs:R});
   try{
-    localStorage.setItem(LS_KEY, JSON.stringify(S));
-    localStorage.setItem(REF_KEY, JSON.stringify(R));
+    localStorage.setItem(LS_KEY, payload);
     setSync(true);
     document.getElementById('syncText').textContent='已保存';
     dirty=false;
@@ -486,233 +466,257 @@ function saveToServer(){
   updateCount();
 }
 
-function saveData(){
-  saveToServer();
-}
-
-function setSync(on){function setSync(on){
-  const dot = document.getElementById('syncDot');
-  dot.className = 'sync-dot ' + (on ? 'on' : 'off');
+function setSync(on){
+  const dot=document.getElementById('syncDot');
+  dot.className='sync-dot '+(on?'on':'off');
 }
 
 // ── Init ──
-function init(){
-  curM = (new Date()).getMonth() + 1;
+async function init(){
+  curM = (new Date()).getMonth()+1;
   curY = (new Date()).getFullYear();
-  loadSlots();
+  const ok = await loadFromServer();
+  // Clean any stale refs from localStorage fallback
+  if(curM!==7) for(let k in R){if(!R[k]?.[0]?.userAdded) delete R[k];}
+  const daysInMonth = new Date(curY, curM, 0).getDate();
   updateMonthDisplay();
   render();
-
-  // Auto-save every 30s
-  setInterval(() => {
-    if(dirty) saveToServer();
+  setInterval(async ()=>{
+    if(!dirty){
+      const fresh = await loadFromServer();
+      if(fresh) render();
+    }
   }, 30000);
 }
 
 function updateCount(){
-  let c = 0;
-  for(const k in S){ if(S[k] && S[k].t && S[k].t.trim()) c++; }
-  document.getElementById('slotCount').textContent = c + ' 条';
+  let c=0;
+  for(const k in S){if(S[k]&&S[k].t&&S[k].t.trim())c++}
+  document.getElementById('slotCount').textContent=c+' 条';
 }
 
 // ── Slot CRUD ──
-function sk(d,t,i){ return d+'_'+t+'_'+i; }
+function sk(d,t,i){return d+'_'+t+'_'+i}
 function gs(d,t,i){
-  const k = sk(d,t,i);
-  if(!S[k]) S[k] = {t:'', l:'', pd:'', p:'素材未到位', s:'AI生成', n:''};
+  const k=sk(d,t,i);
+  if(!S[k]) S[k]={t:'',l:'',pd:'',p:'素材未到位',s:'投放视频',n:''};
   return S[k];
 }
 function us(d,t,i,f,v){
-  const k = sk(d,t,i);
-  if(!S[k]) S[k] = {t:'', l:'', pd:'', p:'素材未到位', s:'AI生成', n:''};
-  S[k][f] = v;
+  const k=sk(d,t,i);
+  if(!S[k]) S[k]={t:'',l:'',pd:'',p:'素材未到位',s:'投放视频',n:''};
+  S[k][f]=v;
   scheduleSave();
 }
 function as(d,t){
-  let i = 0;
-  while(S[sk(d,t,i)]) i++;
+  let i=0;while(S[sk(d,t,i)])i++;
   const autoPd = curY+'-'+String(curM).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-  S[sk(d,t,i)] = {t:'', l:'', pd:autoPd, p:'素材未到位', s:'AI生成', n:''};
-  scheduleSave();
-  render();
-  expandSlot(d,t,i);
+  S[sk(d,t,i)]={t:'',l:'',pd:autoPd,p:'素材未到位',s:'投放视频',n:''};
+  scheduleSave();render();expandSlot(d,t,i);
 }
-function rs(d,t,i){
-  delete S[sk(d,t,i)];
-  scheduleSave();
-  render();
-}
+function rs(d,t,i){delete S[sk(d,t,i)];scheduleSave();render()}
 function expandSlot(d,t,i){
-  editingSlot = sk(d,t,i);
+  editingSlot=sk(d,t,i);
   render();
-  setTimeout(() => {
-    const inp = document.querySelector(`[data-sk="${sk(d,t,i)}"] .ef-t`);
+  setTimeout(()=>{
+    const inp=document.querySelector(`[data-sk="${sk(d,t,i)}"] .ef-t`);
     if(inp) inp.focus();
-  }, 50);
+  },50);
 }
-function collapseSlot(){
-  editingSlot = null;
-  render();
-}
-function saveSlot(inp){
-  var evt = new Event('change', {bubbles:true});
-  inp.dispatchEvent(evt);
-  collapseSlot();
-}
+function collapseSlot(){editingSlot=null;render()}
 
-// Click outside to collapse
-document.addEventListener('click', function(e){
+// Save input and collapse on Enter
+function saveSlot(inp){var evt=new Event('change',{bubbles:true});inp.dispatchEvent(evt);collapseSlot()}
+
+// Click outside expanded slot to collapse
+document.addEventListener('click',function(e){
   if(editingSlot){
-    var el = document.querySelector('[data-sk="'+editingSlot+'"]');
-    if(el && !el.contains(e.target)){ editingSlot = null; render(); }
+    var el=document.querySelector('[data-sk="'+editingSlot+'"]');
+    if(el&&!el.contains(e.target)){editingSlot=null;render()}
   }
 });
 
-// Escape to collapse
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape' && editingSlot){ editingSlot = null; render(); }
+// Escape or Enter key to collapse
+document.addEventListener('keydown',function(e){
+  if(editingSlot){
+    if(e.key==='Escape'){editingSlot=null;render()}
+    else if(e.key==='Enter'&&e.target.closest('.slot.expanded')){
+      e.preventDefault();
+      var inp=e.target;
+      var evt=new Event('change',{bubbles:true});
+      inp.dispatchEvent(evt);
+      collapseSlot();
+    }
+  }
 });
 
 // ── Ref CRUD ──
-function ur(d,i,v){
-  if(R[d] && R[d][i]) R[d][i].text = v;
-  scheduleSave(); render();
-}
-function ar(d){
-  if(!R[d]) R[d] = [];
-  R[d].push({type:'事件', text:'新选题...'});
-  scheduleSave(); render();
-}
-function rr(d,i){
-  if(R[d]) R[d].splice(i,1);
-  scheduleSave(); render();
-}
-function crt(d,i){
-  const C = ['事件','热点','行情','项目','政策'];
-  const r = R[d] && R[d][i];
-  if(!r) return;
-  const ci = C.indexOf(r.type);
-  r.type = C[(ci+1) % C.length];
-  scheduleSave(); render();
-}
+function ur(d,i,v){if(R[d]&&R[d][i]){R[d][i].text=v;R[d][i].userAdded=true;}scheduleSave();render()}
+function ar(d){if(!R[d])R[d]=[];R[d].push({type:'活动',text:'新活动...',userAdded:true});scheduleSave();render()}
+function rr(d,i){if(R[d])R[d].splice(i,1);scheduleSave();render()}
+function crt(d,i){const C=['版本','节日','IP','活动'];const r=R[d]&&R[d][i];if(!r)return;const ci=C.indexOf(r.type);r.type=C[(ci+1)%C.length];r.userAdded=true;scheduleSave();render()}
 
-// ── Date range parsing ──
+// ── Parse date ranges ──
 function parseRange(text){
-  const m = text.match(/(\d+)\/(\d+)\s*[-–]\s*(\d+)\/(\d+)/);
+  // Match "M/D - M/D" pattern
+  const m=text.match(/(\d+)\/(\d+)\s*[-–]\s*(\d+)\/(\d+)/);
   if(m){
-    const sm = parseInt(m[1]), sd = parseInt(m[2]), em = parseInt(m[3]), ed = parseInt(m[4]);
-    if(sm === curM) return {start: sd, end: ed};
-    return {start: sd, end: ed};
+    const sm=parseInt(m[1]),sd=parseInt(m[2]),em=parseInt(m[3]),ed=parseInt(m[4]);
+    return {sm, sd, em, ed};
   }
-  const m2 = text.match(/(\d+)\/(\d+)\s*[-–]\s*(\d+)/);
+  // Match "M/D - D" (same month)
+  const m2=text.match(/(\d+)\/(\d+)\s*[-–]\s*(\d+)/);
   if(m2){
-    const sd = parseInt(m2[2]), ed = parseInt(m2[3]);
-    return {start: sd, end: ed};
+    const sm=parseInt(m2[1]),sd=parseInt(m2[2]),ed=parseInt(m2[3]);
+    return {sm, sd, em: sm, ed};
   }
   return null;
 }
 
+// ── Parse refs with ranges ──
+// REF_DEFAULTS are keyed by day (1-31) without month context.
+// They are only valid for July. For other months, clear them.
 function getRefsWithRanges(){
   const result = {};
-  const ranges = [];
-  for(let d=1;d<=31;d++){
-    const refs = R[d]||[];
-    result[d] = [];
-    refs.forEach((r, idx) => {
-      const range = parseRange(r.text, curM);
-      if(range && range.end > d){
-        ranges.push({start:d, end:range.end, type:r.type, text:r.text, key:d+'_'+idx});
-        result[d].push({...r, rangeStart:true, rangeEnd:false});
-      } else if(range && range.end === d){
-        result[d].push({...r, rangeStart:true, rangeEnd:true});
-      } else {
-        result[d].push({...r});
-      }
-    });
-  }
-  ranges.forEach(rg => {
-    for(let d=rg.start+1; d<=rg.end; d++){
-      if(!result[d]) result[d] = [];
-      const exists = result[d].some(r => r.text === rg.text);
-      if(!exists){
-        result[d].push({
-          type: rg.type, text: rg.text,
-          rangeMid: (d < rg.end), rangeEnd: (d === rg.end), rangeContinued: true
+  for(let d=1;d<=31;d++) result[d] = [];
+  
+  // Collect ALL refs first (from REF_DEFAULTS constant for July, and R for user-added)
+  const allRefs = [];
+  
+  // REF_DEFAULTS from constant (July only)
+  if(curM===7 && typeof REF_DEFAULTS !== 'undefined'){
+    for(let d=1;d<=31;d++){
+      if(REF_DEFAULTS[d]){
+        REF_DEFAULTS[d].forEach(r => {
+          allRefs.push({...r, userAdded: false, srcDay: d});
         });
       }
     }
+  }
+  
+  // User-added refs from R (all months)
+  for(let k in R){
+    if(R[k]){
+      R[k].forEach(r => {
+        if(r.userAdded) allRefs.push({...r, srcDay: parseInt(k)});
+      });
+    }
+  }
+  
+  // Now determine where each ref shows based on its date range
+  allRefs.forEach(r => {
+    const range = parseRange(r.text);
+    if(range){
+      // Multi-day range ref
+      const daysInMonth = new Date(curY, curM, 0).getDate();
+      for(let d=1; d<=daysInMonth; d++){
+        // Check if this day falls within the date range for the CURRENT month
+        const inRange = (range.sm < curM && curM < range.em) ||
+                        (curM === range.sm && d >= range.sd) ||
+                        (curM === range.em && d <= range.ed);
+        if(inRange){
+          const isStart = (curM === range.sm && d === range.sd);
+          const isEnd = (curM === range.em && d === range.ed);
+          if(isStart) result[d].push({...r, rangeStart: true});
+          else if(isEnd) result[d].push({...r, rangeEnd: true});
+          else result[d].push({...r, rangeMid: true});
+        }
+      }
+    } else {
+      // Single-day ref - only show in July (its source month)
+      if(curM === 7 && r.srcDay) {
+        result[r.srcDay].push({...r});
+      }
+    }
   });
+  
   return result;
 }
 
 // ── Render ──
 function render(){
-  const today = (() => {
-    const n = new Date();
-    const u = n.getTime() + n.getTimezoneOffset() * 60000;
-    const s = new Date(u + 8 * 3600000);
-    return {m: s.getMonth()+1, d: s.getDate()};
-  })();
-
-  const el = document.getElementById('timeline');
-  el.innerHTML = '';
-  const W = ['W1','W2','W3','W4','W5'];
+  const today=(()=>{const n=new Date();const u=n.getTime()+n.getTimezoneOffset()*60000;const s=new Date(u+8*3600000);return{m:s.getMonth()+1,d:s.getDate()}})();
+  const el=document.getElementById('timeline');el.innerHTML='';
+  const W=['W1','W2','W3','W4','W5'];
+  // Force-clean: keep ONLY user-added refs in non-July months
+  if(curM!==7){for(let k in R){if(!R[k]?.[0]?.userAdded) delete R[k];}}
   const refsWithRanges = getRefsWithRanges();
 
-  for(let d=1; d<=daysInMonth(curY, curM); d++){
-    const dt = new Date(curY, curM-1, d);
-    const dw = dt.getDay();
-    const iT = today.m===curM && today.d===d;
-    const iW = dw===0 || dw===6;
-    const wk = W[Math.min(Math.floor((d-1)/7), 4)];
-    const isWeekStart = dw===1 || d===1;
+  for(let d=1;d<=31;d++){
+    const dt=new Date(curY, curM-1, d);
+    const dw=dt.getDay();
+    const iT=today.m===curM&&today.d===d;
+    const iW=dw===0||dw===6;
+    const wk=W[Math.min(Math.floor((d-1)/7),4)];
+    const isWeekStart=dw===1||d===1;
 
-    const row = document.createElement('div');
-    row.className = 'day-row' + (iT?' today':'') + (iW?' weekend':'') + (isWeekStart?' week-start':'');
+    const row=document.createElement('div');
+    row.className='day-row'+(iT?' today':'')+(iW?' weekend':'')+(isWeekStart?' week-start':'');
 
     // Date
-    const dc = document.createElement('div');
-    dc.className = 'day-date';
-    dc.innerHTML = `<div class="num">${d}${iT?' <span style="font-size:9px;color:var(--accent);font-weight:600">·今天</span>':''}</div><div class="dow${iW?' we':''}">${DOW_EN[dw]}</div><div class="tag">${wk}</div>`;
+    const dc=document.createElement('div');dc.className='day-date';
+    dc.innerHTML=`<div class="num">${d}${iT?' <span class=\"today-badge\">今天</span>':''}</div><div class="dow${iW?' we':''}">${DOW_EN[dw]}</div><div class="tag">${wk}</div>`;
     row.appendChild(dc);
 
     // Schedule
-    const sc = document.createElement('div');
-    sc.className = 'day-schedule';
-    const slots = [];
+    const sc=document.createElement('div');sc.className='day-schedule';
+    const slots=[];
     for(const k in S){
-      const m = k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-      if(m && parseInt(m[1])===d) slots.push({idx:parseInt(m[3]), type:m[2], key:k, data:S[k]});
+      const m=k.match(/^(\d+)_(uw|tt|hkig|usig|ustt|usfb|usigoff)_(\d+)$/);
+      if(m){
+        const slotPd = S[k].pd || '';
+        // Show slots that match current month by pd, OR empty-pd slots (only in July)
+        const monthPrefix = curY+'-'+String(curM).padStart(2,'0');
+        const shouldShow = slotPd.startsWith(monthPrefix) || (!slotPd && curM===7);
+        if(shouldShow && parseInt(m[1])===d) slots.push({idx:parseInt(m[3]),type:m[2],key:k,data:S[k]});
+      }
     }
-    slots.sort((a,b) => {
-      const order = ['news','article','repost','video','thread'];
-      return (order.indexOf(a.type) - order.indexOf(b.type)) || a.idx - b.idx;
-    });
-    slots.forEach(s => { sc.appendChild(makeSlot(d, s.type, s.idx, s.key, s.data)); });
+    slots.sort((a,b)=>a.type.localeCompare(b.type)||a.idx-b.idx);
+    slots.forEach(s=>{sc.appendChild(makeSlot(d,s.type,s.idx,s.key,s.data))});
 
-    // Add buttons
-    const ab = document.createElement('div');
-    ab.className = 'add-bar';
-    ab.innerHTML = ACCOUNTS.map(a =>
-      `<button class="add-btn" onclick="as(${d},'${a.id}')">+ ${a.label}</button>`
-    ).join('');
+    const ab=document.createElement('div');ab.className='add-bar';
+    ab.innerHTML=`<div class="account-picker">
+  <div class="picker-header" onclick="this.parentNode.classList.toggle('open')">
+    <span>+ 选择账号添加</span>
+    <span class="picker-arrow">▾</span>
+  </div>
+  <div class="picker-body">
+    <div class="picker-group">
+      <div class="picker-group-label">🌊 欧美水下</div>
+      <button class="picker-btn" onclick="as(${d},'uw')">欧美水下号</button>
+    </div>
+    <div class="picker-group">
+      <div class="picker-group-label">📱 欧美社媒官号</div>
+      <button class="picker-btn" onclick="as(${d},'tt')">欧美TT官号</button>
+      <button class="picker-btn" onclick="as(${d},'usfb')">欧美FB官号</button>
+      <button class="picker-btn" onclick="as(${d},'usigoff')">欧美IG官号</button>
+    </div>
+    <div class="picker-group">
+      <div class="picker-group-label">🎨 欧美条漫</div>
+      <button class="picker-btn" onclick="as(${d},'usig')">欧美条漫IG</button>
+      <button class="picker-btn" onclick="as(${d},'ustt')">欧美条漫TT</button>
+    </div>
+    <div class="picker-group">
+      <div class="picker-group-label">🌏 港台</div>
+      <button class="picker-btn" onclick="as(${d},'hkig')">港台条漫IG</button>
+    </div>
+  </div>
+</div>`;
     sc.appendChild(ab);
     row.appendChild(sc);
 
     // Reference
-    const rc = document.createElement('div');
-    rc.className = 'day-ref';
+    const rc=document.createElement('div');rc.className='day-ref';
     const dayRefs = refsWithRanges[d]||[];
-    dayRefs.forEach((r, i) => {
-      const item = document.createElement('div');
-      item.className = 'ref-item';
+    dayRefs.forEach((r,i)=>{
+      const item=document.createElement('div');item.className='ref-item';
       let rangeCls = '';
-      if(r.rangeStart) rangeCls = ' range-start';
-      else if(r.rangeMid) rangeCls = ' range-mid';
-      else if(r.rangeEnd) rangeCls = ' range-end';
-      if(rangeCls) item.className = 'ref-item' + rangeCls;
+      if(r.rangeStart) rangeCls=' range-start';
+      else if(r.rangeMid) rangeCls=' range-mid';
+      else if(r.rangeEnd) rangeCls=' range-end';
+      if(rangeCls) item.className='ref-item'+rangeCls;
 
-      const tc = {'事件':'rt h','热点':'rt v','行情':'rt i','项目':'rt e','政策':'rt h'}[r.type] || 'rt h';
+      const tc={'版本':'rt v','节日':'rt h','IP':'rt i','活动':'rt e'}[r.type]||'rt e';
       let displayText = r.text;
       if(r.rangeContinued && !r.rangeEnd && !r.rangeStart){
         displayText = '↳ ' + r.text.replace(/[\d]+\/[\d]+[-–][\d]+\/[\d]+/g,'').trim();
@@ -721,18 +725,15 @@ function render(){
         displayText = '↳ ' + r.text.replace(/[\d]+\/[\d]+[-–][\d]+\/[\d]+/g,'').trim() + ' (结束)';
       }
 
-      item.innerHTML = `
+      item.innerHTML=`
         <span class="${tc}" onclick="crt(${d},${i})">${r.type}</span>
         <span class="rtx">${esc(displayText)}</span>
         <button class="rd" onclick="rr(${d},${i})">✕</button>
       `;
       rc.appendChild(item);
     });
-    if(dayRefs.length===0) rc.innerHTML += `<div class="ref-empty">—</div>`;
-    const addB = document.createElement('button');
-    addB.className = 'ref-add';
-    addB.textContent = '+';
-    addB.onclick = () => ar(d);
+    if(dayRefs.length===0) rc.innerHTML+=`<div class="ref-empty">—</div>`;
+    const addB=document.createElement('button');addB.className='ref-add';addB.textContent='+';addB.onclick=()=>ar(d);
     rc.appendChild(addB);
     row.appendChild(rc);
 
@@ -741,6 +742,14 @@ function render(){
   updateCount();
 }
 
+
+function switchMonth(delta){
+  curM+=delta;
+  if(curM>12){curM=1;curY++;}
+  if(curM<1){curM=12;curY--;}
+  updateMonthDisplay();
+  render();
+}
 function goToMonth(delta){
   let newM = curM + delta;
   let newY = curY;
@@ -750,50 +759,41 @@ function goToMonth(delta){
   updateMonthDisplay();
   render();
 }
-function switchMonth(delta){ goToMonth(delta); }
-function goToday(){
-  const n = new Date();
-  curM = n.getMonth() + 1;
-  curY = n.getFullYear();
-  updateMonthDisplay();
-  render();
-}
 function updateMonthDisplay(){
-  const navLabel = document.getElementById('navMonthLabel');
-  navLabel.textContent = curY + '年' + curM + '月';
+  const navLabel=document.getElementById('navMonthLabel');
+  const txt=curY+'年'+curM+'月';
+  if(navLabel) navLabel.textContent=txt;
 }
-
 function makeSlot(d,t,i,k,data){
-  const isExpanded = editingSlot === k;
-  const label = LABELS[t] || t;
+  const isExpanded = editingSlot===k;
+  const LABELS={'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号'};
+  const label = LABELS[t]||t;
   const bc = t;
-  const pi = Math.max(0, PROGRESS.indexOf(data.p));
+  const pi = Math.max(0,PROGRESS.indexOf(data.p));
   const pc = 'p'+pi;
-  const summary = data.t || '(未填写)';
-  const hasLink = data.l && data.l.trim();
+  const summary = data.t||'(未填写)';
+  const hasLink = data.l&&data.l.trim();
 
   if(!isExpanded){
-    const div = document.createElement('div');
-    div.className = 'slot collapsed';
-    div.setAttribute('data-sk', k);
-    div.ondblclick = () => expandSlot(d,t,i);
-    div.innerHTML = `
+    const div=document.createElement('div');
+    div.className='slot collapsed';div.setAttribute('data-sk',k);
+    div.ondblclick=()=>expandSlot(d,t,i);
+    div.innerHTML=`
       <span class="badge ${bc}">${label}</span>
       <div class="summary">
         <span class="tp">${esc(summary)}</span>
-        ${hasLink?'<span class="sp">·</span><span style="color:var(--text-muted);font-size:9px">🔗</span>':''}
+        ${hasLink?`<span class="sp">·</span><span style="color:var(--text-muted);font-size:9px">🔗</span>`:''}
         <span class="pg ${pc}">${data.p}</span>
       </div>
       ${hasLink?`<button class="cl" onclick="event.stopPropagation();copyText('${esc(data.l)}')" title="复制链接">📋</button>`:''}
       <button class="del" onclick="event.stopPropagation();rs(${d},'${t}',${i})">✕</button>
     `;
     return div;
-  } else {
-    const div = document.createElement('div');
-    div.className = 'slot expanded';
-    div.setAttribute('data-sk', k);
-    const dv = data.pd || '';
-    div.innerHTML = `
+  }else{
+    const div=document.createElement('div');
+    div.className='slot expanded';div.setAttribute('data-sk',k);
+    const dv=data.pd||'';
+    div.innerHTML=`
       <div style="display:flex;align-items:center;gap:4px;width:100%">
         <span class="badge ${bc}">${label}</span>
         <span style="flex:1;font-size:10px;color:var(--text-dim)">编辑中 · Enter 折叠</span>
@@ -802,15 +802,15 @@ function makeSlot(d,t,i,k,data){
       <div class="sg">
         <div class="fd fu">
           <label>📝 标题/文案</label>
-          <input class="ef-t" type="text" value="${esc(data.t||'')}" placeholder="输入标题..."
+          <input class="ef-t" type="text" value="${esc(data.t||'')}" placeholder="输入标题或文案..."
             onchange="us(${d},'${t}',${i},'t',this.value)"
-            onkeydown="if(event.key==='Enter'){event.preventDefault();saveSlot(this)}">
+            >
         </div>
         <div class="fd">
-          <label>🔗 素材链接</label>
+          <label>🔗 素材公共盘</label>
           <div style="display:flex;gap:2px;align-items:center">
             <input type="text" value="${esc(data.l||'')}" placeholder="链接或路径..." onchange="us(${d},'${t}',${i},'l',this.value)" style="flex:1">
-            ${data.l&&data.l.trim()?`<button class="cl" style="opacity:1" onclick="copyText('${esc(data.l)}')">📋</button>`:''}
+            ${data.l&&data.l.trim()?`<button class="cb" onclick="copyText('${esc(data.l)}')">📋</button>`:''}
           </div>
         </div>
         <div class="fd">
@@ -818,8 +818,19 @@ function makeSlot(d,t,i,k,data){
           <input type="date" value="${dv}" onchange="us(${d},'${t}',${i},'pd',this.value)">
         </div>
         <div class="fd">
+          <label>⏰ 发布时间</label>
+          <input type="time" value="${esc(data.tm||'')}" onchange="us(${d},'${t}',${i},'tm',this.value)">
+        </div>
+        <div class="fd">
           <label>📊 来源</label>
           <select onchange="us(${d},'${t}',${i},'s',this.value)">${SOURCES.map(o=>`<option value="${o}" ${data.s===o?'selected':''}>${o}</option>`).join('')}</select>
+        </div>
+        <div class="fd">
+          <label>🎯 内容类型</label>
+          <select onchange="us(${d},'${t}',${i},'c',this.value)">
+            <option value="">选择类型…</option>
+            ${CONTENT_TYPES.map(o=>`<option value="${o}" ${data.c===o?'selected':''}>${o}</option>`).join('')}
+          </select>
         </div>
         <div class="fd">
           <label>📈 进度</label>
@@ -827,7 +838,7 @@ function makeSlot(d,t,i,k,data){
         </div>
         <div class="fd fu">
           <label>💬 备注</label>
-          <textarea rows="1" placeholder="选题方向、引用来源..." onchange="us(${d},'${t}',${i},'n',this.value)">${esc(data.n||'')}</textarea>
+          <textarea rows="1" placeholder="其他说明..." onchange="us(${d},'${t}',${i},'n',this.value)">${esc(data.n||'')}</textarea>
         </div>
       </div>
     `;
@@ -836,60 +847,44 @@ function makeSlot(d,t,i,k,data){
 }
 
 function copyText(t){
-  if(!t) return;
-  navigator.clipboard.writeText(t).then(() => {
-    const btn = event && event.target;
-    if(btn){ const o=btn.textContent; btn.textContent='✅'; setTimeout(()=>{btn.textContent=o}, 800); }
-  }).catch(() => {});
+  if(!t)return;
+  navigator.clipboard.writeText(t).then(()=>{
+    const btn=event&&event.target;
+    if(btn){const o=btn.textContent;btn.textContent='✅';setTimeout(()=>{btn.textContent=o},800)}
+  }).catch(()=>{});
 }
 
 function exportData(){
-  let txt = '🌐 '+curY+'年'+curM+'月 Web3 内容排期\n═══════════════════\n\n';
-  for(let d=1; d<=daysInMonth(curY, curM); d++){
-    const items = [];
+  let txt='📅 7月社媒排期\n═══════════\n\n';
+  for(let d=1;d<=31;d++){
+    const items=[];
     for(const k in S){
-      const m = k.match(/^(\d+)_(news|article|repost|video|thread)_(\d+)$/);
-      if(m && parseInt(m[1])===d){
-        const s = S[k];
-        if(s.t && s.t.trim()) items.push({type: LABELS[m[2]]||m[2], data: s});
-      }
+      const m=k.match(/^(\d+)_(uw|tt|hkig|usig|ustt|usfb|usigoff)_(\d+)$/);
+      if(m&&parseInt(m[1])===d){const s=S[k];if(s.t&&s.t.trim()) items.push({type:({'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号'}[m[2]]||m[2]),data:s})}
     }
-    if(items.length===0) continue;
-    const dt = new Date(curY, curM-1, d);
-    txt += `── ${curM}月${d}日 周${DOW[dt.getDay()]} ──\n`;
-    items.forEach(s => {
-      txt += `【${s.type}】\n  标题：${s.data.t||'-'}\n`;
-      if(s.data.l) txt += `  素材：${s.data.l}\n`;
-      if(s.data.pd) txt += `  发布：${s.data.pd}\n`;
-      txt += `  来源：${s.data.s||'-'} | 进度：${s.data.p||'-'}\n`;
-      if(s.data.n) txt += `  备注：${s.data.n}\n\n`;
+    if(items.length===0)continue;
+    const dt=new Date(2026,6,d);
+    txt+=`── 7月${d}日 周${DOW[dt.getDay()]} ──\n`;
+    items.forEach(s=>{
+      txt+=`【${s.type}】\n 标题：${s.data.t||'-'}\n`;
+      if(s.data.l) txt+=` 素材：${s.data.l}\n`;
+      if(s.data.pd) txt+=` 发布：${s.data.pd}\n`;
+      txt+=` 来源：${s.data.s||'-'} | 进度：${s.data.p||'-'}\n`;
+      if(s.data.n) txt+=` 备注：${s.data.n}\n\n`;
     });
   }
-  document.getElementById('exportText').value = txt;
+  document.getElementById('exportText').value=txt;
   document.getElementById('exportModal').classList.add('active');
 }
-function closeExport(){ document.getElementById('exportModal').classList.remove('active'); }
+function closeExport(){document.getElementById('exportModal').classList.remove('active')}
 function copyExport(){
-  const ta = document.getElementById('exportText');
-  ta.select();
-  navigator.clipboard.writeText(ta.value).then(() => alert('✅ 已复制')).catch(() => { document.execCommand('copy'); alert('✅ 已复制'); });
+  const ta=document.getElementById('exportText');ta.select();
+  navigator.clipboard.writeText(ta.value).then(()=>alert('✅ 已复制')).catch(()=>{document.execCommand('copy');alert('✅ 已复制')});
 }
-function clearAll(){
-  if(!confirm('确定清空当前月所有内容？')) return;
-  for(const k in S){
-    if(k.startsWith(curM+'_')) delete S[k];
-  }
-  scheduleSave();
-  render();
-}
-function esc(s){
-  if(!s) return '';
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
+function clearAll(){if(!confirm('确定清空所有？'))return;S={};scheduleSave();render()}
+function esc(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 
 init();
-
-
-// ── View toggle ──</script>
+</script>
 </body>
 </html>

@@ -110,6 +110,18 @@ let dragSrcId = null;
 
 // ── Render nav ──
 function renderNav(){
+  // Migrate old flat order format to new format
+  try{
+    const old = localStorage.getItem('hub_nav_order');
+    if(old){
+      const parsed = JSON.parse(old);
+      if(Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'string'){
+        const newOrder = parsed.map(id => ({id, group: (ALL_ITEMS.find(i=>i.id===id)||{}).group || 'own'}));
+        localStorage.setItem('hub_nav_order_v2', JSON.stringify(newOrder));
+        localStorage.removeItem('hub_nav_order');
+      }
+    }
+  }catch(e){}
   const order = getOrder();
   const container = document.getElementById('navContainer');
   container.innerHTML = '';
@@ -142,11 +154,11 @@ function renderNav(){
     const ghKey = group;
     if(staticItems.groupHeaders[ghKey]) orderedItems.push(staticItems.groupHeaders[ghKey]);
     // Items in this group, sorted by saved order
-    const groupItems = order.filter(id => {
-      const item = ALL_ITEMS.find(i => i.id === id);
-      return item && item.group === group;
-    });
-    // Add any missing items from ALL_ITEMS
+    const groupItems = order.filter(o => {
+      const item = ALL_ITEMS.find(i => i.id === o.id);
+      return item && o.group === group;
+    }).map(o => o.id);
+    // Add any missing items from ALL_ITEMS (not yet in order)
     const allGroupIds = ALL_ITEMS.filter(i => i.group === group).map(i => i.id);
     allGroupIds.forEach(id => {
       if(!groupItems.includes(id)) groupItems.push(id);
@@ -211,22 +223,28 @@ function renderNav(){
 
 // ── Order persistence ──
 function getOrder(){
-  try{ return JSON.parse(localStorage.getItem('hub_nav_order')) || getDefaultOrder(); }
+  // Returns array of {id, group}
+  try{ return JSON.parse(localStorage.getItem('hub_nav_order_v2')) || getDefaultOrder(); }
   catch(e){ return getDefaultOrder(); }
 }
 function getDefaultOrder(){
-  return ALL_ITEMS.filter(i => i.id && !i.groupHeader).map(i => i.id);
+  return ALL_ITEMS.filter(i => i.id && !i.groupHeader).map(i => ({id: i.id, group: i.group}));
 }
 function saveOrder(order){
-  try{ localStorage.setItem('hub_nav_order', JSON.stringify(order)); }catch(e){}
+  try{ localStorage.setItem('hub_nav_order_v2', JSON.stringify(order)); }catch(e){}
 }
 function reorder(fromId, toId){
   const order = getOrder();
-  const fromIdx = order.indexOf(fromId);
-  const toIdx = order.indexOf(toId);
+  const fromIdx = order.findIndex(o => o.id === fromId);
+  const toIdx = order.findIndex(o => o.id === toId);
   if(fromIdx === -1 || toIdx === -1) return;
-  order.splice(fromIdx, 1);
-  order.splice(toIdx, 0, fromId);
+  const item = order.splice(fromIdx, 1)[0];
+  order.splice(toIdx, 0, item);
+  // When item dropped onto a different group's items, update its group
+  const toItem = ALL_ITEMS.find(i => i.id === toId);
+  if(toItem && toItem.group && toItem.group !== item.group){
+    item.group = toItem.group;
+  }
   saveOrder(order);
 }
 

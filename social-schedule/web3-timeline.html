@@ -430,10 +430,15 @@ async function loadFromServer(){
   // 2. Fallback: localStorage
   try{
     const ls=localStorage.getItem(LS_KEY);
-    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};setSync(false);
-    // Strip non-user-added refs from localStorage (old code may have saved REF_DEFAULTS)
-    for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
-    document.getElementById('dataSource').textContent='本地';return true}
+    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};
+    // If localStorage is empty, don't return - fall through to defaults
+    if(Object.keys(S).length > 0){
+      setSync(false);
+      // Strip non-user-added refs from localStorage
+      for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
+      document.getElementById('dataSource').textContent='本地';
+      return true;
+    }}
   }catch(e2){}
   // 3. Ultimate fallback: embedded defaults
   S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));

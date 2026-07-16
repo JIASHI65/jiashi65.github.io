@@ -76,16 +76,18 @@ function loadLocal(){
 }
 
 async function loadData(){
-  // 1. localStorage first (user edits, any amount)
-  const local = loadLocal();
-  if(local && Object.keys(local).length > 0) return local;
-  // 2. Fallback: GitHub CDN (initial seed)
+  // 1. GitHub CDN seed (source of truth)
   try {
     const r=await fetch(RAW_URL, {cache:'no-store'});
     if(r.ok){const j=await r.json(); if(j&&j.slots){
       localStorage.setItem(LS_KEY, JSON.stringify(j.slots));
       return j.slots;
     }}
+  }catch(e){}
+  // 2. Fallback: localStorage
+  try{
+    const ls=localStorage.getItem(LS_KEY);
+    if(ls){const j=JSON.parse(ls); if(j&&Object.keys(j).length>0) return j;}
   }catch(e){}
   return null;
 }

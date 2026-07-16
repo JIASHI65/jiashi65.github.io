@@ -324,11 +324,27 @@ body{
   .col-header>div:last-child{display:none}
   .day-ref{display:none}
 }
+
+/* ── Sticky Header ── */
+.sticky-header{
+  position:sticky;top:0;z-index:200;
+  background:linear-gradient(135deg,#179EDE,#8774E1,#E14EC0);
+  border-bottom:1px solid rgba(255,255,255,0.2);
+}
+.sticky-nav{
+  position:sticky;top:41px;z-index:199;
+  background:var(--surface);border-bottom:1px solid var(--border);
+}
+.sticky-col-header{
+  position:sticky;top:72px;z-index:198;
+  background:var(--surface);border-bottom:2px solid var(--accent);
+}
+
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="header sticky-header">
   <div style="display:flex;align-items:center;gap:6px">
     <h1>🌐 Web3 内容排期 <span>| 竖排时间线</span></h1>
     <div class="status-bar" id="syncStatus">
@@ -347,7 +363,7 @@ body{
   </div>
 </div>
 
-<div class="month-nav">
+<div class="month-nav sticky-nav">
   <button class="btn" onclick="switchMonth(-1)">◀ 上月</button>
   <span class="month-label" id="navMonthLabel">2026年7月</span>
   <button class="btn" onclick="switchMonth(1)">下月 ▶</button>
@@ -372,7 +388,7 @@ body{
 </div>
 <div id="groupView" style="display:none;padding:10px 16px;max-width:1200px;margin:0 auto"></div>
 <div class="container">
-  <div class="col-header">
+  <div class="col-header sticky-col-header">
     <div><span class="ch-label">📅 日期</span></div>
     <div><span class="ch-label">📋 内容排期</span></div>
     <div><span class="ch-label">📎 热点·事件·选题</span></div>
@@ -605,8 +621,10 @@ function parseRange(text){
 function getRefsWithRanges(){
   const result = {};
   const ranges = [];
+  const mPrefix = curM === 8 ? '_a' : (curM === 9 ? '_b' : (curM === 10 ? '_c' : (curM === 11 ? '_d' : (curM === 12 ? '_e' : ''))));
   for(let d=1;d<=31;d++){
-    const refs = R[d]||[];
+    const key = d + mPrefix;
+    const refs = R[key]||R[d]||[];
     result[d] = [];
     refs.forEach((r, idx) => {
       const range = parseRange(r.text, curM);
@@ -692,7 +710,12 @@ function render(){
     // Reference
     const rc = document.createElement('div');
     rc.className = 'day-ref';
+    const mPrefix = curM === 8 ? '_a' : (curM === 9 ? '_b' : (curM === 10 ? '_c' : (curM === 11 ? '_d' : (curM === 12 ? '_e' : ''))));
+    const refKey = d + mPrefix;
     const dayRefs = refsWithRanges[d]||[];
+    if(!dayRefs.length && R[refKey]) {
+      R[refKey].forEach(r => dayRefs.push({...r}));
+    }
     dayRefs.forEach((r, i) => {
       const item = document.createElement('div');
       item.className = 'ref-item';

@@ -2,126 +2,250 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>👤 莎莎的主站</title>
 <style>
 :root{--bg:#0d0d0d;--surface:#1a1a2e;--surface2:#16213e;--accent:#e94560;--accent2:#0f3460;--text:#eaeaea;--text-dim:#8899aa;--border:#2a2a4a;--radius:12px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden}
-.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 0}
+
+.sidebar{width:240px;min-width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 0}
 .logo{padding:12px 20px 20px;font-size:18px;font-weight:700;border-bottom:1px solid var(--border);margin-bottom:8px}
 .logo span{color:var(--accent)}
-.nav{flex:1;overflow-y:auto;padding:0 8px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;color:var(--text-dim);font-size:14px;transition:all .15s;margin-bottom:2px}
+.nav{flex:1;overflow-y:auto;padding:0 6px}
+
+.nav-group-label{padding:8px 14px 4px;font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;opacity:.6}
+.nav-divider{height:2px;background:linear-gradient(90deg,var(--accent2),var(--border),transparent);margin:10px 14px;border-radius:2px;opacity:.8}
+
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:grab;color:var(--text-dim);font-size:13px;transition:all .15s;margin-bottom:1px;user-select:none}
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{background:var(--accent2);color:#fff;font-weight:600}
-.nav-item .icon{font-size:18px;width:24px;text-align:center}
-.nav-divider{height:1px;background:var(--border);margin:8px 14px}
-.nav-group-label{padding:6px 14px 4px;font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;opacity:.5}
+.nav-item .icon{font-size:16px;width:22px;text-align:center;flex-shrink:0}
+.nav-item .drag-handle{font-size:12px;color:var(--text-dim);opacity:.3;cursor:grab;flex-shrink:0;width:14px;text-align:center}
+.nav-item:hover .drag-handle{opacity:.6}
+.nav-item.dragging{opacity:.5;background:var(--surface3)}
+.nav-item.drag-over{border-top:2px solid var(--accent)}
+
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{height:48px;min-height:48px;display:flex;align-items:center;padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border);font-size:14px;color:var(--text-dim)}
 .topbar .title{color:var(--text);font-weight:600;margin-right:8px}
+
 .content{flex:1;overflow:hidden;position:relative;background:var(--bg)}
 .content iframe{width:100%;height:100%;border:none;background:var(--bg)}
+
+/* Welcome page */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px;text-align:center}
+.welcome h1{font-size:36px;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,#e94560,#0f3460);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.welcome p{color:var(--text-dim);font-size:15px;max-width:400px;line-height:1.6;margin-bottom:24px}
+.welcome .stats{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.welcome .stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 24px;text-align:center;min-width:100px}
+.welcome .stat-card .num{font-size:28px;font-weight:700;color:var(--accent)}
+.welcome .stat-card .label{font-size:11px;color:var(--text-dim);margin-top:4px}
 </style>
 </head>
 <body>
 
 <div class="sidebar">
   <div class="logo">👤 <span>莎莎</span>主站</div>
-  <div class="nav">
-    <div class="nav-item" data-url="welcome" onclick="navigate(this)">
-      <span class="icon">🏠</span> 首页
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-group-label">💼 工作</div>
-    <div class="nav-item" data-url="/yoyo-koc-exchange/" onclick="navigate(this)">
-      <span class="icon">🎁</span> KOC 兑换
-    </div>
-    <div class="nav-item" data-url="/yoyo-koc-faq/" onclick="navigate(this)">
-      <span class="icon">❓</span> KOC 问答库
-    </div>
-    <div class="nav-item" data-url="/yoyo-community-report/" onclick="navigate(this)">
-      <span class="icon">📋</span> 社群周报
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-group-label">🧘 个人</div>
-    <div class="nav-item" data-url="/adventure-system/" onclick="navigate(this)">
-      <span class="icon">🧭</span> 冒险系统
-    </div>
-    <div class="nav-item" data-url="/health-system/" onclick="navigate(this)">
-      <span class="icon">🏥</span> 身体管理
-    </div>
-    <div class="nav-item" data-url="/task-system/" onclick="navigate(this)">
-      <span class="icon">🌟</span> 星币任务
-    </div>
-    <div class="nav-item" data-url="/bali-trip/" onclick="navigate(this)">
-      <span class="icon">🌋</span> 巴厘岛计划
-    </div>
-    <div class="nav-item" data-url="/interview-armory/" onclick="navigate(this)">
-      <span class="icon">⚔️</span> 面试军火库
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-group-label">📊 自有系统</div>
-    <div class="nav-item" data-url="/trading-audit/" onclick="navigate(this)">
-      <span class="icon">📊</span> 审计台
-    </div>
-    <div class="nav-item" data-url="/social-schedule/timeline.html" onclick="navigate(this)">
-      <span class="icon">📅</span> 社媒排期
-    </div>
-    <div class="nav-item" data-url="/social-schedule/grouping.html" onclick="navigate(this)">
-      <span class="icon">📱</span> 平台分组
-    </div>
+  <div class="nav" id="navContainer">
+    <!-- nav items rendered by JS -->
   </div>
 </div>
 
 <div class="main">
   <div class="topbar">
     <span class="title" id="pageTitle">🏠 首页</span>
-    <span id="pageSubtitle" style="font-size:12px;color:var(--text-dim)"></span>
-    <span class="status online" id="statusDot">● 本地运行</span>
   </div>
   <div class="content" id="contentArea">
-    <iframe src="" loading="lazy" id="mainFrame" style="width:100%;height:100%;border:none;background:var(--bg)"></iframe>
   </div>
 </div>
 
 <script>
-const titles = {
-  'welcome': '🏠 首页',
-  '/adventure-system/': '🧭 冒险系统',
-  '/health-system/': '🏥 身体管理',
-  '/task-system/': '🌟 星币任务',
-  '/yoyo-koc-exchange/': '🎁 KOC 兑换',
-  '/yoyo-koc-faq/': '❓ KOC 问答库',
-  '/yoyo-community-report/': '📋 社群周报',
-  '/interview-armory/': '⚔️ 面试军火库',
-  '/bali-trip/': '🌋 巴厘岛计划',
-  '/trading-audit/': '📊 审计台',
-  '/social-schedule/timeline.html': '📅 社媒排期 · 时间线',
-  '/social-schedule/grouping.html': '📱 社媒排期 · 平台分组',
+// ── Navigation config ──
+const ALL_ITEMS = [
+  { id:'welcome',        icon:'🏠',  label:'首页',        group:'top' },
+  { divider: true },
+  { id:'work',           icon:'💼',  label:'工作',        groupHeader: true },
+  { id:'yoyo-koc-exchange', icon:'🎁', label:'KOC 兑换',   url:'/yoyo-koc-exchange/', group:'work' },
+  { id:'yoyo-koc-faq',     icon:'❓',  label:'KOC 问答库', url:'/yoyo-koc-faq/', group:'work' },
+  { id:'yoyo-community-report', icon:'📋', label:'社群周报', url:'/yoyo-community-report/', group:'work' },
+  { divider: true },
+  { id:'personal',       icon:'🧘',  label:'个人',        groupHeader: true },
+  { id:'adventure-system', icon:'🧭', label:'冒险系统',   url:'/adventure-system/', group:'personal' },
+  { id:'health-system',    icon:'🏥', label:'身体管理',   url:'/health-system/', group:'personal' },
+  { id:'task-system',      icon:'🌟', label:'星币任务',   url:'/task-system/', group:'personal' },
+  { id:'bali-trip',        icon:'🌋', label:'巴厘岛计划', url:'/bali-trip/', group:'personal' },
+  { id:'interview-armory', icon:'⚔️', label:'面试军火库', url:'/interview-armory/', group:'personal' },
+  { divider: true },
+  { id:'own',            icon:'📊',  label:'自有系统',    groupHeader: true },
+  { id:'trading-audit',     icon:'📊', label:'审计台',     url:'/trading-audit/', group:'own' },
+  { id:'social-timeline',   icon:'📅', label:'社媒排期',   url:'/social-schedule/timeline.html', group:'own' },
+  { id:'social-grouping',   icon:'📱', label:'平台分组',   url:'/social-schedule/grouping.html', group:'own' },
+];
+
+const ITEMS_MAP = {};
+ALL_ITEMS.forEach(i => { if(i.id) ITEMS_MAP[i.id] = i; });
+
+const TITLES = {
+  'welcome':'🏠 首页',
+  '/yoyo-koc-exchange/':'🎁 KOC 兑换',
+  '/yoyo-koc-faq/':'❓ KOC 问答库',
+  '/yoyo-community-report/':'📋 社群周报',
+  '/adventure-system/':'🧭 冒险系统',
+  '/health-system/':'🏥 身体管理',
+  '/task-system/':'🌟 星币任务',
+  '/bali-trip/':'🌋 巴厘岛计划',
+  '/interview-armory/':'⚔️ 面试军火库',
+  '/trading-audit/':'📊 审计台',
+  '/social-schedule/timeline.html':'📅 社媒排期 · 时间线',
+  '/social-schedule/grouping.html':'📱 社媒排期 · 平台分组',
 };
-function navigate(el) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  el.classList.add('active');
-  const url = el.dataset.url;
-  if (url === 'welcome') return showWelcome();
-  loadPage(url, titles[url] || '📄 页面');
+
+// ── Drag state ──
+let dragSrcId = null;
+
+// ── Render nav ──
+function renderNav(){
+  const order = getOrder();
+  const container = document.getElementById('navContainer');
+  container.innerHTML = '';
+
+  // Build ordered list: dividers & groupHeaders keep their position, items follow order
+  const staticItems = { dividers: [], groupHeaders: {} };
+  const orderedItems = [];
+
+  // First pass: identify structure
+  ALL_ITEMS.forEach(item => {
+    if(item.divider) { staticItems.dividers.push(item); return; }
+    if(item.groupHeader) { staticItems.groupHeaders[item.id] = item; return; }
+  });
+
+  // Add group headers in place, then items in saved order
+  let divIdx = 0;
+  let lastGroup = null;
+  const groups = ['top','work','personal','own'];
+
+  for(const group of groups){
+    if(group === 'top'){
+      // Always render welcome at top
+      const wi = ALL_ITEMS.find(i => i.id === 'welcome');
+      if(wi) orderedItems.push(wi);
+      continue;
+    }
+    // Divider before group
+    if(staticItems.dividers[divIdx]) orderedItems.push(staticItems.dividers[divIdx++]);
+    // Group header
+    const ghKey = group;
+    if(staticItems.groupHeaders[ghKey]) orderedItems.push(staticItems.groupHeaders[ghKey]);
+    // Items in this group, sorted by saved order
+    const groupItems = order.filter(id => {
+      const item = ALL_ITEMS.find(i => i.id === id);
+      return item && item.group === group;
+    });
+    // Add any missing items from ALL_ITEMS
+    const allGroupIds = ALL_ITEMS.filter(i => i.group === group).map(i => i.id);
+    allGroupIds.forEach(id => {
+      if(!groupItems.includes(id)) groupItems.push(id);
+    });
+    groupItems.forEach(id => {
+      const item = ALL_ITEMS.find(i => i.id === id);
+      if(item) orderedItems.push(item);
+    });
+  }
+
+  // Render
+  orderedItems.forEach(item => {
+    if(item.divider){
+      const d = document.createElement('div');
+      d.className = 'nav-divider';
+      container.appendChild(d);
+      return;
+    }
+    if(item.groupHeader){
+      const g = document.createElement('div');
+      g.className = 'nav-group-label';
+      g.textContent = item.icon + ' ' + item.label;
+      container.appendChild(g);
+      return;
+    }
+    const el = document.createElement('div');
+    el.className = 'nav-item' + (currentUrl === item.url ? ' active' : '');
+    el.dataset.url = item.url || '';
+    el.draggable = true;
+
+    const handle = document.createElement('span');
+    handle.className = 'drag-handle';
+    handle.textContent = '⠿';
+    el.appendChild(handle);
+
+    const icon = document.createElement('span');
+    icon.className = 'icon';
+    icon.textContent = item.icon;
+    el.appendChild(icon);
+
+    const label = document.createElement('span');
+    label.textContent = item.label;
+    el.appendChild(label);
+
+    el.addEventListener('click', () => navigate(item.url || 'welcome'));
+    el.addEventListener('dragstart', e => { dragSrcId = item.id; e.dataTransfer.effectAllowed = 'move'; setTimeout(() => el.classList.add('dragging'), 0); });
+    el.addEventListener('dragend', e => { el.classList.remove('dragging'); document.querySelectorAll('.drag-over').forEach(n => n.classList.remove('drag-over')); });
+    el.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; el.classList.add('drag-over'); });
+    el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+    el.addEventListener('drop', e => {
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      if(!dragSrcId || dragSrcId === item.id) return;
+      reorder(dragSrcId, item.id);
+      dragSrcId = null;
+      renderNav();
+    });
+
+    container.appendChild(el);
+  });
 }
-function navigateByUrl(url) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.url === url));
-  loadPage(url, titles[url] || '📄 页面');
+
+// ── Order persistence ──
+function getOrder(){
+  try{ return JSON.parse(localStorage.getItem('hub_nav_order')) || getDefaultOrder(); }
+  catch(e){ return getDefaultOrder(); }
 }
-function loadPage(url, title) {
-  document.getElementById('pageTitle').textContent = title;
+function getDefaultOrder(){
+  return ALL_ITEMS.filter(i => i.id && !i.groupHeader).map(i => i.id);
+}
+function saveOrder(order){
+  try{ localStorage.setItem('hub_nav_order', JSON.stringify(order)); }catch(e){}
+}
+function reorder(fromId, toId){
+  const order = getOrder();
+  const fromIdx = order.indexOf(fromId);
+  const toIdx = order.indexOf(toId);
+  if(fromIdx === -1 || toIdx === -1) return;
+  order.splice(fromIdx, 1);
+  order.splice(toIdx, 0, fromId);
+  saveOrder(order);
+}
+
+// ── Navigation ──
+let currentUrl = '';
+
+function navigate(url){
+  currentUrl = url;
+  if(!url || url === 'welcome') return showWelcome();
+  document.getElementById('pageTitle').textContent = TITLES[url] || '📄 页面';
   document.getElementById('contentArea').innerHTML = '<iframe src="'+url+'" loading="lazy"></iframe>';
+  renderNav();
 }
-function showWelcome() {
+
+function showWelcome(){
   document.getElementById('pageTitle').textContent = '🏠 首页';
-  document.getElementById('contentArea').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-dim);font-size:24px">👤 欢迎回到莎莎的主站</div>';
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelector('.nav-item[data-url="welcome"]').classList.add('active');
+  const count = ALL_ITEMS.filter(i => i.url).length;
+  document.getElementById('contentArea').innerHTML = '<div class="welcome"><h1>👤 莎莎的主站</h1><p>你的个人数字中枢 —— 工作、生活、自有系统，一站管理。</p><div class="stats"><div class="stat-card"><div class="num">'+count+'</div><div class="label">子系统</div></div><div class="stat-card"><div class="num">4</div><div class="label">模块</div></div><div class="stat-card"><div class="num">↕</div><div class="label">拖拽排序</div></div></div></div>';
+  renderNav();
 }
+
+// ── Init ──
+navigate('welcome');
 </script>
 </body>
 </html>

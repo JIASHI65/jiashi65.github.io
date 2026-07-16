@@ -166,19 +166,123 @@ let pendingAction = null;
 async function init(){
   todayStr = new Date().toISOString().slice(0,10);
   try{
-    try{var ls=localStorage.getItem('task_data');if(ls){var d=JSON.parse(ls);TASKS=d.tasks;RECORDS=d.records;return;}}catch(e){}
-    const rt = await fetch('tasks.json'); TASKS = await rt.json();
-    const rr = await fetch('records.json'); RECORDS = await rr.json();
-    try{localStorage.setItem('task_data',JSON.stringify({tasks:TASKS,records:RECORDS}));}catch(e){}
-  }catch(e){
-    document.getElementById('tab-daily').innerHTML='<div class="empty-state">⚠ 加载失败，请确认服务已启动</div>';
-    return;
-  }
+    var ls=localStorage.getItem('task_data');
+    if(ls){
+      var d=JSON.parse(ls);
+      if(d && d.tasks && d.records && d.records.stars !== undefined){
+        TASKS=d.tasks; RECORDS=d.records;
+        renderDaily();renderWeekly();renderShop();renderHistory();updateStarDisplay();
+        return;
+      }
+    }
+  }catch(e){}
+  // Inline data - no fetch needed
+  TASKS = {
+  "daily": [
+    {"id": "brush_bad", "layer": "基础健康层", "name": "刷牙≤1次", "score": -20, "hasWarn": true},
+    {"id": "brush_good", "layer": "基础健康层", "name": "刷牙3次+牙线", "score": 20},
+    {"id": "water", "layer": "基础健康层", "name": "喝水≥2500ml", "score": 20},
+    {"id": "sleep8", "layer": "基础健康层", "name": "睡眠≥8小时/质量分≥80", "score": 50},
+    {"id": "cardio", "layer": "基础健康层", "name": "有氧运动≥30分钟", "score": 20},
+    {"id": "strength", "layer": "基础健康层", "name": "无氧运动≥1小时", "score": 20},
+    {"id": "pelvic", "layer": "基础健康层", "name": "盆底肌训练15分钟", "score": 10},
+    {"id": "spine", "layer": "基础健康层", "name": "脊柱训练", "score": 5},
+    {"id": "dance", "layer": "基础健康层", "name": "跳舞30分钟", "score": 5},
+    {"id": "sunscreen", "layer": "基础健康层", "name": "擦脸+身体/脸的防晒", "score": 5},
+    {"id": "meds", "layer": "基础健康层", "name": "米诺地尔+多黄酸+伐昔洛韦+多西环素", "score": 5},
+    {"id": "skincare", "layer": "基础健康层", "name": "刷酸+刮毛+保湿霜+头油", "score": 5},
+    {"id": "wholefood", "layer": "基础健康层", "name": "健康低加工食物", "score": 10},
+    {"id": "sleep_early", "layer": "核心禁令层", "name": "23点半前睡觉", "score": 50},
+    {"id": "fast19", "layer": "核心禁令层", "name": "19:00后禁食", "score": 10},
+    {"id": "no_alcohol", "layer": "核心禁令层", "name": "全天禁酒", "score": 5},
+    {"id": "focus_work", "layer": "专注成长层", "name": "专注工作≥2小时不玩手机", "score": 15},
+    {"id": "nomusic_am", "layer": "专注成长层", "name": "上午10:00-11:30不听音乐", "score": 10},
+    {"id": "nomusic_pm1", "layer": "专注成长层", "name": "下午2:00-4:30不听音乐", "score": 10},
+    {"id": "nomusic_pm2", "layer": "专注成长层", "name": "下午4:00-6:30不听音乐", "score": 10},
+    {"id": "finance", "layer": "专注成长层", "name": "金融知识30分钟/1小时", "score": 10, "score_extra": 15},
+    {"id": "internet", "layer": "专注成长层", "name": "互联网知识30分钟/1小时", "score": 10, "score_extra": 15},
+    {"id": "music_dj", "layer": "专注成长层", "name": "搜集音乐+打碟1小时/2小时", "score": 10, "score_extra": 15},
+    {"id": "no_game", "layer": "专注成长层", "name": "不打游戏一天", "score": 5},
+    {"id": "say_thanks", "layer": "行为修正层", "name": "说谢谢＞5次", "score": -50, "hasWarn": true},
+    {"id": "record_learn", "layer": "行为修正层", "name": "学习后立即记录", "score": 5},
+    {"id": "no_blame", "layer": "行为修正层", "name": "自责怪罪自己", "score": -20, "hasWarn": true},
+    {"id": "no_follow", "layer": "行为修正层", "name": "随波逐流跟着别人做决策", "score": -50, "hasWarn": true},
+    {"id": "no_sorry", "layer": "行为修正层", "name": "说不好意思＞5次", "score": -50, "hasWarn": true},
+    {"id": "accounting", "layer": "行为修正层", "name": "每天都要记账", "score": 10}
+  ],
+  "weekly": [
+    {"id": "w_focus", "std": 7, "name": "专注（3选2）", "score": 180},
+    {"id": "w_learn", "std": 7, "name": "学习（3选3）", "score": 180},
+    {"id": "w_no_sex", "std": 7, "name": "不做爱", "score": 50},
+    {"id": "w_no_toy", "std": 7, "name": "不滋味（道具/人工）", "score": 300},
+    {"id": "w_no_drink", "std": 7, "name": "不喝酒", "score": 50},
+    {"id": "w_sleep", "std": 7, "name": "睡觉达标", "score": 100},
+    {"id": "w_brush", "std": 7, "name": "刷牙三次+牙线", "score": 100},
+    {"id": "w_exercise", "std": 7, "name": "运动≥3项/天", "score": 100},
+    {"id": "w_no_game", "std": 7, "name": "不玩游戏（不含棋牌）", "score": 40},
+    {"id": "w_accounting", "std": 7, "name": "记账", "score": 40},
+    {"id": "w_water", "std": 7, "name": "喝水", "score": 100},
+    {"id": "w_focus4", "std": 4, "name": "专注（3选2）", "score": 40},
+    {"id": "w_learn4", "std": 4, "name": "学习（3选3）", "score": 40},
+    {"id": "w_no_sex4", "std": 4, "name": "不做爱", "score": 10},
+    {"id": "w_no_toy4", "std": 4, "name": "不滋味（道具/人工）", "score": 50},
+    {"id": "w_no_drink4", "std": 4, "name": "不喝酒", "score": 5},
+    {"id": "w_sleep4", "std": 4, "name": "睡觉达标", "score": 15},
+    {"id": "w_brush4", "std": 4, "name": "每天刷牙三次+牙线", "score": 15},
+    {"id": "w_exercise4", "std": 4, "name": "运动≥3项/天", "score": 15},
+    {"id": "w_no_game4", "std": 4, "name": "不玩游戏", "score": 10},
+    {"id": "w_accounting4", "std": 4, "name": "记账", "score": 10},
+    {"id": "w_water4", "std": 4, "name": "喝水", "score": 20}
+  ],
+  "shop": [
+    {"id": "s_drink", "category": "有害类", "name": "喝酒一次", "cost": 300},
+    {"id": "s_sex", "category": "有害类", "name": "做爱一次", "cost": 3000},
+    {"id": "s_massage_low", "category": "享受类", "name": "按摩100以内", "cost": 150},
+    {"id": "s_massage_high", "category": "享受类", "name": "全身按摩100-200", "cost": 300},
+    {"id": "s_takeout30", "category": "享受类", "name": "外卖30以下", "cost": 50},
+    {"id": "s_takeout50", "category": "享受类", "name": "外卖50以下", "cost": 100},
+    {"id": "s_dine100", "category": "享受类", "name": "下馆子100以下", "cost": 100},
+    {"id": "s_dine200", "category": "享受类", "name": "下馆子100-200", "cost": 200},
+    {"id": "s_coffee", "category": "享受类", "name": "喝咖啡/奶茶", "cost": 50},
+    {"id": "s_footbath", "category": "购物类", "name": "妈妈洗脚盆+拖地机", "cost": 2000},
+    {"id": "s_mac", "category": "购物类", "name": "苹果电脑", "cost": 7000},
+    {"id": "s_soundcard", "category": "购物类", "name": "声卡（500以内）", "cost": 2000},
+    {"id": "s_skates", "category": "购物类", "name": "花样滑冰鞋（2200元）", "cost": 3000},
+    {"id": "s_figure", "category": "运动类", "name": "花样滑冰", "cost": 300},
+    {"id": "s_swim", "category": "运动类", "name": "游泳", "cost": 150},
+    {"id": "s_golf", "category": "运动类", "name": "高尔夫", "cost": 500},
+    {"id": "s_equestrian", "category": "运动类", "name": "马术", "cost": 300},
+    {"id": "s_ball", "category": "运动类", "name": "台球/网球/篮球/乒乓球", "cost": 50},
+    {"id": "s_climb", "category": "运动类", "name": "攀岩", "cost": 300},
+    {"id": "s_sing", "category": "游玩", "name": "唱歌", "cost": 200},
+    {"id": "s_poker", "category": "游玩", "name": "德州/掼蛋/五子棋/象棋/围棋 1h", "cost": 100},
+    {"id": "s_movie", "category": "游玩", "name": "电影", "cost": 200},
+    {"id": "s_event300", "category": "游玩", "name": "看比赛（门票300以下）", "cost": 500},
+    {"id": "s_concert500", "category": "游玩", "name": "演唱会（门票500以下）", "cost": 800},
+    {"id": "s_concert1000", "category": "游玩", "name": "演唱会（500-1000门票）", "cost": 1500},
+    {"id": "s_concert2000", "category": "游玩", "name": "演唱会（1000-2000门票）", "cost": 2500},
+    {"id": "s_trip300", "category": "游玩", "name": "外地游玩300以下", "cost": 300},
+    {"id": "s_trip1000", "category": "游玩", "name": "外地游玩含路费住宿1000以下", "cost": 600},
+    {"id": "s_trip2000", "category": "游玩", "name": "外地游1000-2000", "cost": 1000},
+    {"id": "s_trip5000", "category": "游玩", "name": "外地游2000-5000", "cost": 2000},
+    {"id": "s_trip10000", "category": "游玩", "name": "外地游5000-10000", "cost": 5000}
+  ]
+}
+;
+  RECORDS = {
+  "stars": 0,
+  "logs": {
+    "2026-07-15": []
+  },
+  "weekly_done": [],
+  "shop_log": [],
+  "history": []
+};
+  try{localStorage.setItem('task_data',JSON.stringify({tasks:TASKS,records:RECORDS}));}catch(e){}
   if(!RECORDS.history) RECORDS.history = [];
   if(!RECORDS.logs) RECORDS.logs = {};
   if(!RECORDS.shop_log) RECORDS.shop_log = [];
   if(RECORDS.stars === undefined) RECORDS.stars = 0;
-  if(!RECORDS.logs) RECORDS.logs = {};
   renderDaily();
   renderWeekly();
   renderShop();

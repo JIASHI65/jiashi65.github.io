@@ -222,11 +222,9 @@ body{
 .add-bar{display:flex;gap:2px;padding:1px 4px;margin-top:1px;flex-wrap:wrap}
 .account-picker{position:relative;margin-top:4px}
 .picker-header{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:5px 10px;border:1.5px solid #ff6b9d;border-radius:8px;background:linear-gradient(135deg,#fff5f8,#fff0f5);color:#d6336c;cursor:pointer;font-weight:500;transition:.2s}
-.picker-header:hover{background:linear-gradient(135deg,#fff0f5,#ffe8ef)}
+
 .picker-arrow{font-size:10px;transition:.3s}
-.account-picker.open .picker-arrow{transform:rotate(180deg)}
-.picker-body{display:none;margin-top:6px;flex-direction:column;gap:8px}
-.account-picker.open .picker-body{display:flex}
+.picker-body{display:flex;margin-top:6px;flex-direction:column;gap:8px}
 .picker-group{background:#fff;border:1px solid #f0e4e8;border-radius:10px;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .picker-group-label{font-size:11px;font-weight:600;color:#666;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed #f0e4e8}
 .picker-btn{display:inline-block;font-size:11px;padding:4px 10px;margin:2px 3px;border:1px solid #ffc0d0;border-radius:6px;background:#fffafc;color:#d6336c;cursor:pointer;transition:.15s}
@@ -532,7 +530,7 @@ function saveSlot(inp){var evt=new Event('change',{bubbles:true});inp.dispatchEv
 document.addEventListener('click',function(e){
   if(editingSlot){
     var el=document.querySelector('[data-sk="'+editingSlot+'"]');
-    if(el&&!el.contains(e.target)){editingSlot=null;render()}
+    if(el&&!el.contains(e.target)&&!e.target.closest(".account-picker")){editingSlot=null;render()}
   }
 });
 
@@ -676,7 +674,7 @@ function render(){
 
     const ab=document.createElement('div');ab.className='add-bar';
     ab.innerHTML=`<div class="account-picker">
-  <div class="picker-header" onclick="this.parentNode.classList.toggle('open')">
+  <div class="picker-header">
     <span>+ 选择账号添加</span>
     <span class="picker-arrow">▾</span>
   </div>

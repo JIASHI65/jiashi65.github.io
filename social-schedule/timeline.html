@@ -224,7 +224,8 @@ body{
 .picker-header{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:5px 10px;border:1.5px solid #ff6b9d;border-radius:8px;background:linear-gradient(135deg,#fff5f8,#fff0f5);color:#d6336c;cursor:pointer;font-weight:500;transition:.2s}
 
 .picker-arrow{font-size:10px;transition:.3s}
-.picker-body{display:flex;margin-top:6px;flex-direction:column;gap:8px}
+.picker-body{display:none;margin-top:6px;flex-direction:column;gap:8px}
+.picker-body.open{display:flex}
 .picker-group{background:#fff;border:1px solid #f0e4e8;border-radius:10px;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
 .picker-group-label{font-size:11px;font-weight:600;color:#666;margin-bottom:5px;padding-bottom:4px;border-bottom:1px dashed #f0e4e8}
 .picker-btn{display:inline-block;font-size:11px;padding:4px 10px;margin:2px 3px;border:1px solid #ffc0d0;border-radius:6px;background:#fffafc;color:#d6336c;cursor:pointer;transition:.15s}
@@ -507,6 +508,10 @@ function us(d,t,i,f,v){
   scheduleSave();
 }
 function as(d,t){
+  // 折叠当前picker
+  var picker = document.querySelector('.account-picker .picker-body.open');
+  if(picker){ picker.classList.remove('open'); picker.previousElementSibling.querySelector('.picker-arrow').textContent='▾'; }
+
   let i=0;while(S[sk(d,t,i)])i++;
   const autoPd = curY+'-'+String(curM).padStart(2,'0')+'-'+String(d).padStart(2,'0');
   S[sk(d,t,i)]={t:'',l:'',pd:autoPd,p:'素材未到位',s:'投放视频',n:''};
@@ -674,11 +679,11 @@ function render(){
 
     const ab=document.createElement('div');ab.className='add-bar';
     ab.innerHTML=`<div class="account-picker">
-  <div class="picker-header">
+  <div class="picker-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.picker-arrow').textContent=this.nextElementSibling.classList.contains('open')?'▴':'▾'">
     <span>+ 选择账号添加</span>
     <span class="picker-arrow">▾</span>
   </div>
-  <div class="picker-body">
+  <div class="picker-body" style="display:none">
     <div class="picker-group">
       <div class="picker-group-label">🌊 欧美水下</div>
       <button class="picker-btn" onclick="as(${d},'uw')">欧美水下号</button>

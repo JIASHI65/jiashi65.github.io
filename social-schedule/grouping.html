@@ -46,7 +46,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
     <button type="button" class="btn" onclick="goToMonth(-1)" title="上个月">◀</button>
     <span id="monthLabel" style="font-size:13px;font-weight:600;color:#d6336c;min-width:80px;text-align:center"></span>
     <button type="button" class="btn" onclick="goToMonth(1)" title="下个月">▶</button>
-    <a href="%E7%A4%BE%E5%AA%92%E6%8E%92%E6%9C%9F_%E7%AB%96%E6%8E%92%E6%97%B6%E9%97%B4%E7%BA%BF.html" class="btn">⬅ 返回时间线</a>
+    <a href="timeline.html" class="btn">⬅ 返回时间线</a>
   </div>
 </div>
 <div class="container" id="app">
@@ -57,7 +57,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
 const GH_USER = 'JIASHI65';
 const GH_REPO = 'jiashi65.github.io';
 const GH_BRANCH = 'main';
-const RAW_URL = 'https://cdn.jsdelivr.net/gh/'+GH_USER+'/'+GH_REPO+'@'+GH_BRANCH+'/social-schedule/data.json';
+const RAW_URL = 'https://raw.githubusercontent.com/JIASHI65/jiashi65.github.io/main/social-schedule/data.json';
 
 const LABELS = {'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号'};
 
@@ -88,7 +88,7 @@ async function loadData(){
 
   // 2. Fallback: GitHub CDN
   try {
-    const r=await fetch(RAW_URL, {cache:'no-store'});
+    const r=await fetch(RAW_URL+"?v="+Date.now());
     if(r.ok){const j=await r.json(); if(j&&j.slots) return j.slots;}
   }catch(e){}
   return null;

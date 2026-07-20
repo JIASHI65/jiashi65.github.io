@@ -785,7 +785,7 @@ function makeSlot(d,t,i,k,data){
       <span class="badge ${bc}">${label}</span>
       <div class="summary">
         <span class="tp">${esc(summary)}</span>
-        ${hasLink?`<span class="sp">·</span><span style="color:var(--text-muted);font-size:9px">🔗</span>`:''}
+        ${data.tl?`<span class="sp">·</span><span style="color:#4361ee;font-size:9px">🌐 已译</span>`:''}${hasLink?`<span class="sp">·</span><span style="color:var(--text-muted);font-size:9px">🔗</span>`:''}
         <span class="pg ${pc}">${data.p}</span>
       </div>
       ${hasLink?`<button class="cl" onclick="event.stopPropagation();copyText('${esc(data.l)}')" title="复制链接">📋</button>`:''}
@@ -838,6 +838,10 @@ function makeSlot(d,t,i,k,data){
         <div class="fd">
           <label>📈 进度</label>
           <select onchange="us(${d},'${t}',${i},'p',this.value)">${PROGRESS.map(o=>`<option value="${o}" ${data.p===o?'selected':''}>${o}</option>`).join('')}</select>
+        </div>
+        <div class="fd fu">
+          <label>🌐 本地化翻译</label>
+          <textarea rows="2" placeholder="填入翻译后的文案或台词..." onchange="us(${d},'${t}',${i},'tl',this.value)">${esc(data.tl||'')}</textarea>
         </div>
         <div class="fd fu">
           <label>💬 备注</label>

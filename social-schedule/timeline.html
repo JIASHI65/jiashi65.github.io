@@ -417,29 +417,31 @@ let dirty = false;
 
 // ── API ──
 async function loadFromServer(){
-  // 1. Try GitHub CDN data
+  // 强制从 GitHub 拉最新数据 (清除 localStorage 避免旧数据干扰)
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
   try{
     const r=await fetch(RAW_URL+"?v="+Date.now());
     if(r.ok){
       const d=await r.json();
       if(d.slots&&Object.keys(d.slots).length>0){
         S=d.slots;R=d.refs||{};setSync(true);
-        document.getElementById('dataSource').textContent='GitHub';return true}}
+        document.getElementById('dataSource').textContent='GitHub';
+        // 同时存到 localStorage 作为离线备份
+        try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e1){}
+        return true}}
   }catch(e){}
-  // 2. Fallback: localStorage
+  // 如果 GitHub 失败, 尝试 localStorage 备份
   try{
     const ls=localStorage.getItem(LS_KEY);
-    if(ls){const p=JSON.parse(ls);
-      // v2+: slots from user actions, not old DEFAULT_SLOTS
-      if(p.v===2){S=p.slots||{};R=p.refs||{};}else{S={};R=p.refs||{};}
-      setSync(false);
-      // Strip non-user-added refs from localStorage (old code may have saved REF_DEFAULTS)
-      for(let k in R){if(R[k]&&R[k].length&&!R[k][0].userAdded) delete R[k];}
-      document.getElementById('dataSource').textContent='本地';return true}
-    }catch(e2){}
+    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};setSync(false);
+    document.getElementById('dataSource').textContent='本地备份';return true}
+  }catch(e2){}
+  // 最终兜底: HTML 内嵌默认数据
+  S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));
+  document.getElementById('dataSource').textContent='默认';
+  try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e){}
   return true;
 }
-
 let saveTimer = null;
 function scheduleSave(){
   dirty = true;

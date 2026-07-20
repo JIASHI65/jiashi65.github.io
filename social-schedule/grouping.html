@@ -82,15 +82,19 @@ function loadLocal(){
 }
 
 async function loadData(){
-  // 1. Try localStorage first (same source as 竖排时间线)
-  const local = loadLocal();
-  if(local && Object.keys(local).length > 10) return local;
-
-  // 2. Fallback: GitHub CDN
+  // 1. 强制从 GitHub 拉最新数据 (清除旧 localStorage)
+  try{localStorage.removeItem(LS_KEY);}catch(e){}
   try {
     const r=await fetch(RAW_URL+"?v="+Date.now());
-    if(r.ok){const j=await r.json(); if(j&&j.slots) return j.slots;}
+    if(r.ok){const j=await r.json(); if(j&&j.slots){
+      // 同时存 localStorage 作为离线备份
+      try{localStorage.setItem(LS_KEY,JSON.stringify(j));}catch(e1){}
+      return j.slots;
+    }}
   }catch(e){}
+  // 2. Fallback: localStorage 备份
+  const local = loadLocal();
+  if(local && Object.keys(local).length > 10) return local;
   return null;
 }
 

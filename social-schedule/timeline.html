@@ -173,6 +173,7 @@ body{
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .slot .summary .sp{color:var(--text-muted);font-size:9px;flex-shrink:0}
+.slot .slot-tm{font-size:9px;color:var(--accent);flex-shrink:0;margin:0 2px;font-weight:500}
 .slot .summary .pg{
   font-size:7px;font-weight:500;padding:1px 4px;border-radius:2px;
   white-space:nowrap;flex-shrink:0;letter-spacing:.1px;
@@ -785,6 +786,7 @@ function makeSlot(d,t,i,k,data){
       <span class="badge ${bc}">${label}</span>
       <div class="summary">
         <span class="tp">${esc(summary)}</span>
+        ${data.tm?`<span class="slot-tm">${data.tm}</span>`:''}
         ${data.tl?`<span class="sp">·</span><span style="color:#4361ee;font-size:9px">🌐 已译</span>`:''}${hasLink?`<span class="sp">·</span><span style="color:var(--text-muted);font-size:9px">🔗</span>`:''}
         <span class="pg ${pc}">${data.p}</span>
       </div>

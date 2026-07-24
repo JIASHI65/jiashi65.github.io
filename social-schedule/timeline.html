@@ -680,7 +680,7 @@ function render(){
 
     const ab=document.createElement('div');ab.className='add-bar';
     ab.innerHTML=`<div class="account-picker">
-  <div class="picker-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.picker-arrow').textContent=this.nextElementSibling.classList.contains('open')?'▴':'▾'">
+  <div class="picker-header" onclick="var nxt=this.nextElementSibling;nxt.style.display=nxt.style.display==='flex'?'none':'flex';this.querySelector('.picker-arrow').textContent=nxt.style.display==='flex'?'▴':'▾'">
     <span>+ 选择账号添加</span>
     <span class="picker-arrow">▾</span>
   </div>

@@ -127,6 +127,7 @@ body{
   border-radius:4px;cursor:pointer;
   transition:all .1s ease;
   display:flex;align-items:center;gap:4px;padding:2px 4px;
+  min-width:0;overflow:hidden;
 }
 .slot:hover{
   background:rgba(255,107,157,0.04);
@@ -167,10 +168,10 @@ body{
 .slot .summary{
   display:flex;align-items:center;gap:4px;min-width:0;
   flex:1;font-size:10px;color:var(--text);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  overflow:hidden;word-break:break-word;
 }
 .slot .summary .tp{
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  overflow:hidden;word-break:break-word;
 }
 .slot .summary .sp{color:var(--text-muted);font-size:9px;flex-shrink:0}
 .slot .slot-tm{font-size:9px;color:var(--accent);flex-shrink:0;margin:0 2px;font-weight:500}

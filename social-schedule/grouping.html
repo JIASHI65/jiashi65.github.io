@@ -38,7 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
 </head>
 <body>
 <div style="background:#d6336c;color:white;text-align:center;padding:4px;font-size:12px;font-weight:bold;position:sticky;top:0;z-index:9999">
-  🟢 最新版本 2026-07-15-fix7 | 导航不乱跳
+  🟢 最新版本 2026-07-27 | 数据自动同步
 </div>
 
 <div class="header">
@@ -58,7 +58,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
 const GH_USER = 'JIASHI65';
 const GH_REPO = 'jiashi65.github.io';
 const GH_BRANCH = 'main';
-const RAW_URL = 'https://raw.githubusercontent.com/JIASHI65/jiashi65.github.io/main/social-schedule/data.json';
+const RAW_URL = 'https://raw.githubusercontent.com/JIASHI65/jiashi65.github.io/main/social-schedule/data.json?v=' + Date.now();
 
 const LABELS = {'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号','usp':'官号 Pinterest'};
 

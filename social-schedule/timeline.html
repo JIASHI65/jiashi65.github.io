@@ -23,18 +23,19 @@ body{
   background:var(--bg);color:var(--text);min-height:100vh;
 }
 .header{
-  position:sticky;top:0;z-index:100;
+  position:sticky;top:0;z-index:200;box-shadow:0 4px 20px rgba(180,50,90,0.4);
   background:linear-gradient(135deg,#e85378 0%,#f06b92 40%,#d4a0e8 100%);
   border-bottom:1px solid rgba(255,255,255,0.15);padding:12px 20px;
   display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
 }
-.header h1{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.header h1{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px;flex-shrink:0;color:#fff}
 .header h1 span{color:var(--text-dim);font-weight:400;font-size:11px}
-.header .meta{font-size:10px;color:var(--text-dim);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.header .meta{font-size:11px;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .header .actions{display:flex;gap:4px}
 .btn{
-  padding:3px 8px;border:1px solid var(--border);border-radius:4px;
-  background:var(--surface2);color:var(--text);font-size:10px;cursor:pointer;transition:all .1s;
+  padding:3px 8px;border:1px solid rgba(255,255,255,0.4);border-radius:4px;
+  background:rgba(255,255,255,0.15);color:#fff;font-size:10px;cursor:pointer;transition:all .1s;
+  text-decoration:none;
 }
 .btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(232,83,120,0.06)}
 .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -44,7 +45,7 @@ body{
 /* ── Column Headers ── */
 .col-header{
   display:grid;grid-template-columns:54px 1fr 260px;
-  position:sticky;top:39px;z-index:99;
+  position:sticky;top:38px;z-index:199;box-shadow:0 2px 8px rgba(180,50,90,0.12);
   background:var(--surface);
   border-bottom:2px solid var(--accent-light);
   font-size:10px;font-weight:600;letter-spacing:.4px;color:var(--text-dim);
@@ -354,9 +355,6 @@ document.addEventListener('DOMContentLoaded', function(){
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 </head>
 <body>
-<div style="background:#e85378;color:white;text-align:center;padding:4px;font-size:12px;font-weight:bold;position:sticky;top:0;z-index:9999">
-  🟢 最后更新: 2026-07-21 13:50 | 条漫周三/五/日 10-11点
-</div>
 
 <div class="header">
   <div style="display:flex;align-items:center;gap:6px">

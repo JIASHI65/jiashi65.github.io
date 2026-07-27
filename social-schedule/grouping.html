@@ -154,19 +154,16 @@ function render(data){
     app.innerHTML = '<div class="empty">暂无排期数据</div>';
     return;
   }
-  // Filter by current month using key day-number (same as 竖排时间线)
-  const monthDays = new Date(curY, curM, 0).getDate();
-  const filtered = {};
-  for(const k in data){
-    const m = k.match(/^(\d+)_(uw|tt|hkig|usig|ustt|usfb|usigoff|pt)_(\d+)$/);
-    if(m){
-      const day = parseInt(m[1]);
-      if(day >= 1 && day <= monthDays){
-        filtered[k] = data[k];
-      }
-    }
-  }
-  data = filtered;
+      // Filter by current month using pd (publish date) field
+        const monthPrefix = curY+'-'+String(curM).padStart(2,'0');
+        const filtered = {};
+        for(const k in data){
+          const slot = data[k];
+          if(slot.pd && slot.pd.startsWith(monthPrefix)){
+            filtered[k] = slot;
+          }
+        }
+        data = filtered;
 
   // Group slots by account prefix
   const grouped = {};

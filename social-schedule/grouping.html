@@ -60,7 +60,7 @@ const GH_REPO = 'jiashi65.github.io';
 const GH_BRANCH = 'main';
 const RAW_URL = 'https://raw.githubusercontent.com/JIASHI65/jiashi65.github.io/main/social-schedule/data.json';
 
-const LABELS = {'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号'};
+const LABELS = {'uw':'欧美水下号','tt':'欧美TT官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号','usp':'官号 Pinterest'};
 
 // Account groups with emoji/colors
 const GROUPS = [
@@ -69,6 +69,7 @@ const GROUPS = [
   {key:'usigoff', label:'📸 欧美IG官号', color:'#e1306c', bg:'rgba(225,48,108,0.06)'},
   {key:'usfb', label:'👍 欧美FB官号', color:'#1877f2', bg:'rgba(24,119,242,0.06)'},
   {key:'usig', label:'🎨 欧美条漫IG', color:'#c13584', bg:'rgba(193,53,132,0.06)'},
+  {key:'usp', label:'📌 官号 Pinterest', color:'#e61e32', bg:'rgba(230,30,50,0.06)'},
   {key:'ustt', label:'🎵 欧美条漫TT', color:'#25f4ee', bg:'rgba(37,244,238,0.06)'},
   {key:'hkig', label:'🌏 港台条漫IG', color:'#4361ee', bg:'rgba(67,97,238,0.06)'},
 ];
@@ -83,8 +84,7 @@ function loadLocal(){
 }
 
 async function loadData(){
-  // 1. 强制从 GitHub 拉最新数据 (清除旧 localStorage)
-  try{localStorage.removeItem(LS_KEY);}catch(e){}
+  // 1. 从 GitHub 拉最新数据
   try {
     const r=await fetch(RAW_URL+"?v="+Date.now());
     if(r.ok){const j=await r.json(); if(j&&j.slots){

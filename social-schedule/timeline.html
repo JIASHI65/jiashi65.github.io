@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="btn" onclick="exportData()">📤 导出</button>
     <a href="grouping.html" class="btn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-size:12px;padding:5px 14px;font-weight:700">📂 平台分组</a>
     <button class="btn btn-sm" onclick="clearAll()">🗑️</button>
-  </div>
+  <button class="btn undo-btn" onclick="undo()" title="撤销最近的操作 (最多50步)" style="display:flex;align-items:center;gap:2px">↩ <span style="font-size:9px" id="undoCount"></span></button></div>
 </div>
 
 <div class="container">
@@ -506,7 +506,35 @@ function gs(d,t,i){
   if(!S[k]) S[k]={t:'',l:'',pd:'',p:'素材未到位',s:'投放视频',n:''};
   return S[k];
 }
+
+// ── Undo / Redo ──
+const UNDO_KEY = LS_KEY + '_history';
+const MAX_UNDO = 50;
+let undoStack = [];
+try { undoStack = JSON.parse(localStorage.getItem(UNDO_KEY) || '[]'); } catch(e) { undoStack = []; }
+
+function pushUndo() {
+  // Save current state to history before change
+  const snapshot = JSON.parse(JSON.stringify(S));
+  undoStack.push(snapshot);
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
+}
+
+function undo() {
+  if (undoStack.length === 0) return;
+  const prev = undoStack.pop();
+  try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
+  // Restore previous state
+  for (const k in S) delete S[k];
+  for (const k in prev) S[k] = prev[k];
+  scheduleSave();
+  editingSlot = null;
+  render();
+}
+
 function us(d,t,i,f,v){
+  pushUndo();
   const k=sk(d,t,i);
   if(!S[k]) S[k]={t:'',l:'',pd:'',p:'素材未到位',s:'投放视频',n:''};
   S[k][f]=v;
@@ -522,7 +550,7 @@ function as(d,t){
   S[sk(d,t,i)]={t:'',l:'',pd:autoPd,p:'素材未到位',s:'投放视频',n:''};
   scheduleSave();render();expandSlot(d,t,i);
 }
-function rs(d,t,i){delete S[sk(d,t,i)];scheduleSave();render()}
+function rs(d,t,i){pushUndo();delete S[sk(d,t,i)];scheduleSave();render()}
 function expandSlot(d,t,i){
   editingSlot=sk(d,t,i);
   render();

@@ -76,6 +76,20 @@ const GROUPS = [
 const PROGRESS = ['待制作','制作中','已排期','已发布'];
 
 const LS_KEY = 'smm_v3_fallback';
+// ── Undo / Redo (shares history with timeline page) ──
+const UNDO_KEY = LS_KEY + '_history';
+let undoStack = [];
+try { undoStack = JSON.parse(localStorage.getItem(UNDO_KEY) || '[]'); } catch(e) { undoStack = []; }
+
+function undo() {
+  if (undoStack.length === 0) return;
+  const prev = undoStack.pop();
+  try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
+  // Restore previous state to localStorage and reload
+  localStorage.setItem(LS_KEY, JSON.stringify({slots: prev}));
+  location.reload();
+}
+
 const DEFAULT_SLOTS = {
     "11_uw_0": {"t":"🌸 日式庭院别墅AI渲染，禅意满满","l":"","pd":"2026-07-11","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
     "13_uw_0": {"t":"🌌 星空下的玻璃房｜AI建筑设计","l":"","pd":"2026-07-13","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
@@ -246,6 +260,7 @@ function goToMonth(delta){
   document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
   // Re-render with same data, just different month filter
   loadAndRender();
+  var c = document.getElementById('uc'); if(c) c.textContent = undoStack.length || '';
 }
 
 
@@ -257,6 +272,7 @@ async function loadAndRender(){
 
 document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
 loadAndRender();
+  var c = document.getElementById('uc'); if(c) c.textContent = undoStack.length || '';
 </script>
 </body>
 </html>

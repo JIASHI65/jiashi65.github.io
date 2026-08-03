@@ -602,6 +602,11 @@ document.addEventListener('click',function(e){
 
 // Escape or Enter key to collapse
 document.addEventListener('keydown',function(e){
+  // Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y for undo/redo
+  if((e.ctrlKey||e.metaKey)&&!editingSlot){
+    if(e.key==='z'&&!e.shiftKey){e.preventDefault();undo();return}
+    if(e.key==='z'&&e.shiftKey||(e.key==='y')){e.preventDefault();redo();return}
+  }
   if(editingSlot){
     if(e.key==='Escape'){editingSlot=null;render()}
     else if(e.key==='Enter'&&e.target.closest('.slot.expanded')){

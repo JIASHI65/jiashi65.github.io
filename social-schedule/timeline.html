@@ -423,36 +423,21 @@ let dirty = false;
 
 // ── API ──
 async function loadFromServer(){
-  // 从 GitHub 拉最新数据 (保留本地 refs)
-  try{
-    const r=await fetch(RAW_URL+"?v="+Date.now());
-    if(r.ok){
-      const d=await r.json();
-      if(d.slots&&Object.keys(d.slots).length>0){
-        // If localStorage already has user edits, keep them
-        try{
-          const ls = localStorage.getItem(LS_KEY);
-          if(ls){
-            const p = JSON.parse(ls);
-            if(p.slots && Object.keys(p.slots).length > Object.keys(d.slots).length){
-              // LocalStorage has MORE entries (user added stuff) - keep it
-              S = p.slots; R = p.refs || {}; setSync(false);
-              document.getElementById('dataSource').textContent = '本地编辑';
-              return true;
-            }
-          }
-        }catch(e){}
-        // Otherwise use GitHub data
-        S = d.slots; R = d.refs || {}; setSync(true);
-        document.getElementById('dataSource').textContent = 'GitHub';
-        return true}}
-  }catch(e){}
-  // 如果 GitHub 失败, 尝试 localStorage 备份
+  // 1. localStorage FIRST (always - never overwritten by GitHub)
   try{
     const ls=localStorage.getItem(LS_KEY);
-    if(ls){const p=JSON.parse(ls);S=p.slots||{};R=p.refs||{};setSync(false);
-    document.getElementById('dataSource').textContent='本地备份';return true}
-  }catch(e2){}
+    if(ls){const p=JSON.parse(ls);if(p.slots&&Object.keys(p.slots).length>0)
+    {S=p.slots;R=p.refs||{};setSync(false);
+    document.getElementById('dataSource').textContent='本地';return true}}
+  }catch(e){}
+  // 2. Fallback: GitHub
+  try{
+    const r=await fetch(RAW_URL+"?v="+Date.now());
+    if(r.ok){const d=await r.json();
+    if(d.slots&&Object.keys(d.slots).length>0)
+    {S=d.slots;R=d.refs||{};setSync(true);
+    document.getElementById('dataSource').textContent='GitHub';return true}}
+  }catch(e){}
   // 最终兜底: HTML 内嵌默认数据
   S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));
   document.getElementById('dataSource').textContent='默认';

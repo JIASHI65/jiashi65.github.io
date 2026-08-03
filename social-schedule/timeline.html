@@ -482,12 +482,7 @@ async function init(){
   const daysInMonth = new Date(curY, curM, 0).getDate();
   updateMonthDisplay();
   render();
-  setInterval(async ()=>{
-    if(!dirty){
-      const fresh = await loadFromServer();
-      if(fresh) render();
-    }
-  }, 30000);
+  // Auto-polling removed - localStorage is the source of truth
 }
 
 function updateCount(){

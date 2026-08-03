@@ -80,6 +80,7 @@ const GROUPS = [
 const PROGRESS = ['待制作','制作中','已排期','已发布'];
 
 const LS_KEY = 'smm_v3_fallback';
+const LS_MONTH_KEY = 'smm_v3_month';
 // ── Undo / Redo (shares history with timeline page) ──
 const UNDO_KEY = LS_KEY + '_history';
 let undoStack = [];
@@ -90,7 +91,7 @@ function undo() {
   const prev = undoStack.pop();
   try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
   // Restore previous state to localStorage and reload
-  localStorage.setItem(LS_KEY, JSON.stringify({slots: prev}));
+  localStorage.setItem(LS_KEY, JSON.stringify({v:2, slots: prev}));
   location.reload();
 }
 
@@ -235,7 +236,8 @@ function render(data){
       const tm = item.tm || '';
       html += '<div class="pd">'+d+'<br><span class="pt">'+(tm||'#要补时间')+'</span></div>';
       html += '<div class="pc">';
-      if(item.cn) html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:3px">📌 '+esc(item.cn)+'</div>';\n      html += '<div class="pn">'+esc(item.t)+'</div>';
+      if(item.cn) html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:3px">📌 '+esc(item.cn)+'</div>';
+      html += '<div class="pn">'+esc(item.t)+'</div>';
       html += '<div class="tags">';
       html += statusTag + linkTag;
       if(item.s) html += '<span class="tag">'+esc(item.s)+'</span>';
@@ -255,6 +257,14 @@ function esc(s){
 
 let curM = (new Date()).getMonth()+1;
 let curY = (new Date()).getFullYear();
+try{
+  const savedMonth = localStorage.getItem(LS_MONTH_KEY);
+  if(savedMonth && /^\d{4}-\d{1,2}$/.test(savedMonth)){
+    const parts = savedMonth.split('-');
+    curY = parseInt(parts[0], 10);
+    curM = parseInt(parts[1], 10);
+  }
+}catch(e){}
 
 function goToMonth(delta){
   // delta: -1 for previous month, +1 for next month
@@ -267,6 +277,7 @@ function goToMonth(delta){
   if(newM < 1){ newM = 12; newY--; }
   curM = newM;
   curY = newY;
+  try{ localStorage.setItem(LS_MONTH_KEY, curY+'-'+String(curM).padStart(2,'0')); }catch(e){}
   document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
   // Re-render with same data, just different month filter
   loadAndRender();

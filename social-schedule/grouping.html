@@ -149,16 +149,22 @@ const DEFAULT_SLOTS = {
   };
 
 async function loadData(){
-  // 1. Try GitHub CDN first (same priority as 竖排时间线)
+  // 1. Try localStorage first (user edits survive refresh)
+  try{
+    const ls=localStorage.getItem(LS_KEY);
+    if(ls){
+      const j=JSON.parse(ls);
+      if(j&&j.slots&&Object.keys(j.slots).length>0) return j.slots;
+    }
+  }catch(e){}
+  
+  // 2. Fallback: GitHub CDN
   try {
     const r=await fetch(RAW_URL+"?v="+Date.now());
     if(r.ok){const j=await r.json(); if(j&&j.slots&&Object.keys(j.slots).length>0) return j.slots;}
   }catch(e){}
   
-  // 2. Fallback: localStorage
-  try{const ls=localStorage.getItem(LS_KEY);if(ls){const j=JSON.parse(ls);if(j&&j.slots&&Object.keys(j.slots).length>10) return j.slots;}}catch(e){}
-  
-  // 3. Ultimate fallback: embedded defaults (same as 竖排时间线)
+  // 3. Ultimate fallback: embedded defaults
   return JSON.parse(JSON.stringify(DEFAULT_SLOTS));
 }
 

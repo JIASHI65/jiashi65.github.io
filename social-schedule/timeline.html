@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <button class="btn" onclick="exportData()">📤 导出</button>
     <a href="grouping.html" class="btn" style="background:var(--accent);border-color:var(--accent);color:#fff;font-size:12px;padding:5px 14px;font-weight:700">📂 平台分组</a>
     <button class="btn btn-sm" onclick="clearAll()">🗑️</button>
-  <button class="btn undo-btn" onclick="undo()" title="撤销最近的操作 (最多50步)" style="display:flex;align-items:center;gap:2px">↩ <span style="font-size:9px" id="undoCount"></span></button></div>
+  <button class="btn undo-btn" onclick="redo()" title="重做" style="margin-right:2px">↪</button><button class="btn undo-btn" onclick="undo()" title="撤销最近的操作 (最多50步)" style="display:flex;align-items:center;gap:2px">↩ <span style="font-size:9px" id="undoCount"></span></button></div>
 </div>
 
 <div class="container">
@@ -429,10 +429,22 @@ async function loadFromServer(){
     if(r.ok){
       const d=await r.json();
       if(d.slots&&Object.keys(d.slots).length>0){
-        S=d.slots;R=d.refs||{};setSync(true);
-        document.getElementById('dataSource').textContent='GitHub';
-        // 同时存到 localStorage 作为离线备份
-        try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e1){}
+        // If localStorage already has user edits, keep them
+        try{
+          const ls = localStorage.getItem(LS_KEY);
+          if(ls){
+            const p = JSON.parse(ls);
+            if(p.slots && Object.keys(p.slots).length > Object.keys(d.slots).length){
+              // LocalStorage has MORE entries (user added stuff) - keep it
+              S = p.slots; R = p.refs || {}; setSync(false);
+              document.getElementById('dataSource').textContent = '本地编辑';
+              return true;
+            }
+          }
+        }catch(e){}
+        // Otherwise use GitHub data
+        S = d.slots; R = d.refs || {}; setSync(true);
+        document.getElementById('dataSource').textContent = 'GitHub';
         return true}}
   }catch(e){}
   // 如果 GitHub 失败, 尝试 localStorage 备份
@@ -510,7 +522,7 @@ function gs(d,t,i){
 // ── Undo / Redo ──
 const UNDO_KEY = LS_KEY + '_history';
 const MAX_UNDO = 50;
-let undoStack = [];
+let undoStack = [], redoStack = [];
 try { undoStack = JSON.parse(localStorage.getItem(UNDO_KEY) || '[]'); } catch(e) { undoStack = []; }
 
 function pushUndo() {
@@ -523,11 +535,24 @@ function pushUndo() {
 
 function undo() {
   if (undoStack.length === 0) return;
+  redoStack.push(JSON.parse(JSON.stringify(S)));
   const prev = undoStack.pop();
   try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
   // Restore previous state
   for (const k in S) delete S[k];
   for (const k in prev) S[k] = prev[k];
+  scheduleSave();
+  editingSlot = null;
+  render();
+}
+
+function redo() {
+  if (redoStack.length === 0) return;
+  const next = redoStack.pop();
+  undoStack.push(JSON.parse(JSON.stringify(S)));
+  try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
+  for (const k in S) delete S[k];
+  for (const k in next) S[k] = next[k];
   scheduleSave();
   editingSlot = null;
   render();

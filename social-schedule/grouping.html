@@ -211,7 +211,7 @@ function render(data){
       const tm = item.tm || '';
       html += '<div class="pd">'+d+'<br><span class="pt">'+(tm||'#要补时间')+'</span></div>';
       html += '<div class="pc">';
-      html += '<div class="pn">'+esc(item.t)+'</div>';
+      if(item.cn) html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:3px">📌 '+esc(item.cn)+'</div>';\n      html += '<div class="pn">'+esc(item.t)+'</div>';
       html += '<div class="tags">';
       html += statusTag + linkTag;
       if(item.s) html += '<span class="tag">'+esc(item.s)+'</span>';

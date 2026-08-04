@@ -236,15 +236,24 @@ ${an.weekly_verdict?`<div class="section"><div class="section-title">📝 本周
 </div></body></html>`;
 }
 
-async function pushFeishu(webhookKey, guildName, htmlUrl, summary) {
+async function pushFeishu(webhookKey, guildName, htmlUrl, summary, curData, llmAnalysis) {
+  const cur = curData || {};
+  const an = llmAnalysis?.llm_analysis || {};
+  const diag = llmAnalysis?.problem_diagnosis || {};
+  const fmt = n => (n || 0).toLocaleString("zh-CN");
+  const topTopics = (an.hot_topics || []).slice(0, 3).map(t => `• ${t.topic}`).join("\n");
+  const topPains = (an.pain_points || []).slice(0, 2).map(p => `⚠️ ${p.issue}`).join("\n");
+
   const card = {
     msg_type: "interactive",
     card: {
-      header: { title: { tag: "plain_text", content: `📊 ${guildName} · 周报` }, template: "blue" },
+      header: { title: { tag: "plain_text", content: `📊 ${guildName} 周报` }, template: "blue" },
       elements: [
-        { tag: "div", text: { tag: "lark_md", content: `**本周数据概览**\n📝 ${summary||"详见 HTML 报告"}` } },
+        { tag: "div", text: { tag: "lark_md", content: `🗣️ 消息 **${fmt(cur.totalCount)}** 条 · 👥 **${fmt(cur.activeUsers)}** 人\n🏥 健康分 **${diag.health_score||"—"}**/100` } },
         { tag: "hr" },
-        { tag: "div", text: { tag: "lark_md", content: `[📊 查看完整 BI 看板](${htmlUrl})\n生成时间: ${new Date().toLocaleDateString("zh-CN")}\n🤖 Mochi Bot · DeepSeek 分析` } },
+        { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
+        { tag: "hr" },
+        { tag: "div", text: { tag: "lark_md", content: `**🔥 热议话题**\n${topTopics||"暂无"}\n\n${topPains||""}\n\n[📊 查看完整 BI 看板 →](${htmlUrl})` } },
       ],
     },
   };
@@ -293,7 +302,7 @@ async function main() {
     const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本周 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
     console.log(`📤 推送飞书 [${webhookKey}]...`);
-    await pushFeishu(webhookKey, guild.name, htmlUrl, summary);
+    await pushFeishu(webhookKey, guild.name, htmlUrl, summary, curData, llmAnalysis);
     console.log("   ✅ 完成\n");
   }
   console.log("✅ 周报生成完毕！");

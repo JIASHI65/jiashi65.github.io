@@ -344,8 +344,6 @@ body{
 }
 </style>
 <script>
-// NUCLEAR CLEANUP: force-remove ALL non-user-added refs from localStorage
-try{const r=localStorage.getItem('smm_v3_fallback');if(r){const d=JSON.parse(r);if(d&&d.refs){let c=0;for(const k in d.refs){if(d.refs[k]&&d.refs[k].length>0&&!d.refs[k][0].userAdded){delete d.refs[k];c++;}}localStorage.setItem('smm_v3_fallback',JSON.stringify(d));console.log('[boom] cleaned',c,'old refs');}}}catch(e){}
 // VERSION CHECK - added 1784094385
 document.addEventListener('DOMContentLoaded', function(){
   console.log('✅ TIMELINE VERSION: 2026-07-15-fix3 (REF_DEFAULTS from constant)');

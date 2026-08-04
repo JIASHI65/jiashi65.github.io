@@ -29,3 +29,8 @@ jobs:
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
+      - name: Debug env
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: echo "Token starts with: ${DISCORD_BOT_TOKEN:0:10}... length: ${#DISCORD_BOT_TOKEN}"
+      - name: Install & Run Weekly Report

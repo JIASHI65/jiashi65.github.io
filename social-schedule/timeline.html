@@ -482,12 +482,20 @@ async function init(){
     curY = parseInt(parts[0], 10);
     curM = parseInt(parts[1], 10);
   } else {
-    curM = (new Date()).getMonth()+1;
-    curY = (new Date()).getFullYear();
+    // Built-in version/activity/IP nodes are July-based, so fresh visits should
+    // open on July instead of the current calendar month (which may be empty).
+    curY = 2026;
+    curM = 7;
   }
   const ok = await loadFromServer();
-  // Clean any stale refs from localStorage fallback
-  if(curM!==7) for(let k in R){if(!R[k]?.[0]?.userAdded) delete R[k];}
+  const refsForMonth = getRefsWithRanges();
+  const visibleRefCount = Object.values(refsForMonth).reduce((sum, list) => sum + (list ? list.length : 0), 0);
+  if(curM!==7 && visibleRefCount < 3){
+    curY = 2026;
+    curM = 7;
+    try{ localStorage.setItem(LS_MONTH_KEY, '2026-07'); }catch(e){}
+  }
+  // Keep stored refs intact; getRefsWithRanges decides which refs are visible for the active month.
   const daysInMonth = new Date(curY, curM, 0).getDate();
   updateMonthDisplay();
   render();
@@ -647,25 +655,15 @@ function getRefsWithRanges(){
   const result = {};
   for(let d=1;d<=31;d++) result[d] = [];
   
-  // Collect ALL refs first (from REF_DEFAULTS constant for July, and R for user-added)
+  // Collect ALL refs first (prefer GitHub/localStorage refs; fallback to REF_DEFAULTS)
   const allRefs = [];
-  
-  // REF_DEFAULTS from constant (July only)
-  if(curM===7 && typeof REF_DEFAULTS !== 'undefined'){
-    for(let d=1;d<=31;d++){
-      if(REF_DEFAULTS[d]){
-        REF_DEFAULTS[d].forEach(r => {
-          allRefs.push({...r, userAdded: false, srcDay: d});
-        });
-      }
-    }
-  }
-  
-  // User-added refs from R (all months)
-  for(let k in R){
-    if(R[k]){
-      R[k].forEach(r => {
-        if(r.userAdded) allRefs.push({...r, srcDay: parseInt(k)});
+  const hasStoredRefs = R && Object.values(R).some(list => Array.isArray(list) && list.length);
+  const baseRefs = hasStoredRefs ? R : (curM===7 && typeof REF_DEFAULTS !== 'undefined' ? REF_DEFAULTS : {});
+
+  for(let k in baseRefs){
+    if(baseRefs[k]){
+      baseRefs[k].forEach(r => {
+        allRefs.push({...r, srcDay: parseInt(k)});
       });
     }
   }
@@ -705,8 +703,7 @@ function render(){
   const today=(()=>{const n=new Date();const u=n.getTime()+n.getTimezoneOffset()*60000;const s=new Date(u+8*3600000);return{m:s.getMonth()+1,d:s.getDate()}})();
   const el=document.getElementById('timeline');el.innerHTML='';
   const W=['W1','W2','W3','W4','W5'];
-  // Force-clean: keep ONLY user-added refs in non-July months
-  if(curM!==7){for(let k in R){if(!R[k]?.[0]?.userAdded) delete R[k];}}
+  // Keep stored refs intact; getRefsWithRanges decides which refs are visible for the active month.
   const refsWithRanges = getRefsWithRanges();
 
   for(let d=1;d<=31;d++){

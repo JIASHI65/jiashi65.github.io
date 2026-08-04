@@ -21,7 +21,7 @@ jobs:
         run: node report_monthly.js
       - name: Deploy HTML
         run: |
-          cp .github/scripts/monthly-*.html yoyo-community-report/ 2>/dev/null || true
+          cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html 2>/dev/null || true
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/

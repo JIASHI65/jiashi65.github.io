@@ -9,17 +9,12 @@
 <title>📱 社媒排期 · 账号分组</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#f0f2f5;--card:#fff;--text:#1a1a2e;--sub:#6b7280;--muted:#9ca3af;
-  --border:#e5e7eb;--shadow:0 1px 3px rgba(0,0,0,.06);--shadow-lg:0 4px 12px rgba(0,0,0,.08);
-}
-
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-height:100vh}
 
 /* ── Header ── */
 .header{
   position:sticky;top:0;z-index:100;
-  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+  background:linear-gradient(135deg,#d6336c 0%,#e85378 60%,#f78da7 100%);
   padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
   gap:16px;box-shadow:0 4px 20px rgba(0,0,0,.25);
 }
@@ -42,21 +37,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .stats{
   display:flex;gap:8px;align-items:center;padding:10px 16px;margin-bottom:16px;
   background:var(--card);border-radius:12px;box-shadow:var(--shadow);
-  font-size:12px;color:var(--sub);font-weight:600;
+  font-size:12px;color:#6b7280;font-weight:600;
   border:1px solid var(--border);
 }
 .stats .stat-badge{
   padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;
-  background:#eef2ff;color:#4f46e5;
+  background:#fff0f5;color:#d6336c;
 }
 
 /* ── Account Section Card ── */
 .sec{
-  margin-bottom:20px;background:var(--card);border-radius:14px;
-  box-shadow:var(--shadow);border:1px solid var(--border);
-  overflow:hidden;transition:box-shadow .2s;
+  margin-bottom:16px;background:var(--card);border-radius:12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+  overflow:hidden;
 }
-.sec:hover{box-shadow:var(--shadow-lg)}
+
 .sec-hdr{
   display:flex;align-items:center;gap:10px;padding:14px 20px;
   font-size:14px;font-weight:700;background:var(--card);
@@ -65,7 +60,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sec-hdr .account-icon{font-size:20px;line-height:1}
 .sec-hdr .count{
   margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;
-  border-radius:20px;background:#f3f4f6;color:var(--sub);
+  border-radius:20px;background:#f3f4f6;color:#6b7280;
 }
 
 /* ── Post Row ── */
@@ -76,12 +71,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .post:last-child{border-bottom:none}
 .post:hover{background:#fafbfc}
 .post-date{
-  font-size:11px;color:var(--muted);white-space:nowrap;
+  font-size:11px;color:#9ca3af;white-space:nowrap;
   min-width:48px;line-height:1.6;font-weight:500;
   padding-top:1px;
 }
 .post-body{flex:1;min-width:0}
-.post-title{font-weight:600;font-size:13px;color:var(--text);line-height:1.5}
+.post-title{font-weight:600;font-size:13px;color:#3d3036;line-height:1.5}
 .post-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
 .cn-badge{
   background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;
@@ -92,11 +87,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   font-size:10px;padding:3px 8px;border-radius:5px;
   background:#f3f4f6;color:#6b7280;font-weight:600;
 }
-.tag.done{background:#ecfdf5;color:#059669}
-.tag.progress{background:#fef3c7;color:#d97706}
+.tag.done{background:#e8f5e9;color:#2e7d32}
+.tag.progress{background:#fff0f5;color:#d6336c}
 
 /* ── Empty State ── */
-.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
+.empty{text-align:center;padding:40px 20px;color:#9ca3af;font-size:13px}
 
 /* ── Responsive ── */
 @media(max-width:600px){

@@ -8,6 +8,8 @@ on:
 jobs:
   report:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
       ARK_API_KEY: ${{ secrets.ARK_API_KEY }}

@@ -7,140 +7,44 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-height:100vh}
-
-/* ── Header ── */
-.header{
-  position:sticky;top:0;z-index:100;
-  background:linear-gradient(135deg,#d6336c 0%,#e85378 60%,#f78da7 100%);
-  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
-  gap:12px;box-shadow:0 4px 20px rgba(214,51,108,.3);
-}
+.header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#d6336c 0%,#e85378 60%,#f78da7 100%);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 20px rgba(214,51,108,.3)}
 .header h1{font-size:17px;font-weight:700;color:#fff;white-space:nowrap}
-.btn{
-  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
-  color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;
-  font-size:12px;text-decoration:none;font-weight:600;transition:all .15s;
-  white-space:nowrap;
-}
+.btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;text-decoration:none;font-weight:600;transition:all .15s;white-space:nowrap}
 .btn:hover{background:rgba(255,255,255,.25)}
 .btn.primary{background:rgba(255,255,255,.9);color:#d6336c;font-weight:700}
 .month-label{font-size:16px;font-weight:700;color:#fff;min-width:80px;text-align:center}
-
-/* ── Container ── */
 .container{max-width:1000px;margin:0 auto;padding:16px 20px 32px}
-
-/* ── Account Section ── */
-.sec{
-  margin-bottom:20px;
-  background:#fff;
-  border-radius:14px;
-  box-shadow:0 2px 12px rgba(0,0,0,.06);
-  overflow:hidden;
-}
-.sec-hdr{
-  display:flex;align-items:center;gap:10px;
-  padding:14px 20px;font-size:15px;font-weight:700;
-  border-bottom:2px solid #fce4ec;
-  letter-spacing:.3px;
-}
+.sec{margin-bottom:20px;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden}
+.sec-hdr{display:flex;align-items:center;gap:10px;padding:14px 20px;font-size:15px;font-weight:700;border-bottom:2px solid #fce4ec;letter-spacing:.3px}
 .sec-hdr .icon{font-size:20px}
-.sec-hdr .count{
-  margin-left:auto;font-size:11px;font-weight:700;
-  padding:4px 12px;border-radius:20px;
-  background:#fef6f9;color:#d6336c;
-}
-
-/* ── Card Grid ── */
-.card-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:10px;padding:12px;
-}
-.card{
-  background:#fef6f9;
-  border-radius:12px;
-  padding:14px 16px;
-  display:flex;flex-direction:column;gap:8px;
-  transition:all .15s;
-  border:1px solid #fce4ec;
-  position:relative;
-}
-.card:hover{
-  background:#fff;
-  border-color:#f8bbd0;
-  box-shadow:0 4px 16px rgba(214,51,108,.1);
-  transform:translateY(-1px);
-}
-.card-date{
-  font-size:11px;font-weight:700;color:#d6336c;
-  background:#fce4ec;padding:3px 10px;border-radius:6px;
-  align-self:flex-start;
-}
-.card-cn{
-  background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;
-  padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700;
-  align-self:flex-start;
-}
-.card-title{
-  font-weight:600;font-size:13px;color:#3d3036;line-height:1.6;
-}
-.card-meta{
-  display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:auto;
-}
-.tag{
-  font-size:10px;padding:3px 10px;border-radius:6px;
-  font-weight:600;
-}
+.sec-hdr .count{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;background:#fef6f9;color:#d6336c}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:12px}
+.card{background:#fef6f9;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;transition:all .15s;border:1px solid #fce4ec;position:relative;cursor:pointer}
+.card:hover{background:#fff;border-color:#f8bbd0;box-shadow:0 4px 16px rgba(214,51,108,.1);transform:translateY(-1px)}
+.card.edit-mode{background:#fff;border-color:#d6336c;box-shadow:0 4px 20px rgba(214,51,108,.15)}
+.card-date{font-size:11px;font-weight:700;color:#d6336c;background:#fce4ec;padding:3px 10px;border-radius:6px;align-self:flex-start}
+.card-cn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:700;align-self:flex-start}
+.card-title{font-weight:600;font-size:13px;color:#3d3036;line-height:1.6}
+.card-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:auto}
+.tag{font-size:10px;padding:3px 10px;border-radius:6px;font-weight:600}
 .tag-status{background:#fce4ec;color:#d6336c}
 .tag-source{background:#f3f4f6;color:#6b7280}
 .tag.published{background:#e8f5e9;color:#2e7d32}
-
-/* ── Empty State ── */
 .empty{text-align:center;padding:40px 20px;color:#c0a0a8;font-size:13px}
 .status{text-align:center;padding:10px;font-size:11px;color:#c0a0a8;margin-top:8px}
-
-/* ── Edit Mode ── */
-.card.edit-mode{
-  background:#fff;border-color:var(--accent, #d6336c);
-  box-shadow:0 4px 20px rgba(214,51,108,.15);
-}
-.card-edit-form{
-  display:flex;flex-direction:column;gap:8px;
-  border-top:1.5px dashed #fce4ec;padding-top:10px;margin-top:4px;
-}
-.card-edit-form label{
-  font-size:10px;font-weight:700;color:#b0a0a8;text-transform:uppercase;
-  letter-spacing:.3px;margin-bottom:-4px;
-}
-.card-edit-form input{
-  width:100%;padding:8px 12px;border:1.5px solid #f59e0b;border-radius:8px;
-  font-size:13px;font-weight:600;color:#d97706;background:#fffdf5;
-  outline:none;transition:border .15s;
-}
+/* Edit */
+.card-edit-form{display:none;flex-direction:column;gap:8px;border-top:1.5px dashed #fce4ec;padding-top:10px;margin-top:4px}
+.card.edit-mode .card-edit-form{display:flex}
+.card-edit-form label{font-size:10px;font-weight:700;color:#b0a0a8;text-transform:uppercase;letter-spacing:.3px;margin-bottom:-4px}
+.card-edit-form input{width:100%;padding:8px 12px;border:1.5px solid #f59e0b;border-radius:8px;font-size:13px;font-weight:600;color:#d97706;background:#fffdf5;outline:none}
 .card-edit-form input:focus{border-color:#d97706;box-shadow:0 0 0 3px rgba(245,158,11,.1)}
-.card-edit-form select{
-  width:100%;padding:8px 12px;border:1.5px solid #e0d0d8;border-radius:8px;
-  font-size:12px;background:#fff;color:#3d3036;outline:none;
-}
-.card-edit-form select:focus{border-color:#d6336c;box-shadow:0 0 0 3px rgba(214,51,108,.08)}
-.card-edit-btns{
-  display:flex;gap:6px;justify-content:flex-end;margin-top:2px;
-}
-.card-edit-btns button{
-  padding:6px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;
-  border:none;transition:all .12s;
-}
+.card-edit-form select{width:100%;padding:8px 12px;border:1.5px solid #e0d0d8;border-radius:8px;font-size:12px;background:#fff;color:#3d3036;outline:none}
+.card-edit-btns{display:flex;gap:6px;justify-content:flex-end;margin-top:2px}
+.card-edit-btns button{padding:6px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all .12s}
 .btn-save{background:#d6336c;color:#fff}
 .btn-save:hover{background:#c0285a;box-shadow:0 2px 8px rgba(214,51,108,.3)}
 .btn-cancel{background:#f0f0f0;color:#666}
-.btn-cancel:hover{background:#e0e0e0}
-
-@media(max-width:600px){
-  .header{padding:10px 14px;flex-wrap:wrap}
-  .header h1{font-size:15px}
-  .container{padding:10px}
-  .card-grid{grid-template-columns:1fr;padding:8px}
-}
+@media(max-width:600px){.header{padding:10px 14px;flex-wrap:wrap}.header h1{font-size:15px}.container{padding:10px}.card-grid{grid-template-columns:1fr;padding:8px}}
 </style>
 </head>
 <body>
@@ -170,85 +74,52 @@ var G = [
   {k:'usp',l:'📌 Pinterest官号',c:'#ef4444',bg:'rgba(239,68,68,.05)',bc:'rgba(239,68,68,.12)'}
 ];
 
-var M=new Date().getMonth()+1,Y=new Date().getFullYear();
-var LS_KEY='smm_v3_fallback';
-var allSlots={};
+var M=new Date().getMonth()+1,Y=new Date().getFullYear(),LS='smm_v3_fallback',D={};
 function go(d){M+=d;if(M>12){M=1;Y++}if(M<1){M=12;Y--}load()}
 function E(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):''}
 
 async function load(){
   document.getElementById('ml').textContent=Y+'年'+M+'月';
-  var st=document.getElementById('status');
-  st.textContent='';
-  var slots=null;
-  // 1. localStorage FIRST (user edits)
-  try{
-    var ls=localStorage.getItem(LS_KEY);
-    if(ls){var p=JSON.parse(ls);if(p.slots&&Object.keys(p.slots).length>0){slots=p.slots;st.textContent='📝 本地编辑';}}
-  }catch(e){}
-  // 2. GitHub data.json
+  var st=document.getElementById('status'),slots=null;
+  try{var ls=localStorage.getItem(LS);if(ls){var p=JSON.parse(ls);if(p.slots&&Object.keys(p.slots).length)slots=p.slots;}}
+  catch(e){}
   if(!slots){
-    try{
-      st.textContent='⏳ 加载中...';
-      var r=await fetch('data.json?v='+Date.now());
-      if(r.ok){var raw=await r.json();if(raw&&raw.slots)slots=raw.slots;}
-    }catch(e){}
+    try{var r=await fetch('data.json?v='+Date.now());if(r.ok){var j=await r.json();if(j&&j.slots)slots=j.slots;}}
+    catch(e){}
   }
-  // 3. EMBEDDED fallback
-  if(!slots){st.textContent='📦 离线模式';slots=EMBEDDED}
-  else if(st.textContent==='📝 本地编辑'){} else st.textContent='';
-  allSlots=slots;
-  render(slots);
+  if(!slots){st.textContent='📦 离线模式';slots=EMBEDDED}else st.textContent='';
+  D=slots;render(slots);
 }
 
 function render(data){
-  var a=document.getElementById('app');
-  if(!data||!Object.keys(data).length){a.innerHTML='<div class="empty">暂无排期</div>';return}
-  var mp=Y+'-'+String(M).padStart(2,'0');
-  var gr={};G.forEach(function(g){gr[g.k]=[]});
+  var a=document.getElementById('app'),mp=Y+'-'+String(M).padStart(2,'0'),gr={};
+  G.forEach(function(g){gr[g.k]=[]});
   Object.keys(data).forEach(function(k){
     var m=k.match(/^(\d+)_(\w+)_(\d+)$/);if(!m)return;
-    var pfx=m[2],v=data[k];
+    var v=data[k],pfx=m[2];
     if(!gr[pfx]||!v.t||!v.t.trim())return;
     if(!v.pd||!String(v.pd).startsWith(mp))return;
-    gr[pfx].push({v:v,day:parseInt(m[1]),key:k});
+    gr[pfx].push({v:v,key:k});
   });
   var h='';
   G.forEach(function(g){
-    var items=gr[g.k];items.sort(function(a,b){return (a.v.pd||"")<(b.v.pd||"")?-1:1});
-    h+='<div class="sec">';
-    h+='<div class="sec-hdr" style="background:'+g.bg+';color:'+g.c+';border-bottom-color:'+g.bc+'">';
-    h+='<span class="icon">'+g.l.charAt(0)+g.l.charAt(1)+'</span>'+g.l.slice(2);
-    h+='<span class="count">'+items.length+'条</span></div>';
+    var items=gr[g.k];
+    items.sort(function(x,y){return (x.v.pd||'')<(y.v.pd||'')?-1:1});
+    h+='<div class="sec"><div class="sec-hdr" style="background:'+g.bg+';color:'+g.c+';border-bottom-color:'+g.bc+'"><span class="icon">'+g.l.charAt(0)+g.l.charAt(1)+'</span>'+g.l.slice(2)+'<span class="count">'+items.length+'条</span></div>';
     if(!items.length){h+='<div class="empty">暂无排期</div>'}
     else{
       h+='<div class="card-grid">';
-      items.forEach(function(x){
-        var d=(x.v.pd||'').slice(5);
-        var cid='card-'+x.key.replace(/[^a-zA-Z0-9]/g,'_');
-        h+='<div class="card" id="'+cid+'" onclick="toggleEdit(\''+x.key+'\',\''+cid+'\')">';
-        h+='<div class="card-date">📅 '+d+'</div>';
-        if(x.v.cn)h+='<div class="card-cn" id="cn-'+cid+'">📌 '+E(x.v.cn)+'</div>';
-        h+='<div class="card-title">'+E(x.v.t)+'</div>';
-        h+='<div class="card-meta">';
-        if(x.v.p)h+='<span class="tag '+(x.v.p==='已发布'?'published':'tag-status')+'" id="pg-'+cid+'">'+x.v.p+'</span>';
+      items.forEach(function(x,i){
+        var d=(x.v.pd||'').slice(5),kid='k'+g.k+i;
+        h+='<div class="card" id="'+kid+'" onclick="toggleEdit(\''+x.key+'\',\''+kid+'\')"><div class="card-date">📅 '+d+'</div>';
+        if(x.v.cn)h+='<div class="card-cn">📌 '+E(x.v.cn)+'</div>';
+        h+='<div class="card-title">'+E(x.v.t)+'</div><div class="card-meta">';
+        if(x.v.p)h+='<span class="tag '+(x.v.p==='已发布'?'published':'tag-status')+'">'+x.v.p+'</span>';
         if(x.v.s)h+='<span class="tag tag-source">'+E(x.v.s)+'</span>';
-        h+='<span style="margin-left:auto;font-size:10px;color:#c0a0a8;cursor:pointer" onclick="event.stopPropagation();toggleEdit(\''+x.key+'\',\''+cid+'\')">✏️ 编辑</span>';
-        h+='</div>';
-        h+='<div class="card-edit-form" id="edit-'+cid+'" style="display:none">';
-        h+='<label>🏷 中文注释</label>';
-        h+='<input type="text" id="inp-cn-'+cid+'" value="'+E(x.v.cn||'')+'" placeholder="如：before&after系列...">';
-        h+='<label>📈 进度</label>';
-        h+='<select id="inp-p-'+cid+'">';
-        ['待排期','已排期','制作中','待审核','已发布'].forEach(function(o){
-          h+='<option value="'+o+'"'+(x.v.p===o?' selected':'')+'>'+o+'</option>';
-        });
-        h+='</select>';
-        h+='<div class="card-edit-btns">';
-        h+='<button class="btn-save" onclick="event.stopPropagation();saveCard(\''+x.key+'\',\''+cid+'\')">💾 保存</button>';
-        h+='<button class="btn-cancel" onclick="event.stopPropagation();toggleEdit(\''+x.key+'\',\''+cid+'\')">取消</button>';
-        h+='</div></div>';
-        h+='</div>';
+        h+='<span class="edit-hint">✏️</span></div>';
+        h+='<div class="card-edit-form"><label>🏷 中文注释</label><input type="text" id="cn-'+kid+'" value="'+E(x.v.cn||'')+'" placeholder="如：before&after系列..."><label>📈 进度</label><select id="p-'+kid+'">';
+        ['待排期','已排期','制作中','待审核','已发布'].forEach(function(o){h+='<option value="'+o+'"'+(x.v.p===o?' selected':'')+'>'+o+'</option>'});
+        h+='</select><div class="card-edit-btns"><button class="btn-save" onclick="event.stopPropagation();saveCard(\''+x.key+'\',\''+kid+'\')">💾 保存</button><button class="btn-cancel" onclick="event.stopPropagation();toggleEdit(\''+x.key+'\',\''+kid+'\')">取消</button></div></div></div>';
       });
       h+='</div>';
     }
@@ -256,53 +127,23 @@ function render(data){
   });
   a.innerHTML=h;
 }
+
+function toggleEdit(key,cid){
+  var c=document.getElementById(cid);if(!c)return;
+  if(c.classList.contains('edit-mode'))c.classList.remove('edit-mode');
+  else{c.classList.add('edit-mode');var inp=document.getElementById('cn-'+cid);if(inp)inp.focus()}
 }
-
-// ── Edit Functions ──
-function toggleEdit(key, cid){
-  var card=document.getElementById(cid);
-  var form=document.getElementById('edit-'+cid);
-  if(!card||!form)return;
-  var showing=form.style.display==='flex';
-  if(showing){
-    form.style.display='none';
-    card.classList.remove('edit-mode');
-  }else{
-    form.style.display='flex';
-    card.classList.add('edit-mode');
-    var inp=document.getElementById('inp-cn-'+cid);
-    if(inp)inp.focus();
-  }
+function saveCard(key,cid){
+  var ci=document.getElementById('cn-'+cid),ps=document.getElementById('p-'+cid);
+  if(!D[key])return;
+  if(ci)D[key].cn=ci.value.trim()||'';
+  if(ps)D[key].p=ps.value;
+  try{localStorage.setItem(LS,JSON.stringify({v:2,slots:D}));}catch(e){}
+  toggleEdit(key,cid);render(D);
 }
-
-function saveCard(key, cid){
-  var cnInp=document.getElementById('inp-cn-'+cid);
-  var pSel=document.getElementById('inp-p-'+cid);
-  if(!allSlots[key])return;
-  if(cnInp)allSlots[key].cn=cnInp.value.trim()||'';
-  if(pSel)allSlots[key].p=pSel.value;
-  // Save to localStorage
-  try{
-    localStorage.setItem(LS_KEY, JSON.stringify({v:2, slots:allSlots}));
-  }catch(e){}
-  // Collapse and re-render
-  toggleEdit(key, cid);
-  render(allSlots);
-}
-
-// Click outside to close
-document.addEventListener('click', function(e){
-  var editing=document.querySelector('.card.edit-mode');
-  if(editing&&!editing.contains(e.target)){
-    var cid=editing.id;
-    if(cid){
-      var key=cid.replace('card-','').replace(/_/g,'_');
-      toggleEdit(key, cid);
-    }
-  }
-});
-
+document.addEventListener('click',function(e){var c=document.querySelector('.card.edit-mode');if(c&&!c.contains(e.target))toggleEdit('',c.id)});
 load();
 </script>
 </body>
+
 </html>

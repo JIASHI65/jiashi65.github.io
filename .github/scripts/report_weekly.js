@@ -3,6 +3,7 @@ const { callLLM, smartSample, deepAnalyze } = require("./utils/llm_analyzer");
 const fs = require("fs");
 const path = require("path");
 
+const TOKEN = process.env.DISCORD_BOT_TOKEN || "";
 const BASE = "https://discord.com/api/v10";
 const H = { Authorization: `Bot ${TOKEN}`, "Content-Type": "application/json" };
 
@@ -296,4 +297,3 @@ async function main() {
   console.log("✅ 周报生成完毕！");
 }
 main().catch(e => { console.error("❌", e.message); process.exit(1); });
-const TOKEN = process.env.DISCORD_BOT_TOKEN || "";

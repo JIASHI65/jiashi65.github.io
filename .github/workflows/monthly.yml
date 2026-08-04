@@ -14,8 +14,8 @@ jobs:
         with:
           node-version: '20'
       - run: |
-          cd .github/scripts
-          node report_monthly.js
+        working-directory: .github/scripts
+        run: node report_monthly.js
       - run: |
           cp .github/scripts/monthly-*.html yoyo-community-report/ 2>/dev/null || true
           git config user.name "Mochi Bot"

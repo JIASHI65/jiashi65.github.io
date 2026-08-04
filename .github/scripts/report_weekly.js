@@ -19,9 +19,11 @@ const FEISHU_WEBHOOKS = {
 };
 
 const $ = async (u) => {
-  const r = await fetch(u, { headers: H });
-  if (!r.ok) { await new Promise(r2 => setTimeout(r2, 1000)); return null; }
-  return r.json();
+  try {
+    const r = await fetch(u, { headers: H });
+    if (!r.ok) { const t = await r.text(); console.error(`  ⚠️ Discord ${r.status} ${u}: ${t.substring(0,100)}`); return null; }
+    return r.json();
+  } catch(e) { console.error(`  ⚠️ Fetch failed ${u}: ${e.message}`); return null; }
 };
 
 async function scanMessages(guildId, startTime, endTime) {

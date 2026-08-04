@@ -15,10 +15,8 @@ jobs:
           node-version: '20'
 
       - name: Install & Run Weekly Report
-        run: |
-          cp .github/scripts/*.js .github/scripts/utils/
-          cd .github/scripts
-          node report_weekly.js small
+        working-directory: .github/scripts
+        run: node report_weekly.js small
 
       - name: Deploy HTML to yoyo-community-report
         run: |

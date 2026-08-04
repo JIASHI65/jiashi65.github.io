@@ -17,7 +17,7 @@ try{
   if(r.ok){
     const d=await r.json();
     L('   content长度: '+d.content.length);
-    const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));
+    const bin=atob(d.content.replace(/\s/g,''));const utf8=new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));const raw=JSON.parse(utf8);
     L('   slots数量: '+Object.keys(raw.slots||{}).length);
     
     // Count comic slots

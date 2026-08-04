@@ -67,7 +67,7 @@ async function ld(){
   let gh={}, ls={};
   try{
     const r=await fetch(API);
-    if(r.ok){const d=await r.json();if(d.content){const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));if(raw&&raw.slots)gh=raw.slots;}}
+    if(r.ok){const d=await r.json();if(d.content){const bin=atob(d.content.replace(/\s/g,''));const utf8=new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));const raw=JSON.parse(utf8);if(raw&&raw.slots)gh=raw.slots;}}
   }catch(e){}
   try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;}}catch(e){}
   render({...gh, ...ls});

@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><title>🔍 调试</title></head>
+<body style="font-family:monospace;padding:20px;background:#111;color:#0f0">
+<h2>🔍 账号分组数据调试</h2>
+<div id="log" style="white-space:pre-wrap;font-size:12px"></div>
+<script>
+const $=document.getElementById('log');
+function L(s){$.textContent+='\n'+s}
+
+(async()=>{
+L('开始加载...');
+
+// Test 1: GitHub API
+try{
+  L('1️⃣ 请求 GitHub API...');
+  const r=await fetch('https://api.github.com/repos/JIASHI65/jiashi65.github.io/contents/social-schedule/data.json?ref=main');
+  L('   状态: '+r.status);
+  if(r.ok){
+    const d=await r.json();
+    L('   content长度: '+d.content.length);
+    const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));
+    L('   slots数量: '+Object.keys(raw.slots||{}).length);
+    
+    // Count comic slots
+    let c=0;
+    for(const k in raw.slots){
+      if(k.match(/_(hkig|usig|ustt)_/)) c++;
+    }
+    L('   条漫slot: '+c);
+    
+    // Show Aug comic slots
+    L('\n2️⃣ 8月条漫slot:');
+    for(const k in raw.slots){
+      if(k.match(/_(hkig|usig|ustt)_/) && raw.slots[k].pd && raw.slots[k].pd.startsWith('2026-08')){
+        L('   '+k+' | '+raw.slots[k].pd+' | '+(raw.slots[k].t||'').substring(0,40));
+      }
+    }
+  }else{
+    L('   ❌ API请求失败: '+r.status);
+  }
+}catch(e){
+  L('   ❌ 异常: '+e.message);
+}
+
+// Test 2: localStorage
+L('\n3️⃣ localStorage:');
+const ls=localStorage.getItem('smm_v3_fallback');
+if(ls){
+  const j=JSON.parse(ls);
+  L('   slots: '+Object.keys(j.slots||{}).length);
+  let c=0;
+  for(const k in (j.slots||{})){
+    if(k.match(/_(hkig|usig|ustt)_/)) c++;
+  }
+  L('   条漫slot: '+c);
+}else{
+  L('   (空)');
+}
+})();
+</script></body></html>

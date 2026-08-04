@@ -1,0 +1,28 @@
+name: 大群周报
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: |
+          cd .github/scripts
+          node report_weekly.js large
+      - run: |
+          cp .github/scripts/large-weekly-*.html yoyo-community-report/ 2>/dev/null || true
+          git config user.name "Mochi Bot"
+          git config user.email "bot@mochi.dev"
+          git add yoyo-community-report/
+          git diff --staged --quiet || git commit -m "📊 Large weekly report $(date +%Y%m%d)"
+          git push || true
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}

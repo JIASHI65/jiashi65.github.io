@@ -1,0 +1,33 @@
+name: KOC 小群周报
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # 每周一 UTC 08:00 (北京 16:00)
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install & Run Weekly Report
+        run: |
+          cp .github/scripts/*.js .github/scripts/utils/
+          cd .github/scripts
+          node report_weekly.js small
+
+      - name: Deploy HTML to yoyo-community-report
+        run: |
+          cp .github/scripts/small-weekly-*.html yoyo-community-report/ 2>/dev/null || true
+          git config user.name "Mochi Bot"
+          git config user.email "bot@mochi.dev"
+          git add yoyo-community-report/
+          git diff --staged --quiet || git commit -m "📊 Weekly report $(date +%Y%m%d)"
+          git push || true
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}

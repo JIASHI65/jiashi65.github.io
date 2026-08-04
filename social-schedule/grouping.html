@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>📱 社媒排期 · 账号分组</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -54,7 +57,7 @@ const G=[
   {k:'usig',l:'🎨 欧美条漫IG',c:'#c13584',b:'rgba(193,53,132,.06)'},
   {k:'ustt',l:'🎵 欧美条漫TT',c:'#25f4ee',b:'rgba(37,244,238,.06)'},
   {k:'hkig',l:'🌏 港台条漫IG',c:'#4361ee',b:'rgba(67,97,238,.06)'},
-  {k:'pt',l:'📌 Pinterest官号',c:'#e60019',b:'rgba(230,0,25,.06)'},
+  {k:'usp',l:'📌 Pinterest官号',c:'#e60019',b:'rgba(230,0,25,.06)'},
 ];
 const P=['待制作','制作中','已排期','已发布'];
 let M=(new Date).getMonth()+1, Y=(new Date).getFullYear();
@@ -66,8 +69,9 @@ async function ld(){
   document.getElementById('ml').textContent=Y+'年'+M+'月';
   let gh={}, ls={};
   try{
-    const r=await fetch(API);
-    if(r.ok){const d=await r.json();if(d.content){const bin=atob(d.content.replace(/\s/g,''));const utf8=new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));const raw=JSON.parse(utf8);if(raw&&raw.slots)gh=raw.slots;}}
+    // Use raw API to avoid base64 UTF-8 issues
+    const r=await fetch(API,{headers:{'Accept':'application/vnd.github.raw'}});
+    if(r.ok){const raw=await r.json();if(raw&&raw.slots)gh=raw.slots;}
   }catch(e){}
   try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;}}catch(e){}
   render({...gh, ...ls});

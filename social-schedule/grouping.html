@@ -3,109 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <title>📱 社媒排期 · 账号分组</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-height:100vh}
-
-/* ── Header ── */
 .header{
   position:sticky;top:0;z-index:100;
   background:linear-gradient(135deg,#d6336c 0%,#e85378 60%,#f78da7 100%);
-  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
-  gap:16px;box-shadow:0 4px 20px rgba(0,0,0,.25);
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.25);
 }
-.header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
-.header .nav-group{display:flex;align-items:center;gap:8px}
+.header h1{font-size:17px;font-weight:700;color:#fff}
 .btn{
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
   color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;
-  font-size:12px;text-decoration:none;font-weight:600;transition:all .15s;
+  font-size:12px;text-decoration:none;font-weight:600;
 }
-.btn:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4)}
-.btn.primary{background:rgba(255,255,255,.9);color:#1a1a2e;border-color:transparent;font-weight:700}
-.btn.primary:hover{background:#fff}
-.month-label{font-size:16px;font-weight:700;color:#fff;min-width:90px;text-align:center}
-
-/* ── Container ── */
-.container{max-width:880px;margin:0 auto;padding:16px 16px 32px}
-
-/* ── Stats Bar ── */
-.stats{
-  display:flex;gap:8px;align-items:center;padding:10px 16px;margin-bottom:16px;
-  background:var(--card);border-radius:12px;box-shadow:var(--shadow);
-  font-size:12px;color:#6b7280;font-weight:600;
-  border:1px solid var(--border);
-}
-.stats .stat-badge{
-  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;
-  background:#fff0f5;color:#d6336c;
-}
-
-/* ── Account Section Card ── */
+.btn:hover{background:rgba(255,255,255,.25)}
+.btn.primary{background:rgba(255,255,255,.9);color:#1a1a2e;font-weight:700}
+.month-label{font-size:15px;font-weight:700;color:#fff;min-width:80px;text-align:center}
+.container{max-width:880px;margin:0 auto;padding:16px}
 .sec{
-  margin-bottom:16px;background:var(--card);border-radius:12px;
-  box-shadow:0 1px 4px rgba(0,0,0,.04);
-  overflow:hidden;
+  margin-bottom:14px;background:#fff;border-radius:12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);overflow:hidden;
 }
-
 .sec-hdr{
-  display:flex;align-items:center;gap:10px;padding:14px 20px;
-  font-size:14px;font-weight:700;background:var(--card);
-  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;padding:12px 18px;
+  font-size:14px;font-weight:700;border-bottom:1px solid #f3f4f6;
 }
-.sec-hdr .account-icon{font-size:20px;line-height:1}
 .sec-hdr .count{
   margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;
   border-radius:20px;background:#f3f4f6;color:#6b7280;
 }
-
-/* ── Post Row ── */
 .post{
-  display:flex;padding:12px 20px;border-bottom:1px solid #f3f4f6;
-  align-items:flex-start;gap:14px;font-size:13px;transition:background .12s;
+  display:flex;padding:11px 18px;border-bottom:1px solid #f3f4f6;
+  align-items:flex-start;gap:12px;font-size:13px;
 }
 .post:last-child{border-bottom:none}
-.post:hover{background:#fafbfc}
-.post-date{
-  font-size:11px;color:#9ca3af;white-space:nowrap;
-  min-width:48px;line-height:1.6;font-weight:500;
-  padding-top:1px;
-}
+.post-date{font-size:11px;color:#9ca3af;white-space:nowrap;min-width:44px;padding-top:1px}
 .post-body{flex:1;min-width:0}
 .post-title{font-weight:600;font-size:13px;color:#3d3036;line-height:1.5}
-.post-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
 .cn-badge{
   background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;
   padding:2px 10px;border-radius:6px;font-size:11px;font-weight:700;
-  display:inline-block;margin-bottom:4px;letter-spacing:.2px;
+  display:inline-block;margin-bottom:4px;
 }
 .tag{
-  font-size:10px;padding:3px 8px;border-radius:5px;
-  background:#f3f4f6;color:#6b7280;font-weight:600;
+  font-size:10px;padding:2px 8px;border-radius:5px;
+  background:#f3f4f6;color:#6b7280;font-weight:600;margin-right:4px;
 }
 .tag.done{background:#e8f5e9;color:#2e7d32}
 .tag.progress{background:#fff0f5;color:#d6336c}
-
-/* ── Empty State ── */
 .empty{text-align:center;padding:40px 20px;color:#9ca3af;font-size:13px}
-
-/* ── Responsive ── */
+.status{text-align:center;padding:8px;font-size:11px;color:#6b7280}
 @media(max-width:600px){
-  .header{padding:12px 16px;flex-wrap:wrap}
+  .header{padding:10px 14px;flex-wrap:wrap}
   .header h1{font-size:15px}
-  .container{padding:12px}
-  .post{padding:10px 14px}
+  .container{padding:10px}
 }
 </style>
 </head>
 <body>
 <div class="header">
   <h1>📱 社媒排期 · 账号分组</h1>
-  <div class="nav-group">
+  <div>
     <button class="btn" onclick="go(-1)">◀ 上月</button>
     <span id="ml" class="month-label"></span>
     <button class="btn" onclick="go(1)">下月 ▶</button>
@@ -113,77 +74,118 @@ body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-h
   </div>
 </div>
 <div class="container" id="app"><div class="empty">⏳ 加载中...</div></div>
+<div id="status" class="status"></div>
 
 <script>
-const RAW='data.json';  // same-origin, correct application/json content-type
-const LS='smm_v3_fallback';
-const G=[
-  {k:'uw',l:'🌊 欧美水下号',c:'#8b5cf6',b:'rgba(139,92,246,.06)'},
-  {k:'tt',l:'🎵 欧美TT官号',c:'#10b981',b:'rgba(16,185,128,.06)'},
-  {k:'usigoff',l:'📸 欧美IG官号',c:'#e1306c',b:'rgba(225,48,108,.06)'},
-  {k:'usfb',l:'👍 欧美FB官号',c:'#1877f2',b:'rgba(24,119,242,.06)'},
-  {k:'usig',l:'🎨 欧美条漫IG',c:'#c13584',b:'rgba(193,53,132,.06)'},
-  {k:'ustt',l:'🎵 欧美条漫TT',c:'#25f4ee',b:'rgba(37,244,238,.06)'},
-  {k:'hkig',l:'🌏 港台条漫IG',c:'#4361ee',b:'rgba(67,97,238,.06)'},
-  {k:'usp',l:'📌 Pinterest官号',c:'#e60019',b:'rgba(230,0,25,.06)'},
+// EMBEDDED FALLBACK DATA - always works even if fetch fails
+var EMBEDDED = {"5_uw_0": {"t": "Slide to draw blind boxes｜Collection of versatile cute girl outfits 👗", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-05", "tm": "2:15", "pd": "2026-08-05"}, "3_uw_0": {"t": "SWIPE WITH MY LEISURE TIME！", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-03", "tm": "3:20", "pd": "2026-08-03"}, "30_uw_0": {"t": "Just spending all my lazy days with this sweet pets！💗", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-30", "tm": "4:05", "pd": "2026-07-30"}, "26_uw_0": {"t": "How long would you stay indoors if your house was filled with all kinds of food? ✨", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-26", "tm": "10:20", "pd": "2026-07-26"}, "24_uw_0": {"t": "Wait till you see My Leisure Time in third person—total vibe shift!☀️", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-24", "tm": "9:30", "pd": "2026-07-24"}, "21_uw_0": {"t": "Start with an empty run-down house, build my dream cozy cottage", "p": "已排期", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-21", "tm": "3:10", "pd": "2026-07-21"}, "18_uw_0": {"t": "Swing open my window to endless swirling starlight ✨", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-18", "tm": "9:00", "pd": "2026-07-18"}, "15_uw_0": {"t": "Just sit back, collect blooms and unlock pretty dresses🌟🌟🌟", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-15", "tm": "3:10", "pd": "2026-07-15"}, "14_uw_0": {"t": "Wanna drift in this dream world? ✨", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-14", "tm": "4:15", "pd": "2026-07-14"}, "13_uw_0": {"t": "Full outfit archive revealed! Which one's your favorite?", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-13", "tm": "4:00", "pd": "2026-07-13"}, "11_uw_0": {"t": "Wild thunderstorm outside, pure cozy peace inside. Rain ASMR for relaxation.", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-11", "tm": "3:00", "pd": "2026-07-11"}, "9_uw_0": {"t": "When doomsday comes, pick your Zodiac Suite.", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-09", "tm": "4:00", "pd": "2026-07-09"}, "7_uw_0": {"t": "What kind of stories will unfold when the new NPC friend Chiikawa arrives in YoYo Town?", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-07", "tm": "10:00", "pd": "2026-07-07"}, "6_uw_0": {"t": "My bestie came to my place and refused to leave!", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-06", "tm": "10:54", "pd": "2026-07-06"}, "3_uw_1": {"t": "Me showing up to the concert like this dancing Pocoyo 🕺", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-03", "tm": "11:10", "pd": "2026-07-03"}, "3_uw_2": {"t": "My brain short-circuited instantly, now I'm just this dancing cat over here", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-07-03", "tm": "0:57", "pd": "2026-07-03"}, "10_uw_0": {"t": "Beautiful Characters House Makeover ✨ Cozy Warm Home", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-10", "tm": "2:10", "pd": "2026-08-10"}, "12_uw_0": {"t": "Fashion War begins 💞 Strutting on the T-stage!", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-12", "tm": "2:00", "pd": "2026-08-12"}, "14_uw_1": {"t": "Cute Character Transformation in My Leisure Time🎀", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-14", "tm": "2:05", "pd": "2026-08-14"}, "16_uw_0": {"t": "Adjust the slider to switch room aesthetic & size 🌸 Cozy cottage design in My Leisure Time", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-16", "tm": "11:10", "pd": "2026-08-16"}, "18_uw_1": {"t": "Wake up to this endless green view, slow living in my cozy game kitchen.⛰️", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-18", "tm": "8:45", "pd": "2026-08-18"}, "20_uw_1": {"t": "Multi-perspective stacked castle suite build.🏰", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-20", "tm": "8:45", "pd": "2026-08-20"}, "22_uw_0": {"t": "Vampire loft apartment fully built in this cozy casual game🦇.", "p": "已发布", "s": "投放视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-22", "tm": "8:00", "pd": "2026-08-22"}, "31_tt_0": {"t": "【YoYoTown Crossover】This summer is about beach parties, refreshing sea breezes, and holiday memories of shouting \"Long live cuteness!\" with the adorable Hello Kitty! #myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-31", "tm": "2:00", "pd": "2026-07-31"}, "2_tt_0": {"t": "【YoYo Crossover】The ultimate before & after room makeover in My Leisure Time！#myleisuretime #chillvibes #cozyvibes #decor #crossover #outfit #cozygame #chill #cozy", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-02", "tm": "2:15", "pd": "2026-08-02"}, "3_tt_0": {"t": "【YoYoTown Crossover】🎀 Hello Kitty's Cuteness is Exploding! 🎀#myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-03", "tm": "2:20", "pd": "2026-08-03"}, "5_tt_0": {"t": "【Friends of YoYoTown】Imagine my company settled in YOYO Town — what would it be like?#myleisuretime #chillvibes #cozyvibes #decor #crossover #outfit #cozygame #chill #cozy", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-05", "tm": "2:25", "pd": "2026-08-05"}, "6_tt_0": {"t": "【YoYo MoodBoard】My Leisure Time Outfit Tier List | From S-Tier Best to C-Tier Worst💗#myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-06", "tm": "1:50", "pd": "2026-08-06"}, "9_tt_0": {"t": "Solo Cozy Time VS Sweet Couple Daily Life in My Leisure Time💗 #myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-09", "tm": "1:00", "pd": "2026-08-09"}, "25_tt_0": {"t": "【YOYOTown Crossover】Welcome to YOYO Town Online | Select Map #myleisuretime #cozyvibes #decor #chill #chillvibes #playme #relaxinggames", "p": "已发布", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-25", "tm": "2:05", "pd": "2026-07-25"}, "26_tt_0": {"t": "New Event | The limited-time suite \"Floral Qiqiao\" is now live! Streets bright as day, wisteria swaying gently in the breeze, come and get the limited suite! #myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已发布", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-26", "tm": "15:00", "pd": "2026-07-26"}, "27_tt_0": {"t": "When pulling from Floral Qiqiao, do you also struggle with which furniture is worth getting extra of? Drop your tips in the comments! #myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已发布", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-27", "tm": "0:00", "pd": "2026-07-27"}, "28_tt_0": {"t": "【YoYoTown Crossover】Collect every lovely suite in My Leisure Time #myleisuretime #chillvibes #cozyvibes #decor #crossover #outfit #cozygame #chill #cozy", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-28", "tm": "2:05", "pd": "2026-07-28"}, "29_tt_0": {"t": "【YoYoTown Opendoor】Guess what happens if you shake this egg hard? #myleisuretime #chillvibes #cozy #cozyvibes #decor #crossover #outfit #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-07-29", "tm": "2:10", "pd": "2026-07-29"}, "31_usigoff_0": {"t": "🔄 转发条漫 EP.1 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-07-31", "tm": "10:30", "pd": "2026-07-31"}, "31_usfb_0": {"t": "🔄 转发条漫 EP.1 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-07-31", "tm": "10:30", "pd": "2026-07-31"}, "31_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.1", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-07-31", "tm": "10:30", "pd": "2026-07-31"}, "7_usigoff_0": {"t": "📋 每周漫画合集 | EP.1", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-07", "tm": "10:00", "pd": "2026-08-07"}, "5_usigoff_0": {"t": "🔄 转发条漫 EP.2 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-05", "tm": "11:30", "pd": "2026-08-05"}, "5_usfb_0": {"t": "🔄 转发条漫 EP.2 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-05", "tm": "11:30", "pd": "2026-08-05"}, "5_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.2", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-05", "tm": "11:30", "pd": "2026-08-05"}, "12_usigoff_0": {"t": "📋 每周漫画合集 | EP.2", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-12", "tm": "11:00", "pd": "2026-08-12"}, "7_usigoff_1": {"t": "🔄 转发条漫 EP.3 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-07", "tm": "10:30", "pd": "2026-08-07"}, "7_usfb_0": {"t": "🔄 转发条漫 EP.3 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-07", "tm": "10:30", "pd": "2026-08-07"}, "7_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.3", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-07", "tm": "10:30", "pd": "2026-08-07"}, "14_usigoff_0": {"t": "📋 每周漫画合集 | EP.3", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-14", "tm": "10:00", "pd": "2026-08-14"}, "12_usigoff_1": {"t": "🔄 转发条漫 EP.4 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-12", "tm": "11:30", "pd": "2026-08-12"}, "12_usfb_0": {"t": "🔄 转发条漫 EP.4 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-12", "tm": "11:30", "pd": "2026-08-12"}, "12_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.4", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-12", "tm": "11:30", "pd": "2026-08-12"}, "19_usigoff_0": {"t": "📋 每周漫画合集 | EP.4", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-19", "tm": "11:00", "pd": "2026-08-19"}, "14_usigoff_1": {"t": "🔄 转发条漫 EP.5 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-14", "tm": "10:30", "pd": "2026-08-14"}, "14_usfb_0": {"t": "🔄 转发条漫 EP.5 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-14", "tm": "10:30", "pd": "2026-08-14"}, "14_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.5", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-14", "tm": "10:30", "pd": "2026-08-14"}, "21_usigoff_0": {"t": "📋 每周漫画合集 | EP.5", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-21", "tm": "10:00", "pd": "2026-08-21"}, "19_usigoff_1": {"t": "🔄 转发条漫 EP.6 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-19", "tm": "11:30", "pd": "2026-08-19"}, "19_usfb_0": {"t": "🔄 转发条漫 EP.6 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-19", "tm": "11:30", "pd": "2026-08-19"}, "19_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.6", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-19", "tm": "11:30", "pd": "2026-08-19"}, "26_usigoff_0": {"t": "📋 每周漫画合集 | EP.6", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-26", "tm": "11:00", "pd": "2026-08-26"}, "21_usigoff_1": {"t": "🔄 转发条漫 EP.7 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-21", "tm": "10:30", "pd": "2026-08-21"}, "21_usfb_0": {"t": "🔄 转发条漫 EP.7 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-21", "tm": "10:30", "pd": "2026-08-21"}, "21_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.7", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-21", "tm": "10:30", "pd": "2026-08-21"}, "28_usigoff_0": {"t": "📋 每周漫画合集 | EP.7", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-28", "tm": "10:00", "pd": "2026-08-28"}, "26_usigoff_1": {"t": "🔄 转发条漫 EP.8 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-26", "tm": "11:30", "pd": "2026-08-26"}, "26_usfb_0": {"t": "🔄 转发条漫 EP.8 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-26", "tm": "11:30", "pd": "2026-08-26"}, "26_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.8", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-26", "tm": "11:30", "pd": "2026-08-26"}, "2_usigoff_0": {"t": "📋 每周漫画合集 | EP.8", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-02", "tm": "11:00", "pd": "2026-09-02"}, "28_usigoff_1": {"t": "🔄 转发条漫 EP.9 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-08-28", "tm": "10:30", "pd": "2026-08-28"}, "28_usfb_0": {"t": "🔄 转发条漫 EP.9 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-08-28", "tm": "10:30", "pd": "2026-08-28"}, "28_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.9", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-08-28", "tm": "10:30", "pd": "2026-08-28"}, "4_usigoff_0": {"t": "📋 每周漫画合集 | EP.9", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-04", "tm": "10:00", "pd": "2026-09-04"}, "2_usigoff_1": {"t": "🔄 转发条漫 EP.10 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-02", "tm": "11:30", "pd": "2026-09-02"}, "2_usfb_0": {"t": "🔄 转发条漫 EP.10 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-09-02", "tm": "11:30", "pd": "2026-09-02"}, "2_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.10", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-09-02", "tm": "11:30", "pd": "2026-09-02"}, "9_usigoff_0": {"t": "📋 每周漫画合集 | EP.10", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-09", "tm": "11:00", "pd": "2026-09-09"}, "4_usigoff_1": {"t": "🔄 转发条漫 EP.11 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-04", "tm": "10:30", "pd": "2026-09-04"}, "4_usfb_0": {"t": "🔄 转发条漫 EP.11 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-09-04", "tm": "10:30", "pd": "2026-09-04"}, "4_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.11", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-09-04", "tm": "10:30", "pd": "2026-09-04"}, "11_usigoff_0": {"t": "📋 每周漫画合集 | EP.11", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-11", "tm": "10:00", "pd": "2026-09-11"}, "9_usigoff_1": {"t": "🔄 转发条漫 EP.12 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-09", "tm": "11:30", "pd": "2026-09-09"}, "9_usfb_0": {"t": "🔄 转发条漫 EP.12 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-09-09", "tm": "11:30", "pd": "2026-09-09"}, "9_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.12", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-09-09", "tm": "11:30", "pd": "2026-09-09"}, "16_usigoff_0": {"t": "📋 每周漫画合集 | EP.12", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-16", "tm": "11:00", "pd": "2026-09-16"}, "11_usigoff_1": {"t": "🔄 转发条漫 EP.13 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-11", "tm": "10:30", "pd": "2026-09-11"}, "11_usfb_0": {"t": "🔄 转发条漫 EP.13 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-09-11", "tm": "10:30", "pd": "2026-09-11"}, "11_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.13", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-09-11", "tm": "10:30", "pd": "2026-09-11"}, "18_usigoff_0": {"t": "📋 每周漫画合集 | EP.13", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-18", "tm": "10:00", "pd": "2026-09-18"}, "16_usigoff_1": {"t": "🔄 转发条漫 EP.14 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-16", "tm": "11:30", "pd": "2026-09-16"}, "16_usfb_0": {"t": "🔄 转发条漫 EP.14 | 挂游戏链接", "p": "已排期", "s": "官方素材", "n": "欧美FB官号", "a": "usfb", "d": "2026-09-16", "tm": "11:30", "pd": "2026-09-16"}, "16_usp_0": {"t": "📌 Pinterest 内容分享 | 条漫 EP.14", "p": "已排期", "s": "官方素材", "n": "官号 Pinterest", "a": "usp", "d": "2026-09-16", "tm": "11:30", "pd": "2026-09-16"}, "23_usigoff_0": {"t": "📋 每周漫画合集 | EP.14", "p": "已排期", "s": "官方素材", "n": "欧美IG官号", "a": "usigoff", "d": "2026-09-23", "tm": "11:00", "pd": "2026-09-23"}, "1_uw_0": {"t": "🌊 条漫二创 | EP.1（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-01", "tm": "10:00", "pd": "2026-08-01"}, "6_uw_1": {"t": "🌊 条漫二创 | EP.2（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-06", "tm": "11:00", "pd": "2026-08-06"}, "8_uw_0": {"t": "🌊 条漫二创 | EP.3（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-08", "tm": "10:00", "pd": "2026-08-08"}, "13_uw_1": {"t": "🌊 条漫二创 | EP.4（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-13", "tm": "11:00", "pd": "2026-08-13"}, "15_uw_1": {"t": "🌊 条漫二创 | EP.5（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-15", "tm": "10:00", "pd": "2026-08-15"}, "20_uw_0": {"t": "🌊 条漫二创 | EP.6（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-20", "tm": "11:00", "pd": "2026-08-20"}, "22_uw_1": {"t": "🌊 条漫二创 | EP.7（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-22", "tm": "10:00", "pd": "2026-08-22"}, "27_uw_0": {"t": "🌊 条漫二创 | EP.8（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-27", "tm": "11:00", "pd": "2026-08-27"}, "29_uw_0": {"t": "🌊 条漫二创 | EP.9（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-08-29", "tm": "10:00", "pd": "2026-08-29"}, "3_uw_3": {"t": "🌊 条漫二创 | EP.10（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-09-03", "tm": "11:00", "pd": "2026-09-03"}, "5_uw_1": {"t": "🌊 条漫二创 | EP.11（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-09-05", "tm": "10:00", "pd": "2026-09-05"}, "10_uw_1": {"t": "🌊 条漫二创 | EP.12（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-09-10", "tm": "11:00", "pd": "2026-09-10"}, "12_uw_1": {"t": "🌊 条漫二创 | EP.13（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-09-12", "tm": "10:00", "pd": "2026-09-12"}, "17_uw_0": {"t": "🌊 条漫二创 | EP.14（不挂链接）", "p": "已排期", "s": "自制视频", "n": "欧美水下号", "a": "uw", "d": "2026-09-17", "tm": "11:00", "pd": "2026-09-17"}, "12_tt_0": {"t": "Swipe your fingers across the screen along with me!!✨#myleisuretime #chillvibes #cozyvibes #decor #crossover #outfit #cozygame #chill #cozy", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-12", "tm": "2:05", "pd": "2026-08-12"}, "15_tt_1": {"t": "Chill away my relaxing weekend playing My Leisure Time🍂 #weekend #myleisuretime #cozygame #chillvibes #decor", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-15", "tm": "2:05", "pd": "2026-08-15"}, "17_tt_0": {"t": "【YoYo MoodBoard】Maple Onsen Spa daily build 🍁♨️ #myleisuretime #CozyHomeDesign #chill #cozyvibes #decor #weekend", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-17", "tm": "1:00", "pd": "2026-08-17"}, "18_tt_0": {"t": "【Friends of YoYoTown】Who wouldn't want a life with both cats and dogs? #CatsAndDog #VirtualPets #myleisuretime #cozygame", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-18", "tm": "2:10", "pd": "2026-08-18"}, "20_tt_0": {"t": "Recreate every detail of my life within the game 🌟 #myleisuretime #cozyvibes #decor #cozygame #chill", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-20", "tm": "2:05", "pd": "2026-08-20"}, "23_tt_0": {"t": "【YoYo Mood Board】POV: My cozy nature den full of plants and wooden decor #myleisuretime #CozyHomeDesign #chill #cozyvibes #decor", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-23", "tm": "2:45", "pd": "2026-08-23"}, "25_tt_1": {"t": "【YoYo MoodBoard】Dopamine kitchen decor for everyday joy🎀 #DopamineDecor #KitchenRenovation #myleisuretime #chillvibes #cozygame", "p": "已排期", "s": "投放视频", "n": "欧美TT官号", "a": "tt", "d": "2026-08-25", "tm": "2:20", "pd": "2026-08-25"}, "5_hkig_0": {"t": "隙間來信01｜和平行世界的自己撞上了", "l": "", "pd": "2026-08-05", "d": "2026-08-05", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "5_usig_0": {"t": "Interdimensional Letter 01｜Bumped Into My Parallel Self", "l": "", "pd": "2026-08-05", "d": "2026-08-05", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "5_ustt_0": {"t": "Interdimensional Letter 01｜Bumped Into My Parallel Self", "l": "", "pd": "2026-08-05", "d": "2026-08-05", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "10_hkig_0": {"t": "隙間來信02｜貓貓燒烤中（.exe未回應）", "l": "", "pd": "2026-08-10", "d": "2026-08-10", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "10_usig_0": {"t": "Interdimensional Letter 02｜Cat BBQ.exe Has Stopped Responding", "l": "", "pd": "2026-08-10", "d": "2026-08-10", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "10_ustt_0": {"t": "Interdimensional Letter 02｜Cat BBQ.exe Has Stopped Responding", "l": "", "pd": "2026-08-10", "d": "2026-08-10", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "12_hkig_0": {"t": "隙間來信03｜平行世界！哇～～", "l": "", "pd": "2026-08-12", "d": "2026-08-12", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "12_usig_0": {"t": "Interdimensional Letter 03｜A Parallel World! Wow~~", "l": "", "pd": "2026-08-12", "d": "2026-08-12", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "12_ustt_0": {"t": "Interdimensional Letter 03｜A Parallel World! Wow~~", "l": "", "pd": "2026-08-12", "d": "2026-08-12", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "17_hkig_0": {"t": "隙間來信04｜欸？……我嗎？", "l": "", "pd": "2026-08-17", "d": "2026-08-17", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "17_usig_0": {"t": "Interdimensional Letter 04｜Huh?... Me?", "l": "", "pd": "2026-08-17", "d": "2026-08-17", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "17_ustt_0": {"t": "Interdimensional Letter 04｜Huh?... Me?", "l": "", "pd": "2026-08-17", "d": "2026-08-17", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "19_hkig_0": {"t": "隙間來信05｜栗子疑惑.jpg：咪……？", "l": "", "pd": "2026-08-19", "d": "2026-08-19", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "19_usig_0": {"t": "Interdimensional Letter 05｜Chestnut Confusion.jpg: Mew...?", "l": "", "pd": "2026-08-19", "d": "2026-08-19", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "19_ustt_0": {"t": "Interdimensional Letter 05｜Chestnut Confusion.jpg: Mew...?", "l": "", "pd": "2026-08-19", "d": "2026-08-19", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "24_hkig_0": {"t": "隙間來信06｜難以抵抗的底層程式碼發動了！！", "l": "", "pd": "2026-08-24", "d": "2026-08-24", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "24_usig_0": {"t": "Interdimensional Letter 06｜The Irresistible Power of Base Code Activated!!", "l": "", "pd": "2026-08-24", "d": "2026-08-24", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "24_ustt_0": {"t": "Interdimensional Letter 06｜The Irresistible Power of Base Code Activated!!", "l": "", "pd": "2026-08-24", "d": "2026-08-24", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "26_hkig_0": {"t": "隙間來信07｜是夢中也不會存在的烏托邦……", "l": "", "pd": "2026-08-26", "d": "2026-08-26", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "26_usig_0": {"t": "Interdimensional Letter 07｜A Utopia That Doesn't Even Exist in Dreams...", "l": "", "pd": "2026-08-26", "d": "2026-08-26", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "26_ustt_0": {"t": "Interdimensional Letter 07｜A Utopia That Doesn't Even Exist in Dreams...", "l": "", "pd": "2026-08-26", "d": "2026-08-26", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "31_hkig_0": {"t": "隙間來信08｜咖啡好苦，貓貓卡請求全糖！", "l": "", "pd": "2026-08-31", "d": "2026-08-31", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "31_usig_0": {"t": "Interdimensional Letter 08｜Coffee's Too Bitter, Kitty Card Requests Full Sugar!", "l": "", "pd": "2026-08-31", "d": "2026-08-31", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "31_ustt_0": {"t": "Interdimensional Letter 08｜Coffee's Too Bitter, Kitty Card Requests Full Sugar!", "l": "", "pd": "2026-08-31", "d": "2026-08-31", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "2_hkig_0": {"t": "隙間來信09｜末花：貼心暖咖有宇宙人速來！", "l": "", "pd": "2026-09-02", "d": "2026-09-02", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "2_usig_0": {"t": "Interdimensional Letter 09｜Suika: Warm Coffee & an Alien, Come Quick!", "l": "", "pd": "2026-09-02", "d": "2026-09-02", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "2_ustt_0": {"t": "Interdimensional Letter 09｜Suika: Warm Coffee & an Alien, Come Quick!", "l": "", "pd": "2026-09-02", "d": "2026-09-02", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "7_hkig_0": {"t": "隙間來信10｜不管做什麼都一定很厲害哼哼～", "l": "", "pd": "2026-09-07", "d": "2026-09-07", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "7_usig_0": {"t": "Interdimensional Letter 10｜Bet You're Amazing at Everything, Hmph~", "l": "", "pd": "2026-09-07", "d": "2026-09-07", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "7_ustt_0": {"t": "Interdimensional Letter 10｜Bet You're Amazing at Everything, Hmph~", "l": "", "pd": "2026-09-07", "d": "2026-09-07", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "9_hkig_0": {"t": "隙間來信11｜……和你們想像的不太一樣哦。", "l": "", "pd": "2026-09-09", "d": "2026-09-09", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "9_usig_0": {"t": "Interdimensional Letter 11｜...Not Quite What You Pictured.", "l": "", "pd": "2026-09-09", "d": "2026-09-09", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "9_ustt_0": {"t": "Interdimensional Letter 11｜...Not Quite What You Pictured.", "l": "", "pd": "2026-09-09", "d": "2026-09-09", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "14_hkig_0": {"t": "隙間來信12｜你好啊，另一個我～", "l": "", "pd": "2026-09-14", "d": "2026-09-14", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "14_usig_0": {"t": "Interdimensional Letter 12｜Hello There, Other Me~", "l": "", "pd": "2026-09-14", "d": "2026-09-14", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "14_ustt_0": {"t": "Interdimensional Letter 12｜Hello There, Other Me~", "l": "", "pd": "2026-09-14", "d": "2026-09-14", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "16_hkig_0": {"t": "隙間來信13｜魔法莫咪——變身！！", "l": "", "pd": "2026-09-16", "d": "2026-09-16", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "16_usig_0": {"t": "Interdimensional Letter 13｜Magic Mokami—Transform!!", "l": "", "pd": "2026-09-16", "d": "2026-09-16", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "16_ustt_0": {"t": "Interdimensional Letter 13｜Magic Mokami—Transform!!", "l": "", "pd": "2026-09-16", "d": "2026-09-16", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}, "21_hkig_0": {"t": "隙間來信14｜你……無禮之徒！（惱！）", "l": "", "pd": "2026-09-21", "d": "2026-09-21", "p": "已排期", "s": "投放视频", "n": "hkig条漫", "a": "hkig", "tm": "1:00"}, "21_usig_0": {"t": "Interdimensional Letter 14｜You... How RUDE! (Indignant!)", "l": "", "pd": "2026-09-21", "d": "2026-09-21", "p": "已排期", "s": "投放视频", "n": "usig条漫", "a": "usig", "tm": "1:00"}, "21_ustt_0": {"t": "Interdimensional Letter 14｜You... How RUDE! (Indignant!)", "l": "", "pd": "2026-09-21", "d": "2026-09-21", "p": "已排期", "s": "投放视频", "n": "ustt条漫", "a": "ustt", "tm": "1:00"}};
+
+// Account definitions with colors
+var G = [
+  {k:'uw',l:'🌊 欧美水下号',c:'#8b5cf6',b:'rgba(139,92,246,.08)'},
+  {k:'tt',l:'🎵 欧美TT官号',c:'#10b981',b:'rgba(16,185,128,.08)'},
+  {k:'usigoff',l:'📸 欧美IG官号',c:'#e1306c',b:'rgba(225,48,108,.08)'},
+  {k:'usfb',l:'👍 欧美FB官号',c:'#1877f2',b:'rgba(24,119,242,.08)'},
+  {k:'usig',l:'🎨 欧美条漫IG',c:'#c13584',b:'rgba(193,53,132,.08)'},
+  {k:'ustt',l:'🎵 欧美条漫TT',c:'#25f4ee',b:'rgba(37,244,238,.08)'},
+  {k:'hkig',l:'🌏 港台条漫IG',c:'#4361ee',b:'rgba(67,97,238,.08)'},
+  {k:'usp',l:'📌 Pinterest官号',c:'#e60019',b:'rgba(230,0,25,.08)'}
 ];
-const P=['待制作','制作中','已排期','已发布'];
-let M=(new Date).getMonth()+1, Y=(new Date).getFullYear();
 
-function go(d){M+=d;if(M>12){M=1;Y++}if(M<1){M=12;Y--}ld();}
-function E(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
+var M = new Date().getMonth()+1;
+var Y = new Date().getFullYear();
 
-async function ld(){
-  document.getElementById('ml').textContent=Y+'年'+M+'月';
-  let gh={}, ls={};
-  try{
-    const r=await fetch(RAW+'?v='+Date.now());
-    if(r.ok){const raw=await r.json();if(raw&&raw.slots)gh=raw.slots;
-    else document.getElementById('app').innerHTML='<div class="empty">❌ raw.slots 为空: '+Object.keys(raw||{}).join(',')+'</div>';return;}
-    else document.getElementById('app').innerHTML='<div class="empty">❌ fetch failed: '+r.status+' '+r.statusText+'</div>';return;
-  }catch(e){
-    document.getElementById('app').innerHTML='<div class="empty">❌ fetch 异常: '+e.message+'<br>RAW='+RAW+'</div>';
+function go(d){ M+=d; if(M>12){M=1;Y++} if(M<1){M=12;Y--} load(); }
+function E(s){ return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
+
+async function load(){
+  document.getElementById('ml').textContent = Y+'年'+M+'月';
+  var st = document.getElementById('status');
+  st.textContent = '加载中...';
+  
+  var slots = null;
+  
+  // Try GitHub Pages first (same-origin, correct content-type)
+  try {
+    st.textContent = '正在从服务器加载...';
+    var r = await fetch('data.json?v='+Date.now());
+    if (r.ok) {
+      var raw = await r.json();
+      if (raw && raw.slots) {
+        slots = raw.slots;
+        st.textContent = '✅ 已从服务器加载 '+Object.keys(slots).length+' 条排期';
+      }
+    } else {
+      st.textContent = '⚠ 服务器返回: '+r.status;
+    }
+  } catch(e) {
+    st.textContent = '⚠ 网络错误: '+e.message;
+  }
+  
+  // Fallback: use embedded data
+  if (!slots) {
+    st.textContent = '📦 使用离线数据 ('+Object.keys(EMBEDDED).length+' 条)';
+    slots = EMBEDDED;
+  }
+  
+  render(slots);
+}
+
+function render(data) {
+  var a = document.getElementById('app');
+  if (!data || !Object.keys(data).length) {
+    a.innerHTML = '<div class="empty">❌ 无数据</div>';
     return;
   }
-  try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;else document.getElementById('app').innerHTML+='<br>LS parse ok but no slots';}}catch(e){document.getElementById('app').innerHTML='<br>LS parse error: '+e.message;}
-  render({...gh, ...ls});
+  
+  var mp = Y+'-'+String(M).padStart(2,'0');
+  var gr = {};
+  G.forEach(function(g){ gr[g.k] = []; });
+  
+  Object.keys(data).forEach(function(k) {
+    var m = k.match(/^(\d+)_(\w+)_(\d+)$/);
+    if (!m) return;
+    var pfx = m[2], v = data[k];
+    if (!gr[pfx] || !v.t || !v.t.trim()) return;
+    if (!v.pd || !String(v.pd).startsWith(mp)) return;
+    gr[pfx].push({k:k, v:v, day:parseInt(m[1])});
+  });
+  
+  var total = 0;
+  var h = '';
+  G.forEach(function(g) {
+    var items = gr[g.k];
+    items.sort(function(a,b){ return a.day - b.day; });
+    total += items.length;
+    
+    h += '<div class="sec">';
+    h += '<div class="sec-hdr" style="background:'+g.b+';color:'+g.c+'">';
+    h += g.l + ' <span class="count">'+items.length+'条</span>';
+    h += '</div>';
+    
+    if (!items.length) {
+      h += '<div class="empty">暂无排期</div>';
+    } else {
+      items.forEach(function(x) {
+        var d = (x.v.pd||'').slice(5);
+        h += '<div class="post">';
+        h += '<div class="post-date">'+d+'</div>';
+        h += '<div class="post-body">';
+        if (x.v.cn) h += '<div class="cn-badge">📌 '+E(x.v.cn)+'</div>';
+        h += '<div class="post-title">'+E(x.v.t)+'</div>';
+        if (x.v.p) h += '<span class="tag '+(x.v.p==='已发布'?'done':'progress')+'">'+x.v.p+'</span>';
+        if (x.v.s) h += '<span class="tag">'+E(x.v.s)+'</span>';
+        h += '</div></div>';
+      });
+    }
+    h += '</div>';
+  });
+  
+  a.innerHTML = h;
+  document.getElementById('status').textContent += ' | 本月: '+total+' 条';
 }
 
-function render(data){
-  const a=document.getElementById('app');
-  if(!data||!Object.keys(data).length){a.innerHTML='<div class="empty">暂无数据</div>';return;}
-
-  const mp=Y+'-'+String(M).padStart(2,'0');
-  const gr={}; G.forEach(g=>{gr[g.k]=[]});
-
-  Object.keys(data).forEach(k=>{
-    const m=k.match(/^(\d+)_(\w+)_(\d+)$/);
-    if(!m)return;
-    const pfx=m[2], v=data[k];
-    if(!gr[pfx]||!v.t||!v.t.trim())return;
-    if(!v.pd||!v.pd.startsWith(mp))return;
-    gr[pfx].push({...v, k:k, day:parseInt(m[1])});
-  });
-
-  let h='<div class="stats"><span>📊 '+Object.keys(data).length+' 条</span></div>';
-  G.forEach(g=>{
-    const it=gr[g.k]; it.sort((a,b)=>a.day-b.day);
-    h+='<div class="sec"><div class="sec-hdr" style="background:'+g.b+';color:'+g.c+'">'+g.l+' · '+it.length+'条</div><div class="sec-body">';
-    if(!it.length){h+='<div class="empty">暂无排期</div>';}
-    else it.forEach(x=>{
-      const d=(x.pd||'').slice(5), pi=P.indexOf(x.p), tc=pi>=2?'s':(pi>=0?'w':'');
-      h+='<div class="post"><div class="post-date">'+d+'</div><div class="post-body">';
-      if(x.cn)h+='<div class="cn-badge">📌 '+E(x.cn)+'</div>';
-      h+='<div class="post-title">'+E(x.t)+'</div><div class="post-meta">';
-      if(x.p)h+='<span class="tag '+tc+'">'+x.p+'</span>';
-      if(x.s)h+='<span class="tag">'+E(x.s)+'</span>';
-      h+='</div></div></div>';
-    });
-    h+='</div></div>';
-  });
-  a.innerHTML=h;
-}
-ld();
+load();
 </script>
 </body>
 </html>

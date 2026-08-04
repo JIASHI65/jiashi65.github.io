@@ -8,6 +8,8 @@ on:
 jobs:
   report:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 20
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}

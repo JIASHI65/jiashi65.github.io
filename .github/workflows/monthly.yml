@@ -22,9 +22,10 @@ jobs:
         run: node report_monthly.js
       - name: Deploy HTML
         run: |
-          cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html 2>/dev/null 
+         cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html 2>/dev/null
+          ls yoyo-community-report/monthly.html || { echo "❌ No monthly HTML to deploy"; exit 1; }
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/
           git diff --staged --quiet || git commit -m "📊 Monthly report $(date +%Y%m%d)"
-          git pull --rebase origin main && git push 
+          git pull --rebase origin main && git push || true

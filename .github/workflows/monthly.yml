@@ -26,4 +26,4 @@ jobs:
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/
           git diff --staged --quiet || git commit -m "📊 Monthly report $(date +%Y%m%d)"
-          git push || true
+          git pull --rebase origin main && git push || true

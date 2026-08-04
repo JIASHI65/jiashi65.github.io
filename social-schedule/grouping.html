@@ -154,22 +154,39 @@ const DEFAULT_SLOTS = {
   };
 
 async function loadData(){
-  // 1. Try localStorage first (user edits survive refresh)
-  try{
-    const ls=localStorage.getItem(LS_KEY);
-    if(ls){
-      const j=JSON.parse(ls);
-      if(j&&j.slots&&Object.keys(j.slots).length>0) return j.slots;
+  // Load BOTH GitHub and localStorage, merge: GH base + LS overrides
+  let gh={}, ls={};
+  
+  // 1. GitHub (via API to bypass CDN cache)
+  try {
+    const r=await fetch('https://api.github.com/repos/'+GH_USER+'/'+GH_REPO+'/contents/social-schedule/data.json?ref='+GH_BRANCH);
+    if(r.ok){
+      const d=await r.json();
+      if(d.content){
+        const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));
+        if(raw&&raw.slots) gh=raw.slots;
+      }
     }
   }catch(e){}
+  // Fallback: raw CDN if API fails
+  if(Object.keys(gh).length===0){
+    try{
+      const r=await fetch(RAW_URL+"?v="+Date.now());
+      if(r.ok){const j=await r.json(); if(j&&j.slots) gh=j.slots;}
+    }catch(e){}
+  }
   
-  // 2. Fallback: GitHub CDN
-  try {
-    const r=await fetch(RAW_URL+"?v="+Date.now());
-    if(r.ok){const j=await r.json(); if(j&&j.slots&&Object.keys(j.slots).length>0) return j.slots;}
+  // 2. localStorage (user edits)
+  try{
+    const lsRaw=localStorage.getItem(LS_KEY);
+    if(lsRaw){const j=JSON.parse(lsRaw); if(j&&j.slots) ls=j.slots;}
   }catch(e){}
   
-  // 3. Ultimate fallback: embedded defaults
+  // 3. Merge: GitHub base + localStorage overrides
+  const merged={...gh, ...ls};
+  if(Object.keys(merged).length>0) return merged;
+  
+  // 4. Ultimate fallback
   return JSON.parse(JSON.stringify(DEFAULT_SLOTS));
 }
 

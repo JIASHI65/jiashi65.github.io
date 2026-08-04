@@ -212,7 +212,7 @@ async function main() {
   console.log(`║  🤖 LLM: DeepSeek V4 Flash`);
   console.log(`╚══════════════════════════════════╝\n`);
 
-  const curMonth = getMonthRange(0), prevMonth = getMonthRange(1);
+  const curMonth = getMonthRange(1), prevMonth = getMonthRange(2);
   console.log(`📅 本月: ${curMonth.label}`);
   console.log(`📅 上月: ${prevMonth.label}\n`);
 

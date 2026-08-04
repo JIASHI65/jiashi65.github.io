@@ -689,7 +689,7 @@ function getRefsWithRanges(){
       }
     } else {
       // Single-day ref - only show in July (its source month)
-      if(curM === 7 && r.srcDay) {
+      if(r.srcDay) {
         result[r.srcDay].push({...r});
       }
     }

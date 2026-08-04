@@ -488,13 +488,7 @@ async function init(){
     curM = 7;
   }
   const ok = await loadFromServer();
-  const refsForMonth = getRefsWithRanges();
-  const visibleRefCount = Object.values(refsForMonth).reduce((sum, list) => sum + (list ? list.length : 0), 0);
-  if(curM!==7 && visibleRefCount < 3){
-    curY = 2026;
-    curM = 7;
-    try{ localStorage.setItem(LS_MONTH_KEY, '2026-07'); }catch(e){}
-  }
+  // Always keep saved month; if refs are empty so be it
   // Keep stored refs intact; getRefsWithRanges decides which refs are visible for the active month.
   const daysInMonth = new Date(curY, curM, 0).getDate();
   updateMonthDisplay();
@@ -688,7 +682,7 @@ function getRefsWithRanges(){
         }
       }
     } else {
-      // Single-day ref - only show in July (its source month)
+      // Single-day ref - show on its source day
       if(r.srcDay) {
         result[r.srcDay].push({...r});
       }

@@ -115,8 +115,7 @@ body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-h
 <div class="container" id="app"><div class="empty">⏳ 加载中...</div></div>
 
 <script>
-const GH='JIASHI65', REPO='jiashi65.github.io', BR='main';
-const API='https://api.github.com/repos/'+GH+'/'+REPO+'/contents/social-schedule/data.json?ref='+BR;
+const RAW='https://raw.githubusercontent.com/JIASHI65/jiashi65.github.io/main/social-schedule/data.json';
 const LS='smm_v3_fallback';
 const G=[
   {k:'uw',l:'🌊 欧美水下号',c:'#8b5cf6',b:'rgba(139,92,246,.06)'},
@@ -138,8 +137,7 @@ async function ld(){
   document.getElementById('ml').textContent=Y+'年'+M+'月';
   let gh={}, ls={};
   try{
-    // Use raw API to avoid base64 UTF-8 issues
-    const r=await fetch(API,{headers:{'Accept':'application/vnd.github.raw'}});
+    const r=await fetch(RAW+'?v='+Date.now());
     if(r.ok){const raw=await r.json();if(raw&&raw.slots)gh=raw.slots;}
   }catch(e){}
   try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;}}catch(e){}

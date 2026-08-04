@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Yoyo Creative Studio · 2026年7月月报</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0e17;color:#e0e6f0;font-family:-apple-system,'Inter',sans-serif;min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:20px}
+.header{text-align:center;padding:40px 0 30px;border-bottom:1px solid rgba(0,212,255,.1);margin-bottom:30px}
+.header .logo{font-size:14px;color:#00d4ff;letter-spacing:3px;text-transform:uppercase}
+.header h1{font-size:32px;font-weight:700;background:linear-gradient(135deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header .subtitle{color:#8892b0;font-size:14px;margin-top:6px}
+.header .badge{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:#00d4ff;padding:4px 14px;border-radius:12px;font-size:12px;margin-top:8px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.kpi-card{background:linear-gradient(135deg,rgba(20,30,60,.8),rgba(15,20,40,.8));border:1px solid rgba(0,212,255,.12);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#00d4ff,#7b2ff7);opacity:.5}
+.kpi-card .label{color:#8892b0;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.kpi-card .value{font-size:30px;font-weight:700;margin:6px 0 3px;letter-spacing:-1px;line-height:1.1}
+.kpi-card .change{font-size:12px;font-weight:500;color:#00d4ff}.kpi-card .change.down{color:#ff6b6b}
+.section{background:linear-gradient(135deg,rgba(20,30,60,.6),rgba(15,20,40,.6));border:1px solid rgba(0,212,255,.1);border-radius:14px;padding:28px;margin-bottom:24px}
+.section-title{font-size:18px;font-weight:600;color:#00d4ff;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{color:#8892b0;font-weight:500;text-transform:uppercase;padding:10px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
+.data-table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.04)}.data-table .num{text-align:right;font-weight:500}.up{color:#00d4ff}.down{color:#ff6b6b}
+.topic-card{background:rgba(0,0,0,.15);border-radius:12px;padding:18px;margin-bottom:14px}
+.topic-card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.topic-card .name{font-size:15px;font-weight:600}.topic-card .level{font-size:11px;padding:2px 8px;border-radius:8px;font-weight:600}
+.topic-card .level.high{background:rgba(255,107,107,.2);color:#ff6b6b}.topic-card .level.medium{background:rgba(255,171,0,.2);color:#ffab00}.topic-card .level.low{background:rgba(0,212,255,.15);color:#00d4ff}
+.topic-card .detail{font-size:13px;color:#b0b8d0;line-height:1.7;margin-top:6px}.topic-card .parts{font-size:11px;color:#8892b0;margin-top:6px}
+.pain-card{background:rgba(255,107,107,.05);border:1px solid rgba(255,107,107,.15);border-radius:12px;padding:16px;margin-bottom:12px}
+.pain-card.critical{border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.1)}.pain-card.watch{border-color:rgba(255,171,0,.2);background:rgba(255,171,0,.05)}
+.pain-card .pain-title{font-size:14px;font-weight:600;margin-bottom:6px}.pain-card .pain-detail{font-size:12px;color:#b0b8d0;line-height:1.6}
+.pain-card .pain-impact{font-size:11px;color:#ffab00;margin-top:6px}.pain-card .pain-fix{font-size:11px;color:#00d4ff;margin-top:4px}
+.action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.action-col{background:rgba(0,0,0,.15);border-radius:12px;padding:18px}.action-col h4{font-size:14px;color:#00d4ff;margin-bottom:12px}
+.action-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;font-size:13px}
+.action-prio{font-size:10px;padding:1px 6px;border-radius:6px;font-weight:700;flex-shrink:0;margin-top:2px}
+.action-prio.P0{background:rgba(255,107,107,.2);color:#ff6b6b}.action-prio.P1{background:rgba(255,171,0,.2);color:#ffab00}.action-prio.P2{background:rgba(0,212,255,.15);color:#00d4ff}
+.quote-block{background:rgba(0,212,255,.04);border-left:3px solid #00d4ff;padding:12px 16px;margin:10px 0;border-radius:0 8px 8px 0;font-size:12px;color:#b0b8d0;line-height:1.6;font-style:italic}
+.highlight-card{background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.15);border-radius:12px;padding:14px;margin-bottom:10px}
+.highlight-card .hl-title{font-size:13px;font-weight:600;color:#00e676}
+.highlight-card .hl-detail{font-size:12px;color:#b0b8d0;margin-top:4px;line-height:1.5}
+.trend-box{background:rgba(0,0,0,.2);border-radius:10px;padding:16px;font-size:13px;color:#b0b8d0;line-height:1.7}
+.health-bar{height:8px;background:rgba(255,255,255,.05);border-radius:4px;margin:8px 0;overflow:hidden}.health-bar .fill{height:100%;border-radius:4px}.health-label{font-size:14px;font-weight:600}
+.footer{text-align:center;padding:40px 20px;color:#8892b0;font-size:11px;border-top:1px solid rgba(255,255,255,.04);margin-top:30px}.footer a{color:#00d4ff;text-decoration:none}
+.user-row{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:4px 0;background:rgba(0,0,0,.1);border-radius:8px;font-size:13px}
+.user-row .rank{font-size:18px;width:30px;text-align:center;font-weight:700}.user-row .uname{flex:1}.user-row .ucount{color:#00d4ff;font-weight:600}
+@media(max-width:768px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.action-grid{grid-template-columns:1fr}}
+</style></head><body><div class="container">
+<div class="header"><div class="logo">📊 Monthly Report</div><h1>Yoyo Creative Studio</h1><div class="subtitle">2026年7月 · 社群月报 · 2026/8/4 生成</div><div class="badge">🤖 Mochi Bot · 深度分析 by DeepSeek</div></div>
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="label">🗣️ 全频道消息</div><div class="value">584</div><div class="change ">环比 1669.7%</div></div>
+  <div class="kpi-card"><div class="label">👥 发言人数</div><div class="value">32</div><div class="change ">环比 100.0%</div></div>
+  <div class="kpi-card"><div class="label">📡 活跃频道</div><div class="value">7/7</div><div class="change">🏥 健康分 95/100</div></div>
+  <div class="kpi-card"><div class="label">😊 社群氛围</div><div class="value" style="font-size:16px">😊40% 😡0%</div><div class="change">LLM 情绪分析</div></div>
+</div>
+<div class="section"><div class="section-title">🤖 LLM 深度分析 · 本月</div>
+  <div class="trend-box">📝 社群活跃度显著提升，成员互动频繁，氛围积极友好，互相支持成为主旋律，无重大负面事件。</div>
+  <h4 style="margin:20px 0 12px;color:#ff6b9d">🔥 热议话题</h4>
+    <div class="topic-card">
+      <div class="top"><span class="name">🔥 游戏进度同步与日常任务</span><span class="level high">高讨论度</span></div>
+      <div class="detail">QueenLeo、Bean、Dynia、nho0o等成员讨论Pet Shop、Pillow Realty等游戏任务进度，分享游戏截图和感受，互相确认是否在同一轮次，形成轻松的游戏日常交流。</div><div class="parts">👥 QueenLeo、Bean、Dynia、nho0o</div>
+    </div>
+    <div class="topic-card">
+      <div class="top"><span class="name">🔥 社交媒体互相点赞评论支持</span><span class="level high">高讨论度</span></div>
+      <div class="detail">Valkyrie、Bean、thisonegirl25、MLT-Aurora、Kin等成员发起和参与Instagram点赞评论互助，Bean分享链接互动从6升至26，Valkyrie感谢大家的支持，氛围积极。</div><div class="parts">👥 Valkyrie、Bean、thisonegirl25、MLT-Aurora、Kin</div>
+    </div>
+    <div class="topic-card">
+      <div class="top"><span class="name">📊 健康与休息关怀</span><span class="level medium">中讨论度</span></div>
+      <div class="detail">Janie、Kanansai、nho0o等成员互相问候身体状况，鼓励休息和补水，如Kanansai请假休息后得到大家祝福，体现社群温暖。</div><div class="parts">👥 Janie、Kanansai、nho0o</div>
+    </div>
+    <div class="topic-card">
+      <div class="top"><span class="name">💬 文化趣闻分享（越南葡萄与指甲店故事）</span><span class="level low">一般</span></div>
+      <div class="detail">nho0o分享关于越南葡萄和指甲店起源的故事（与Tippi Hedren有关），引发Janie、Kin等兴趣和讨论，丰富社群内容。</div><div class="parts">👥 nho0o、Janie、Kin</div>
+    </div>
+  <div class="pain-card low"><div class="pain-title">⚠️ 少数成员因时间延迟感到落后</div><div class="pain-detail">QueenLeo提及自己一天落后于大家，但未引发负面情绪，社群成员以轻松方式回应，无实际影响。</div><div class="pain-fix">💡 无需干预，保持正常互动即可。</div></div>
+  <div class="highlight-card"><div class="hl-title">✨ Bean的Instagram链接互动从6增至26</div><div class="hl-detail">社群成员主动点赞评论，显著提升内容可见度，增强成员成就感，激励更多互助行为。</div></div><div class="highlight-card"><div class="hl-title">✨ Valkyrie感谢大家支持，氛围融洽</div><div class="hl-detail">成员自发组织点赞评论活动，Valkyrie表达感激，强化社群凝聚力。</div></div>
+  <div class="quote-block">NOT SWEEEEETTT</div><div class="quote-block">Sweeeeet!!!!!</div><div class="quote-block">Girl!! You're killing me 🤣</div><div class="quote-block">My first link went from 6 engagement to 26, that’s actually impressive !</div><div class="quote-block">We're liking and commenting to hopefully get more of your posts there!</div>
+  <div class="trend-box" style="margin-top:16px">🔮 新趋势：成员间自发组织社交媒体互助行为（Instagram点赞评论）成为新的互动模式，提升社群活跃度和成员粘性。</div>
+</div>
+<div class="section"><div class="section-title">📊 环比对比 · 2026年6月 vs 2026年7月</div>
+  <table class="data-table"><thead><tr><th>指标</th><th>2026年6月</th><th>2026年7月</th><th>环比</th></tr></thead><tbody>
+    <tr><td>全频道消息</td><td class="num">33</td><td class="num">584</td><td class="num up">1669.7%</td></tr>
+    <tr><td>发言人数</td><td class="num">16</td><td class="num">32</td><td class="num up">100.0%</td></tr>
+    <tr><td>日均消息</td><td class="num">1</td><td class="num">19</td><td class="num">—</td></tr>
+  </tbody></table>
+</div>
+<div class="section"><div class="section-title">📡 各频道消息分布</div>
+  <table class="data-table"><thead><tr><th>频道</th><th>消息量</th><th>状态</th></tr></thead><tbody>
+    <tr><td>🔥 #🎨｜creators-exchange</td><td class="num">385</td><td>活跃</td></tr><tr><td>🔥 #🐈｜show-us-your-pet</td><td class="num">108</td><td>活跃</td></tr><tr><td>📊 #🎁｜show-us-official-merch</td><td class="num">80</td><td>低活</td></tr><tr><td>💤 #📢｜yoyo-bulletin-board</td><td class="num">5</td><td>低活</td></tr><tr><td>💤 #test</td><td class="num">2</td><td>低活</td></tr><tr><td>💤 #🎀｜refer-a-friend-program</td><td class="num">2</td><td>低活</td></tr><tr><td>💤 #📚｜yoyo-rules-faq</td><td class="num">2</td><td>低活</td></tr>
+  </tbody></table>
+</div>
+<div class="section"><div class="section-title">🏆 TOP 10 活跃用户</div>
+  <div class="user-row"><span class="rank">🥇</span><span class="uname">Valkyrie | Ricardo</span><span class="ucount">~106条</span></div><div class="user-row"><span class="rank">🥈</span><span class="uname">Janie ˖𓍢🌹˚</span><span class="ucount">~93条</span></div><div class="user-row"><span class="rank">🥉</span><span class="uname">SynchrA</span><span class="ucount">~62条</span></div><div class="user-row"><span class="rank">4</span><span class="uname">thisonegirl25</span><span class="ucount">~54条</span></div><div class="user-row"><span class="rank">5</span><span class="uname">Bean</span><span class="ucount">~36条</span></div><div class="user-row"><span class="rank">6</span><span class="uname">nho0o</span><span class="ucount">~33条</span></div><div class="user-row"><span class="rank">7</span><span class="uname">Kanansai</span><span class="ucount">~30条</span></div><div class="user-row"><span class="rank">8</span><span class="uname">Seraphina</span><span class="ucount">~17条</span></div><div class="user-row"><span class="rank">9</span><span class="uname">QueenLeo</span><span class="ucount">~17条</span></div><div class="user-row"><span class="rank">10</span><span class="uname">Dynia</span><span class="ucount">~17条</span></div>
+</div>
+
+<div class="section"><div class="section-title">🎯 行动计划</div><div class="action-grid">
+  <div class="action-col"><h4>📅 本周</h4><div class="action-item"><span class="action-prio P1">P1</span><span>鼓励成员继续Instagram点赞评论互助，可提供小奖励或公告表扬 — 至少3条互助请求获得10+互动</span></div></div>
+  <div class="action-col"><h4>📅 下周</h4><div class="action-item"><span class="action-prio P2">P2</span><span>组织一次游戏进度同步讨论或文化趣闻分享，提升内容多样性</span></div></div>
+  <div class="action-col"><h4>📅 本月</h4><div class="action-item"><span class="action-prio P2">P2</span><span>维持当前活跃度，观察成员兴趣变化，准备引入新话题（如游戏技巧或生活方式）</span></div></div>
+</div></div>
+<div class="section"><div class="section-title">📝 AI 策略分析</div><div class="trend-box">核心问题：无。建议下周运营重点：继续鼓励互助行为，可考虑设立主题日（如游戏进度分享日或文化趣闻日），保持积极氛围。</div></div>
+<div class="footer">🤖 由 GitHub Actions 自动生成 · 2026/8/4<br>数据来源: Discord · Yoyo Creative Studio · 话题分析: DeepSeek V4 Flash · 通过 ARK API<br><a href="https://jiashi65.github.io/yoyo-community-report/">https://jiashi65.github.io/yoyo-community-report/</a></div>
+</div></body></html>

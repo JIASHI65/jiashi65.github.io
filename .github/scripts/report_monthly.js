@@ -243,8 +243,9 @@ async function main() {
   fs.writeFileSync(htmlPath, html, "utf-8");
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
 
-  if (!isDry) {
-    const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
+ if (!isDry) {
+  if (!isDry && process.env.CI) {
+   const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本月 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
     console.log("📤 推送飞书 monthly...");
     await pushFeishu(htmlUrl, summary, curData, llmAnalysis);

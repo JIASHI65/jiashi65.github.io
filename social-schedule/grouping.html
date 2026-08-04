@@ -138,9 +138,14 @@ async function ld(){
   let gh={}, ls={};
   try{
     const r=await fetch(RAW+'?v='+Date.now());
-    if(r.ok){const raw=await r.json();if(raw&&raw.slots)gh=raw.slots;}
-  }catch(e){}
-  try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;}}catch(e){}
+    if(r.ok){const raw=await r.json();if(raw&&raw.slots)gh=raw.slots;
+    else document.getElementById('app').innerHTML='<div class="empty">❌ raw.slots 为空: '+Object.keys(raw||{}).join(',')+'</div>';return;}
+    else document.getElementById('app').innerHTML='<div class="empty">❌ fetch failed: '+r.status+' '+r.statusText+'</div>';return;
+  }catch(e){
+    document.getElementById('app').innerHTML='<div class="empty">❌ fetch 异常: '+e.message+'<br>RAW='+RAW+'</div>';
+    return;
+  }
+  try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;else document.getElementById('app').innerHTML+='<br>LS parse ok but no slots';}}catch(e){document.getElementById('app').innerHTML='<br>LS parse error: '+e.message;}
   render({...gh, ...ls});
 }
 

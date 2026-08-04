@@ -93,7 +93,7 @@ function genMonthlyHTML(curData, prevData, llmAnalysis) {
 
   return `<!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${GUILD_NAME} · 月度报告 · ${genDate}</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>${GUILD_NAME} · ${cur.monthLabel}月报</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}body{background:#0a0e17;color:#e0e6f0;font-family:-apple-system,'Inter',sans-serif;min-height:100vh}.container{max-width:1200px;margin:0 auto;padding:20px}
 .header{text-align:center;padding:40px 0 30px;border-bottom:1px solid rgba(0,212,255,.1);margin-bottom:30px}

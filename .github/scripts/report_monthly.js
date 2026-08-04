@@ -12,10 +12,24 @@ const GUILD_NAME = "Yoyo Creative Studio";
 const FEISHU_MONTHLY = "https://open.feishu.cn/open-apis/bot/v2/hook/a770eb64-5613-4078-904d-ac649b47b145";
 
 const $ = async (u) => {
-    try { const r = await fetch(u, { headers: H });
-  if (!r.ok) { console.error(`Discord ${r.status}: ${u.slice(0,80)}`); await new Promise(r2 => setTimeout(r2, 1500)); return null; }
-      return r.json(); } catch(e) { console.error(`Fetch threw: ${e.message}`); return null; }
-};
+    let retries = 0;
+    while (retries < 5) {
+      try {
+        const r = await fetch(u, { headers: H });
+        if (r.status === 429) {
+          const after = parseInt(r.headers.get("Retry-After") || "5") * 1000;
+          const wait = Math.max(after, (retries + 1) * 2000);
+          console.error(`Discord 429, retry ${retries+1}/5 in ${wait/1000}s`);
+          await new Promise(r2 => setTimeout(r2, wait));
+          retries++;
+          continue;
+        }
+        if (!r.ok) { console.error(`Discord ${r.status}: ${u.slice(0,80)}`); return null; }
+        return r.json();
+      } catch(e) { console.error(`Fetch threw: ${e.message}`); await new Promise(r2 => setTimeout(r2, 2000)); retries++; }
+    }
+    return null;
+  };
 
 async function scanMessagesMonth(startTime, endTime) {
   const channels = await $(`${BASE}/guilds/${GUILD_ID}/channels`);
@@ -221,6 +235,8 @@ async function main() {
   curData.monthLabel = curMonth.label;
   console.log(`   ✅ ${curData.totalCount} 条, ${curData.activeUsers} 人\n`);
 
+  console.log("⏳ 等待 30 秒避免限流...");
+  await new Promise(r => setTimeout(r, 30000));
   console.log("📥 拉取上月消息...");
   const prevData = await scanMessagesMonth(prevMonth.start, prevMonth.end);
   prevData.monthLabel = prevMonth.label;

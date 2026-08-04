@@ -140,21 +140,13 @@ body{
   font-size:12px;font-weight:600;padding:2px 6px;border-radius:4px;
   white-space:nowrap;flex-shrink:0;letter-spacing:.2px;
 }
-.slot .badge.uw{
-  background:rgba(155,110,255,0.08);
-  color:#7c3aed;border:none;font-weight:600;
+.slot .badge.uw{background:rgba(139,92,246,0.08);color:#8b5cf6;border:none;font-weight:600;
 }
-.slot .badge.tt{
-  background:rgba(16,185,129,0.08);
-  color:#059669;border:none;font-weight:600;
+.slot .badge.tt{background:rgba(16,185,129,0.08);color:#10b981;border:none;font-weight:600;
 }
-.slot .badge.hkig{
-  background:rgba(251,146,60,0.06);
-  color:#f59e0b;border:none;
+.slot .badge.hkig{background:rgba(99,102,241,0.08);color:#6366f1;border:none;font-weight:600;
 }
-.slot .badge.usig{
-  background:rgba(99,102,241,0.06);
-  color:#6366f1;border:none;
+.slot .badge.usig{background:rgba(236,72,153,0.08);color:#ec4899;border:none;font-weight:600;
 }
 .slot .badge.ustt{
   background:rgba(6,182,212,0.05);
@@ -164,13 +156,9 @@ body{
   background:rgba(24,119,242,0.05);
   color:#1877F2;border:none;
 }
-.slot .badge.usigoff{
-  background:rgba(244,63,94,0.05);
-  color:#e11d48;border:none;
+.slot .badge.usigoff{background:rgba(245,158,11,0.08);color:#f59e0b;border:none;font-weight:600;
 }
-.slot .badge.usp{
-  background:rgba(230,30,50,0.05);
-  color:#e61e32;border:none;
+.slot .badge.usp{background:rgba(239,68,68,0.08);color:#ef4444;border:none;font-weight:600;
 }
 .slot .summary{
   display:flex;align-items:center;gap:4px;min-width:0;
@@ -422,25 +410,28 @@ let dirty = false;
 
 // ── API ──
 async function loadFromServer(){
-  // 1. localStorage FIRST (always - never overwritten by GitHub)
+  // 1. GitHub FIRST (always load latest from server)
+  try{
+    const r=await fetch(RAW_URL+"?v="+Date.now());
+    if(r.ok){const d=await r.json();
+    if(d.slots&&Object.keys(d.slots).length>0){
+      S=d.slots;R=d.refs||{};
+      try{localStorage.setItem(LS_KEY,JSON.stringify({v:2,slots:S,refs:R}))}catch(e){}
+      setSync(true);
+      document.getElementById('dataSource').textContent='GitHub';return true;
+    }}
+  }catch(e){}
+  // 2. Fallback: localStorage
   try{
     const ls=localStorage.getItem(LS_KEY);
     if(ls){const p=JSON.parse(ls);if(p.slots&&Object.keys(p.slots).length>0)
     {S=p.slots;R=p.refs||{};setSync(false);
     document.getElementById('dataSource').textContent='本地';return true}}
   }catch(e){}
-  // 2. Fallback: GitHub
-  try{
-    const r=await fetch(RAW_URL+"?v="+Date.now());
-    if(r.ok){const d=await r.json();
-    if(d.slots&&Object.keys(d.slots).length>0)
-    {S=d.slots;R=d.refs||{};setSync(true);
-    document.getElementById('dataSource').textContent='GitHub';return true}}
-  }catch(e){}
-  // 最终兜底: HTML 内嵌默认数据
+  // 3. 最终兜底: HTML 内嵌默认数据
   S=JSON.parse(JSON.stringify(DEFAULT_SLOTS));
   document.getElementById('dataSource').textContent='默认';
-  try{localStorage.setItem(LS_KEY,JSON.stringify({slots:S,refs:R}))}catch(e){}
+  try{localStorage.setItem(LS_KEY,JSON.stringify({v:2,slots:S,refs:R}))}catch(e){}
   return true;
 }
 let saveTimer = null;
@@ -726,7 +717,7 @@ function render(){
         // Show slots that match current month by pd, OR empty-pd slots (only in July)
         const monthPrefix = curY+'-'+String(curM).padStart(2,'0');
         const shouldShow = slotPd.startsWith(monthPrefix) || (!slotPd && curM===7);
-        if(shouldShow && parseInt(m[1])===d) slots.push({idx:parseInt(m[3]),type:m[2],key:k,data:S[k]});
+        const slotDay = S[k].d ? parseInt(S[k].d.split('-')[2]) : parseInt(m[1]);if(shouldShow && slotDay===d) slots.push({idx:parseInt(m[3]),type:m[2],key:k,data:S[k]});
       }
     }
     slots.sort((a,b)=>a.type.localeCompare(b.type)||a.idx-b.idx);

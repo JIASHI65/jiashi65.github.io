@@ -167,7 +167,7 @@ function render(data){
   });
   var h='';
   G.forEach(function(g){
-    var items=gr[g.k];items.sort(function(a,b){return a.day-b.day});
+    var items=gr[g.k];items.sort(function(a,b){return (a.v.pd||"")<(b.v.pd||"")?-1:1});
     h+='<div class="sec">';
     h+='<div class="sec-hdr" style="background:'+g.bg+';color:'+g.c+';border-bottom-color:'+g.bc+'">';
     h+='<span class="icon">'+g.l.charAt(0)+g.l.charAt(1)+'</span>'+g.l.slice(2);

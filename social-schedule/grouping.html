@@ -1,316 +1,113 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-<!-- v=1785825602 -->
 <meta charset="UTF-8">
-<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="expires" content="0">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>📱 社媒排期 · 账号分组</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#fef6f9;--surface:#ffffff;--surface2:#fff5f8;--surface3:#fff0f5;--border:#f0dce4;--text:#3d3036;--text-dim:#9a7a88;--text-muted:#c0a0b0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#fff0f5,#fff5f8);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+body{font-family:-apple-system,sans-serif;background:#fef6f9;color:#3d3036;min-height:100vh}
+.header{position:sticky;top:0;z-index:100;background:#fff0f5;border-bottom:1px solid #f0dce4;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:6px}
 .header h1{font-size:14px;font-weight:700;color:#d6336c}
-.btn{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:10px;text-decoration:none;transition:.15s}
-.btn:hover{background:#ffe8ef;border-color:#ffb0c8}
+.btn{background:#fff;border:1px solid #f0dce4;color:#3d3036;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:10px;text-decoration:none}
+.btn:hover{background:#ffe8ef}
 .container{max-width:800px;margin:0 auto;padding:10px 12px}
 .sec{margin-bottom:14px;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .sec-hdr{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:13px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.04)}
-.sec-body{background:#ffffff;overflow:hidden}
+.sec-body{background:#fff;overflow:hidden}
 .post{display:flex;padding:9px 14px;border-bottom:1px solid #f5eaef;align-items:flex-start;gap:10px;font-size:12px}
 .post:last-child{border-bottom:none}
 .post:hover{background:#fff5f8}
-.pd{font-size:11px;color:var(--text-muted);white-space:nowrap;min-width:44px;line-height:1.5}
-.pt{font-size:10px;color:var(--text-muted)}
+.pd{font-size:11px;color:#c0a0b0;white-space:nowrap;min-width:44px;line-height:1.5}
 .pc{flex:1;min-width:0}
-.pn{font-weight:600;font-size:12px;color:var(--text)}
-.pdsc{font-size:11px;color:var(--text-dim);margin-top:2px;line-height:1.4}
+.pn{font-weight:600;font-size:12px;color:#3d3036}
+.pdsc{font-size:11px;color:#9a7a88;margin-top:2px}
 .tags{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap}
-.tag{font-size:9px;padding:2px 7px;border-radius:4px;background:#fff0f5;color:#d6336c;white-space:nowrap}
+.tag{font-size:9px;padding:2px 7px;border-radius:4px;background:#fff0f5;color:#d6336c}
 .tag.s{background:#e8f5e9;color:#2e7d32}
-.tag.w{background:#fff3e0;color:#e65100}
-.empty{text-align:center;padding:30px;color:var(--text-muted);font-size:12px}
-.loading{text-align:center;padding:40px;color:var(--text-dim);font-size:12px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10px;color:var(--text-dim)}
-.stats span{display:flex;align-items:center;gap:3px}
+.empty{text-align:center;padding:30px;color:#c0a0b0;font-size:12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;padding:8px 14px;background:#fff5f8;border-bottom:1px solid #f0dce4;font-size:10px;color:#9a7a88}
+.cn-badge{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:3px}
 </style>
 </head>
 <body>
-<div style="background:#d6336c;color:white;text-align:center;padding:4px;font-size:12px;font-weight:bold;position:sticky;top:0;z-index:9999">
-  🟢 最新版本 2026-08-04.v5602 | 条漫UTC-7周二发
-</div>
-
 <div class="header">
   <h1>📱 社媒排期 · 账号分组</h1>
   <div style="display:flex;align-items:center;gap:6px">
-    <button type="button" class="btn" onclick="goToMonth(-1)" title="上个月">◀</button>
-    <span id="monthLabel" style="font-size:13px;font-weight:600;color:#d6336c;min-width:80px;text-align:center"></span>
-    <button type="button" class="btn" onclick="goToMonth(1)" title="下个月">▶</button>
-    <a href="timeline.html" class="btn">⬅ 返回时间线</a>
+    <button class="btn" onclick="go(-1)">◀</button>
+    <span id="ml" style="font-size:13px;font-weight:600;color:#d6336c;min-width:80px;text-align:center"></span>
+    <button class="btn" onclick="go(1)">▶</button>
+    <a href="timeline.html" class="btn">⬅ 时间线</a>
   </div>
 </div>
-<div class="container" id="app">
-  <div class="loading">⏳ 加载中...</div>
-</div>
+<div class="container" id="app"><div class="empty">⏳ 加载中...</div></div>
 
 <script>
-const GH_USER = 'JIASHI65';
-const GH_REPO = 'jiashi65.github.io';
-const GH_BRANCH = 'main';
-const RAW_URL = 'https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/'+GH_BRANCH+'/social-schedule/data.json';
-
-const LABELS = {'uw':'欧美水下号','tt':'欧美TT官号','pt':'Pinterest官号','hkig':'港台条漫IG','usig':'欧美条漫IG','ustt':'欧美条漫TT','usfb':'欧美FB官号','usigoff':'欧美IG官号'};
-
-// Account groups with emoji/colors
-const GROUPS = [
-  {key:'uw', label:'🌊 欧美水下号', color:'#8b5cf6', bg:'rgba(139,92,246,0.06)'},
-  {key:'tt', label:'🎵 欧美TT官号', color:'#10b981', bg:'rgba(16,185,129,0.06)'},
-  {key:'usigoff', label:'📸 欧美IG官号', color:'#e1306c', bg:'rgba(225,48,108,0.06)'},
-  {key:'usfb', label:'👍 欧美FB官号', color:'#1877f2', bg:'rgba(24,119,242,0.06)'},
-  {key:'usig', label:'🎨 欧美条漫IG', color:'#c13584', bg:'rgba(193,53,132,0.06)'},
-  {key:'ustt', label:'🎵 欧美条漫TT', color:'#25f4ee', bg:'rgba(37,244,238,0.06)'},
-  {key:'hkig', label:'🌏 港台条漫IG', color:'#4361ee', bg:'rgba(67,97,238,0.06)'},
-  {key:'pt', label:'📌 Pinterest官号', color:'#e60019', bg:'rgba(230,0,25,0.06)'},
+const GH='JIASHI65', REPO='jiashi65.github.io', BR='main';
+const API='https://api.github.com/repos/'+GH+'/'+REPO+'/contents/social-schedule/data.json?ref='+BR;
+const LS='smm_v3_fallback';
+const G=[
+  {k:'uw',l:'🌊 欧美水下号',c:'#8b5cf6',b:'rgba(139,92,246,.06)'},
+  {k:'tt',l:'🎵 欧美TT官号',c:'#10b981',b:'rgba(16,185,128,.06)'},
+  {k:'usigoff',l:'📸 欧美IG官号',c:'#e1306c',b:'rgba(225,48,108,.06)'},
+  {k:'usfb',l:'👍 欧美FB官号',c:'#1877f2',b:'rgba(24,119,242,.06)'},
+  {k:'usig',l:'🎨 欧美条漫IG',c:'#c13584',b:'rgba(193,53,132,.06)'},
+  {k:'ustt',l:'🎵 欧美条漫TT',c:'#25f4ee',b:'rgba(37,244,238,.06)'},
+  {k:'hkig',l:'🌏 港台条漫IG',c:'#4361ee',b:'rgba(67,97,238,.06)'},
+  {k:'pt',l:'📌 Pinterest官号',c:'#e60019',b:'rgba(230,0,25,.06)'},
 ];
+const P=['待制作','制作中','已排期','已发布'];
+let M=(new Date).getMonth()+1, Y=(new Date).getFullYear();
 
-const PROGRESS = ['待制作','制作中','已排期','已发布'];
+function go(d){M+=d;if(M>12){M=1;Y++}if(M<1){M=12;Y--}ld();}
+function E(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
 
-const LS_KEY = 'smm_v3_fallback';
-const LS_MONTH_KEY = 'smm_v3_month';
-// ── Undo / Redo (shares history with timeline page) ──
-const UNDO_KEY = LS_KEY + '_history';
-let undoStack = [];
-try { undoStack = JSON.parse(localStorage.getItem(UNDO_KEY) || '[]'); } catch(e) { undoStack = []; }
-
-function undo() {
-  if (undoStack.length === 0) return;
-  const prev = undoStack.pop();
-  try { localStorage.setItem(UNDO_KEY, JSON.stringify(undoStack)); } catch(e) {}
-  // Restore previous state to localStorage and reload
-  localStorage.setItem(LS_KEY, JSON.stringify({v:2, slots: prev}));
-  location.reload();
-}
-
-const DEFAULT_SLOTS = {
-    "11_uw_0": {"t":"🌸 日式庭院别墅AI渲染，禅意满满","l":"","pd":"2026-07-11","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "13_uw_0": {"t":"🌌 星空下的玻璃房｜AI建筑设计","l":"","pd":"2026-07-13","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "14_hkig_0": {"t":"📖 条漫《星星落在你肩上》EP.1","l":"","pd":"2026-07-14","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "14_tt_0": {"t":"🏔️ 滑雪服装礼包实穿测评来了","l":"","pd":"2026-07-14","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "14_usigoff_0": {"t":"🎀 Official IG: Kitty Collab Behind the Scenes","l":"","pd":"2026-07-14","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "15_usfb_0": {"t":"📢 New Kitty Collaboration Event! Join Now","l":"","pd":"2026-07-15","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "15_usig_0": {"t":"✨ Webcomic: Stars on Your Shoulder Ep.1","l":"","pd":"2026-07-15","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "15_uw_0": {"t":"🏯 未来城市公寓概念设计","l":"","pd":"2026-07-15","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "16_tt_0": {"t":"🎪 庙会服装礼包展示｜节日氛围拉满","l":"","pd":"2026-07-16","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "16_usigoff_0": {"t":"🏔️ Official IG: July New Items Preview","l":"","pd":"2026-07-16","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "16_ustt_0": {"t":"✨ Stars on Your Shoulder - Full Episode 🎬","l":"","pd":"2026-07-16","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "17_hkig_0": {"t":"📖 条漫《星星落在你肩上》EP.2","l":"","pd":"2026-07-17","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "17_usfb_0": {"t":"🎁 July Event Calendar - Don't Miss Out!","l":"","pd":"2026-07-17","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "17_usig_0": {"t":"✨ Webcomic: Stars on Your Shoulder Ep.2","l":"","pd":"2026-07-17","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "18_usigoff_0": {"t":"🌸 Official IG: Community Artwork Showcase","l":"","pd":"2026-07-18","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "18_uw_0": {"t":"🎭 复古欧式风格室内AI创意设计","l":"","pd":"2026-07-18","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "1_uw_0": {"t":"🏠 超治愈！AI设计的未来之家室内设计","l":"","pd":"2026-07-01","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "20_usfb_0": {"t":"🌟 Creator Spotlight: Meet Our Top KOC","l":"","pd":"2026-07-20","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "20_ustt_0": {"t":"🍋 Summer Lemonade - Full Episode 🎬","l":"","pd":"2026-07-20","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "20_uw_0": {"t":"🌿 森林中的玻璃豪宅｜AI景观设计","l":"","pd":"2026-07-20","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "21_hkig_0": {"t":"📖 条漫《夏日柠檬汽水》EP.1","l":"","pd":"2026-07-21","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "21_tt_0": {"t":"🦋 花影乞巧套间｜七夕限定美哭","l":"","pd":"2026-07-21","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "21_usigoff_0": {"t":"🎪 Official IG: Event Calendar July Week 3","l":"","pd":"2026-07-21","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "22_usfb_0": {"t":"📣 Exclusive: New Furniture Collection Sneak Peek","l":"","pd":"2026-07-22","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "22_usig_0": {"t":"🍋 Webcomic: Summer Lemonade Ep.1","l":"","pd":"2026-07-22","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "22_uw_0": {"t":"💫 极简主义卧室AI概念，高级感满满","l":"","pd":"2026-07-22","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "23_tt_0": {"t":"🏠 烘焙套间开箱｜KitchenAid联名款","l":"","pd":"2026-07-23","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "23_usigoff_0": {"t":"📸 Official IG: Fan Art Friday Feature","l":"","pd":"2026-07-23","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "23_ustt_0": {"t":"🌙 Moonlight Promise - Episode 1 🎬","l":"","pd":"2026-07-23","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "24_hkig_0": {"t":"📖 条漫《夏日柠檬汽水》EP.2","l":"","pd":"2026-07-24","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "24_usfb_0": {"t":"🎪 Community Event: Share Your Best Design!","l":"","pd":"2026-07-24","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "24_usig_0": {"t":"🍋 Webcomic: Summer Lemonade Ep.2","l":"","pd":"2026-07-24","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "25_usigoff_0": {"t":"💫 Official IG: New Update Highlights","l":"","pd":"2026-07-25","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "25_uw_0": {"t":"🏡 智能家居未来概念AI渲染图","l":"","pd":"2026-07-25","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "27_usfb_0": {"t":"📢 Weekly Event Roundup - July 3rd Week","l":"","pd":"2026-07-27","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "27_ustt_0": {"t":"☕ Cloud Cafe - Full Episode 🎬","l":"","pd":"2026-07-27","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "27_uw_0": {"t":"🌺 热带雨林风格浴室设计AI创意","l":"","pd":"2026-07-27","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "28_hkig_0": {"t":"📖 條漫《月光下的約定》EP.1","l":"","pd":"2026-07-28","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "28_tt_0": {"t":"🎠 旋转木马家具套间展示｜童话感满满","l":"","pd":"2026-07-28","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "28_usigoff_0": {"t":"🎭 Official IG: Creator Interview Series","l":"","pd":"2026-07-28","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "29_usfb_0": {"t":"🌟 Creator Tips: How to Make Viral Content","l":"","pd":"2026-07-29","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "29_usig_0": {"t":"🌙 Webcomic: Moonlight Promise Ep.1","l":"","pd":"2026-07-29","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "29_uw_0": {"t":"🪐 太空站风格室内设计｜未来感MAX","l":"","pd":"2026-07-29","p":"已排期","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "2_tt_0": {"t":"🌸 沁夏套间开箱｜每一件都想拥有","l":"","pd":"2026-07-02","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "30_tt_0": {"t":"🌟 往日回响套间返场｜经典永不过时","l":"","pd":"2026-07-30","p":"已排期","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "30_usigoff_0": {"t":"🎀 Official IG: Kitty Collab Behind the Scenes","l":"","pd":"2026-07-30","p":"已排期","s":"官方素材","n":"官方IG导流"},
-    "30_ustt_0": {"t":"🌸 New Webcomic Sneak Peek! 🎬","l":"","pd":"2026-07-30","p":"已排期","s":"外部KOC","n":"条漫TT推广"},
-    "31_hkig_0": {"t":"📖 條漫《月光下的約定》EP.2","l":"","pd":"2026-07-31","p":"已排期","s":"外部KOC","n":"港台条漫分发"},
-    "31_usfb_0": {"t":"📢 New Kitty Collaboration Event! Join Now","l":"","pd":"2026-07-31","p":"已排期","s":"官方素材","n":"导流贴文"},
-    "31_usig_0": {"t":"🌙 Webcomic: Moonlight Promise Ep.2","l":"","pd":"2026-07-31","p":"已排期","s":"外部KOC","n":"欧美条漫分发"},
-    "4_uw_0": {"t":"🎨 用AI生成的梦幻卧室，每一帧都是壁纸","l":"","pd":"2026-07-04","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "6_uw_0": {"t":"🌊 水下宫殿概念设计｜AI视觉震撼","l":"","pd":"2026-07-06","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "7_tt_0": {"t":"🎀 Kitty联动最新套装展示，可爱暴击！","l":"","pd":"2026-07-07","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"},
-    "8_uw_0": {"t":"✨ 赛博朋克风格客厅设计，科技感拉满","l":"","pd":"2026-07-08","p":"已发布","s":"AI生成","n":"AI视频 · 搬运素材"},
-    "9_tt_0": {"t":"✨ 7月新版本预告：滑雪礼包抢先看","l":"","pd":"2026-07-09","p":"已发布","s":"官方素材","n":"官方号素材 · 脚本产出"}
-  };
-
-async function loadData(){
-  // Load BOTH GitHub and localStorage, merge: GH base + LS overrides
+async function ld(){
+  document.getElementById('ml').textContent=Y+'年'+M+'月';
   let gh={}, ls={};
-  
-  // 1. GitHub (via API to bypass CDN cache)
-  try {
-    const r=await fetch('https://api.github.com/repos/'+GH_USER+'/'+GH_REPO+'/contents/social-schedule/data.json?ref='+GH_BRANCH);
-    if(r.ok){
-      const d=await r.json();
-      if(d.content){
-        const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));
-        if(raw&&raw.slots) gh=raw.slots;
-      }
-    }
-  }catch(e){}
-  // Fallback: raw CDN if API fails
-  if(Object.keys(gh).length===0){
-    try{
-      const r=await fetch(RAW_URL+"?v="+Date.now());
-      if(r.ok){const j=await r.json(); if(j&&j.slots) gh=j.slots;}
-    }catch(e){}
-  }
-  
-  // 2. localStorage (user edits)
   try{
-    const lsRaw=localStorage.getItem(LS_KEY);
-    if(lsRaw){const j=JSON.parse(lsRaw); if(j&&j.slots) ls=j.slots;}
+    const r=await fetch(API);
+    if(r.ok){const d=await r.json();if(d.content){const raw=JSON.parse(atob(d.content.replace(/\s/g,'')));if(raw&&raw.slots)gh=raw.slots;}}
   }catch(e){}
-  
-  // 3. Merge: GitHub base + localStorage overrides
-  const merged={...gh, ...ls};
-  if(Object.keys(merged).length>0) return merged;
-  
-  // 4. Ultimate fallback
-  return JSON.parse(JSON.stringify(DEFAULT_SLOTS));
+  try{const v=localStorage.getItem(LS);if(v){const j=JSON.parse(v);if(j&&j.slots)ls=j.slots;}}catch(e){}
+  render({...gh, ...ls});
 }
 
 function render(data){
-  const app = document.getElementById('app');
-  if(!data || Object.keys(data).length===0){
-    app.innerHTML = '<div class="empty">暂无排期数据</div>';
-    return;
-  }
-      // Filter by current month using pd (publish date) field
-        const monthPrefix = curY+'-'+String(curM).padStart(2,'0');
-        const filtered = {};
-        for(const k in data){
-          const slot = data[k];
-          if(slot.pd && slot.pd.startsWith(monthPrefix)){
-            filtered[k] = slot;
-          }
-        }
-        data = filtered;
+  const a=document.getElementById('app');
+  if(!data||!Object.keys(data).length){a.innerHTML='<div class="empty">暂无数据</div>';return;}
 
-  // Group slots by account prefix
-  const grouped = {};
-  GROUPS.forEach(g => { grouped[g.key] = []; });
+  const mp=Y+'-'+String(M).padStart(2,'0');
+  const gr={}; G.forEach(g=>{gr[g.k]=[]});
 
-  Object.keys(data).forEach(k => {
-    const m = k.match(/^(\d+)_(uw|tt|hkig|usig|ustt|usfb|usigoff|pt)_(\d+)$/);
-    if(m){
-      const prefix = m[2];
-      const slot = data[k];
-      if(slot.t && slot.t.trim()){
-        if(grouped[prefix]) grouped[prefix].push({key:k, day:parseInt(m[1]), idx:parseInt(m[3]), ...slot});
-      }
-    }
+  Object.keys(data).forEach(k=>{
+    const m=k.match(/^(\d+)_(\w+)_(\d+)$/);
+    if(!m)return;
+    const pfx=m[2], v=data[k];
+    if(!gr[pfx]||!v.t||!v.t.trim())return;
+    if(!v.pd||!v.pd.startsWith(mp))return;
+    gr[pfx].push({...v, k:k, day:parseInt(m[1])});
   });
 
-  let html = '';
-
-  // Stats bar
-  let total = 0;
-  GROUPS.forEach(g => { total += grouped[g.key].length; });
-  html += '<div class="stats"><span>📊 总计 ' + total + ' 条</span></div>';
-
-  GROUPS.forEach(g => {
-    const items = grouped[g.key];
-    if(items.length === 0){
-      html += '<div class="sec"><div class="sec-hdr" style="background:'+g.bg+';color:'+g.color+'">'+g.label+' <span style="font-weight:400;font-size:11px;color:var(--text-dim)">· 0条</span></div><div class="sec-body"><div class="empty">暂无排期</div></div></div>';
-      return;
-    }
-
-    // Sort by day then idx
-    items.sort((a,b) => a.day-b.day || a.idx-b.idx);
-
-    html += '<div class="sec"><div class="sec-hdr" style="background:'+g.bg+';color:'+g.color+'">'+g.label+' <span style="font-weight:400;font-size:11px;color:var(--text-dim)">· '+items.length+'条</span></div><div class="sec-body">';
-
-    items.forEach(item => {
-      const pd = item.pd || '';
-      const d = pd ? pd.slice(5) : (item.day ? String(curM).padStart(2,'0')+'-'+String(item.day).padStart(2,'0') : '');
-      const progIdx = PROGRESS.indexOf(item.p);
-      const progClass = progIdx >= 2 ? 's' : (progIdx >= 0 ? 'w' : '');
-      const statusTag = item.p ? '<span class="tag '+progClass+'">'+item.p+'</span>' : '';
-      const linkTag = item.l ? '<span class="tag">🔗 有链接</span>' : '';
-
-      html += '<div class="post">';
-      const tm = item.tm || '';
-      html += '<div class="pd">'+d+'<br><span class="pt">'+(tm||'#要补时间')+'</span></div>';
-      html += '<div class="pc">';
-      if(item.cn) html += '<div style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:3px">📌 '+esc(item.cn)+'</div>';
-      html += '<div class="pn">'+esc(item.t)+'</div>';
-      html += '<div class="tags">';
-      html += statusTag + linkTag;
-      if(item.s) html += '<span class="tag">'+esc(item.s)+'</span>';
-      html += '</div></div></div>';
+  let h='<div class="stats"><span>📊 '+Object.keys(data).length+' 条</span></div>';
+  G.forEach(g=>{
+    const it=gr[g.k]; it.sort((a,b)=>a.day-b.day);
+    h+='<div class="sec"><div class="sec-hdr" style="background:'+g.b+';color:'+g.c+'">'+g.l+' · '+it.length+'条</div><div class="sec-body">';
+    if(!it.length){h+='<div class="empty">暂无排期</div>';}
+    else it.forEach(x=>{
+      const d=(x.pd||'').slice(5), pi=P.indexOf(x.p), tc=pi>=2?'s':(pi>=0?'w':'');
+      h+='<div class="post"><div class="pd">'+d+'</div><div class="pc">';
+      if(x.cn)h+='<div class="cn-badge">📌 '+E(x.cn)+'</div>';
+      h+='<div class="pn">'+E(x.t)+'</div><div class="tags">';
+      if(x.p)h+='<span class="tag '+tc+'">'+x.p+'</span>';
+      if(x.s)h+='<span class="tag">'+E(x.s)+'</span>';
+      h+='</div></div></div>';
     });
-
-    html += '</div></div>';
+    h+='</div></div>';
   });
-
-  app.innerHTML = html;
+  a.innerHTML=h;
 }
-
-function esc(s){
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-let curM = (new Date()).getMonth()+1;
-let curY = (new Date()).getFullYear();
-try{
-  const savedMonth = localStorage.getItem(LS_MONTH_KEY);
-  if(savedMonth && /^\d{4}-\d{1,2}$/.test(savedMonth)){
-    const parts = savedMonth.split('-');
-    curY = parseInt(parts[0], 10);
-    curM = parseInt(parts[1], 10);
-  }
-}catch(e){}
-
-function goToMonth(delta){
-  // delta: -1 for previous month, +1 for next month
-  // Ensure numeric types
-  let newM = Number(curM) + delta;
-  let newY = Number(curY);
-  if(isNaN(newM)) newM = (new Date()).getMonth()+1;
-  if(isNaN(newY)) newY = (new Date()).getFullYear();
-  if(newM > 12){ newM = 1; newY++; }
-  if(newM < 1){ newM = 12; newY--; }
-  curM = newM;
-  curY = newY;
-  try{ localStorage.setItem(LS_MONTH_KEY, curY+'-'+String(curM).padStart(2,'0')); }catch(e){}
-  document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
-  // Re-render with same data, just different month filter
-  loadAndRender();
-  var c = document.getElementById('uc'); if(c) c.textContent = undoStack.length || '';
-}
-
-
-async function loadAndRender(){
-  const data = await loadData();
-  if(data) render(data);
-  else render(null);
-}
-
-document.getElementById('monthLabel').textContent = curY+'年'+curM+'月';
-loadAndRender();
-  var c = document.getElementById('uc'); if(c) c.textContent = undoStack.length || '';
+ld();
 </script>
 </body>
 </html>

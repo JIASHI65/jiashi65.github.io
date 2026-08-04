@@ -12,9 +12,9 @@ const GUILD_NAME = "Yoyo Creative Studio";
 const FEISHU_MONTHLY = "https://open.feishu.cn/open-apis/bot/v2/hook/a770eb64-5613-4078-904d-ac649b47b145";
 
 const $ = async (u) => {
-  const r = await fetch(u, { headers: H });
-  if (!r.ok) { await new Promise(r2 => setTimeout(r2, 1000)); return null; }
-  return r.json();
+    try { const r = await fetch(u, { headers: H });
+  if (!r.ok) { console.error(`Discord ${r.status}: ${u.slice(0,80)}`); await new Promise(r2 => setTimeout(r2, 1500)); return null; }
+      return r.json(); } catch(e) { console.error(`Fetch threw: ${e.message}`); return null; }
 };
 
 async function scanMessagesMonth(startTime, endTime) {

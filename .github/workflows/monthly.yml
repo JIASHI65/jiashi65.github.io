@@ -8,6 +8,7 @@ on:
 jobs:
   report:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
       ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
@@ -21,9 +22,9 @@ jobs:
         run: node report_monthly.js
       - name: Deploy HTML
         run: |
-          cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html 2>/dev/null || true
+          cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html 2>/dev/null 
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/
           git diff --staged --quiet || git commit -m "📊 Monthly report $(date +%Y%m%d)"
-          git pull --rebase origin main && git push || true
+          git pull --rebase origin main && git push 

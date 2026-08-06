@@ -266,7 +266,9 @@ async function pushFeishu(webhookKey, guildName, htmlUrl, summary, curData, llmA
        { tag: "hr" },
         { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
         { tag: "hr" },
-        { tag: "div", text: { tag: "lark_md", content: `**🔥 热议话题**\n${topTopics||"暂无"}\n\n${topPains||""}\n\n[📊 查看完整 BI 看板 →](${htmlUrl})` } },
+        { tag: "div", text: { tag: "lark_md", content: `**🔥 热议话题**\n${topTopics||"暂无"}\n\n${topPains||""}` } },
+        { tag: "hr" },
+        { tag: "action", actions: [{ tag: "button", text: { tag: "lark_md", content: "📊 查看完整 BI 看板 →" }, url: htmlUrl, type: "primary" }] },
       ],
     },
   };

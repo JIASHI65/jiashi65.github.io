@@ -254,7 +254,9 @@ async function main() {
     console.log(`   ✅ ${llmAnalysis.llm_analysis?.hot_topics?.length||0} 个话题, 健康分 ${llmAnalysis.problem_diagnosis?.health_score||"—"}/100`);
   } else { console.log("   ⚠️ LLM 返回为空"); }
 
-  console.log("\n📄 生成 HTML...");
+ console.log("\n📄 生成 HTML...");
+  const msgGrowth = prevData.totalCount > 0 ? ((curData.totalCount - prevData.totalCount) / prevData.totalCount * 100).toFixed(1) : "N/A";
+  const userGrowth = prevData.activeUsers > 0 ? ((curData.activeUsers - prevData.activeUsers) / prevData.activeUsers * 100).toFixed(1) : "N/A";
   const html = genMonthlyHTML(curData, prevData, llmAnalysis||{});
   const htmlFilename = `monthly-${genDate}.html`;
   const htmlPath = path.join(__dirname, htmlFilename);
@@ -262,7 +264,7 @@ async function main() {
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
 
   if (!isDry && process.env.CI) {
-   const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
+   const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/monthly.html?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本月 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
     console.log("📤 推送飞书 monthly...");
     await pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, userGrowth);

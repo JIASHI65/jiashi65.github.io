@@ -262,9 +262,8 @@ async function pushFeishu(webhookKey, guildName, htmlUrl, summary, curData, llmA
       header: { title: { tag: "plain_text", content: `📊 ${guildName} 周报` }, template: "blue" },
       elements: [
        { tag: "div", text: { tag: "lark_md", content: `🗣️ 消息 **${fmt(cur.totalCount)}** 条 · 👥 **${fmt(cur.activeUsers)}** 人\n🏥 健康分 **${diag.health_score||"—"}**/100` } },
-        { tag: "div", text: { tag: "lark_md", content: `🏆 **TOP 3 活跃**\n${(cur.topUsers||[]).slice(0,3).map((u,i)=>['🥇','🥈','🥉'][i]+' '+u.name+' ~'+u.count+'条').join('  ')}` } },
-        { tag: "hr" },
-        { tag: "hr" },
+       { tag: "div", text: { tag: "lark_md", content: `🏆 **TOP 3 活跃**\n${(cur.topUsers||[]).slice(0,3).map((u,i)=>['🥇','🥈','🥉'][i]+' '+u.name+' ~'+u.count+'条').join('  ')}` } },
+       { tag: "hr" },
         { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
         { tag: "hr" },
         { tag: "div", text: { tag: "lark_md", content: `**🔥 热议话题**\n${topTopics||"暂无"}\n\n${topPains||""}\n\n[📊 查看完整 BI 看板 →](${htmlUrl})` } },
@@ -313,7 +312,8 @@ async function main() {
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
   if (!isDry && process.env.CI) {
    const webhookKey = guildType === "small" ? "small-weekly" : "large-weekly";
-    const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
+    const fixedName = guildType === "small" ? "weekly.html" : "large-weekly.html";
+    const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${fixedName}?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本周 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
     console.log(`📤 推送飞书 [${webhookKey}]...`);
     await pushFeishu(webhookKey, guild.name, htmlUrl, summary, curData, llmAnalysis);

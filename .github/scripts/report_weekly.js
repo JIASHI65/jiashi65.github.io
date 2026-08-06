@@ -19,12 +19,24 @@ const FEISHU_WEBHOOKS = {
 };
 
 const $ = async (u) => {
-  try {
-    const r = await fetch(u, { headers: H });
-    if (!r.ok) { const t = await r.text(); console.error(`  ⚠️ Discord ${r.status} ${u}: ${t.substring(0,100)}`); return null; }
-    return r.json();
-  } catch(e) { console.error(`  ⚠️ Fetch failed ${u}: ${e.message}`); return null; }
-};
+    let retries = 0;
+    while (retries < 5) {
+      try {
+        const r = await fetch(u, { headers: H });
+        if (r.status === 429) {
+          const after = parseInt(r.headers.get("Retry-After") || "5") * 1000;
+          const wait = Math.max(after, (retries + 1) * 2000);
+          console.error(`Discord 429, retry ${retries+1}/5 in ${wait/1000}s`);
+          await new Promise(r2 => setTimeout(r2, wait));
+          retries++;
+          continue;
+        }
+        if (!r.ok) { console.error(`Discord ${r.status}: ${u.slice(0,80)}`); return null; }
+        return r.json();
+      } catch(e) { console.error(`Fetch threw: ${e.message}`); await new Promise(r2 => setTimeout(r2, 2000)); retries++; }
+    }
+    return null;
+  };
 
 async function scanMessages(guildId, startTime, endTime) {
   const channels = await $(`${BASE}/guilds/${guildId}/channels`);

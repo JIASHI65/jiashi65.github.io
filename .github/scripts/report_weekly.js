@@ -311,7 +311,6 @@ async function main() {
   const htmlPath = path.join(__dirname, htmlFilename);
   fs.writeFileSync(htmlPath, html, "utf-8");
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
- if (!isDry) {
   if (!isDry && process.env.CI) {
    const webhookKey = guildType === "small" ? "small-weekly" : "large-weekly";
     const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;

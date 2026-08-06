@@ -13,7 +13,7 @@ const GUILDS = {
 };
 
 const FEISHU_WEBHOOKS = {
-  "small-weekly": "https://open.feishu.cn/open-apis/bot/v2/hook/10783f98-8566-4ed5-b4f1-f5cd2078332c",
+  "small-weekly": "https://open.feishu.cn/open-apis/bot/v2/hook/a770eb64-5613-4078-904d-ac649b47b145",
   "small-monthly": "https://open.feishu.cn/open-apis/bot/v2/hook/a770eb64-5613-4078-904d-ac649b47b145",
   "large-weekly": "https://open.feishu.cn/open-apis/bot/v2/hook/cb6d6d02-3168-4db5-8c84-0fe9ec3e4283",
 };

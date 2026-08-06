@@ -9,7 +9,7 @@ const H = { Authorization: `Bot ${TOKEN}`, "Content-Type": "application/json" };
 const GUILD_ID = "1458340952358785193";
 const GUILD_NAME = "Yoyo Creative Studio";
 
-const FEISHU_MONTHLY = "https://open.feishu.cn/open-apis/bot/v2/hook/a770eb64-5613-4078-904d-ac649b47b145";
+const FEISHU_MONTHLY = "https://open.feishu.cn/open-apis/bot/v2/hook/10783f98-8566-4ed5-b4f1-f5cd2078332c";
 
 const $ = async (u) => {
     let retries = 0;

@@ -196,7 +196,7 @@ ${an.weekly_verdict?`<div class="section"><div class="section-title">📝 AI 策
 </div></body></html>`;
 }
 
-async function pushFeishu(htmlUrl, summary, curData, llmAnalysis) {
+async function pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, userGrowth) {
   const cur = curData || {};
   const an = llmAnalysis?.llm_analysis || {};
   const diag = llmAnalysis?.problem_diagnosis || {};
@@ -204,11 +204,13 @@ async function pushFeishu(htmlUrl, summary, curData, llmAnalysis) {
   const topTopics = (an.hot_topics || []).slice(0, 3).map(t => `• ${t.topic}`).join("\n");
   const topPains = (an.pain_points || []).slice(0, 2).map(p => `⚠️ ${p.issue}`).join("\n");
 
-  const card = { msg_type: "interactive", card: { header: { title: { tag: "plain_text", content: `📊 ${GUILD_NAME} 月报` }, template: "blue" },
-    elements: [
-      { tag: "div", text: { tag: "lark_md", content: `🗣️ 消息 **${fmt(cur.totalCount)}** 条 · 👥 **${fmt(cur.activeUsers)}** 人\n🏥 健康分 **${diag.health_score||"—"}**/100` } },
+ const card = { msg_type: "interactive", card: { header: { title: { tag: "plain_text", content: `📊 ${GUILD_NAME} 月报` }, template: "blue" },
+   elements: [
+      { tag: "div", text: { tag: "lark_md", content: `🗣️ **${fmt(cur.totalCount)}** 条消息 · 👥 **${fmt(cur.activeUsers)}** 人\n📈 环比 **${msgGrowth}%** · 🏥 健康分 **${diag.health_score||"—"}**/100` } },
       { tag: "hr" },
-      { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
+      { tag: "div", text: { tag: "lark_md", content: `🏆 **TOP 3 活跃**\n${(cur.topUsers||[]).slice(0,3).map((u,i)=>['🥇','🥈','🥉'][i]+' '+u.name+' ~'+u.count+'条').join('  ')}` } },
+     { tag: "hr" },
+     { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
       { tag: "hr" },
       { tag: "div", text: { tag: "lark_md", content: `**🔥 热议话题**\n${topTopics||"暂无"}\n\n${topPains||""}\n\n[📊 查看完整 BI 看板 →](${htmlUrl})` } },
     ],
@@ -263,7 +265,7 @@ async function main() {
    const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${htmlFilename}?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本月 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
     console.log("📤 推送飞书 monthly...");
-    await pushFeishu(htmlUrl, summary, curData, llmAnalysis);
+    await pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, userGrowth);
     console.log("   ✅ 完成\n");
   }
   console.log("✅ 月报生成完毕！");

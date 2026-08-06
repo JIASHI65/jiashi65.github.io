@@ -249,7 +249,9 @@ async function pushFeishu(webhookKey, guildName, htmlUrl, summary, curData, llmA
     card: {
       header: { title: { tag: "plain_text", content: `📊 ${guildName} 周报` }, template: "blue" },
       elements: [
-        { tag: "div", text: { tag: "lark_md", content: `🗣️ 消息 **${fmt(cur.totalCount)}** 条 · 👥 **${fmt(cur.activeUsers)}** 人\n🏥 健康分 **${diag.health_score||"—"}**/100` } },
+       { tag: "div", text: { tag: "lark_md", content: `🗣️ 消息 **${fmt(cur.totalCount)}** 条 · 👥 **${fmt(cur.activeUsers)}** 人\n🏥 健康分 **${diag.health_score||"—"}**/100` } },
+        { tag: "div", text: { tag: "lark_md", content: `🏆 **TOP 3 活跃**\n${(cur.topUsers||[]).slice(0,3).map((u,i)=>['🥇','🥈','🥉'][i]+' '+u.name+' ~'+u.count+'条').join('  ')}` } },
+        { tag: "hr" },
         { tag: "hr" },
         { tag: "div", text: { tag: "lark_md", content: `**📝 AI 总结**\n${summary||"详见 HTML 报告"}` } },
         { tag: "hr" },

@@ -15,18 +15,8 @@ async function callLLM(systemPrompt, userPrompt, maxTokens = 8000) {
     })
   });
   if (!resp.ok) throw new Error(`LLM error ${resp.status}: ${await resp.text()}`);
-  const data = await resp.json();
+  const data = await resp.json(); console.error("DEBUG data.choices:", JSON.stringify(data.choices?.[0]?.message).substring(0,200));
   return data.choices?.[0]?.message?.content || "";
-}
-
-function extractJSON(text) {
-  const cleaned = text.trim().replace(/```json|```/g, "").trim();
-  const start = cleaned.indexOf("{");
-  const end = cleaned.lastIndexOf("}");
-  if (start !== -1 && end !== -1 && start < end) {
-    return cleaned.substring(start, end + 1);
-  }
-  return cleaned;
 }
 
 async function smartSample(messages, maxSample = 60) {
@@ -47,7 +37,21 @@ async function smartSample(messages, maxSample = 60) {
     const usr = msgList.map(m => `[${m.id}] ${m.author} [${m.reply_count}回复]: ${m.text}`).join("\n");
     const result = await callLLM(sys, usr, 2000);
     try {
-      const ids = new Set(JSON.parse(extractJSON(result)).ids);
+      const ids = new Set(JSON.parse(result.trim().replace(/```json|```/g, "")).ids);
+      return msgList.filter(m => ids.has(m.id)).slice(0, maxSample);
+    } catch {
+      return msgList.sort((a, b) => b.reply_count - a.reply_count).slice(0, maxSample);
+    }
+  }
+
+  const candidates = [];
+  for (let b = 0; b < Math.ceil(msgList.length / 300); b++) {
+    const batch = msgList.slice(b * 300, (b + 1) * 300);
+    const usr = batch.map(m => `[${m.id}] ${m.author} [${m.reply_count}回复]: ${m.text}`).join("\n");
+    try {
+      const result = await callLLM(sys, usr, 2000);
+      const ids = new Set(JSON.parse(result.trim().replace(/```json|```/g, "")).ids);
+      candidates.push(...batch.filter(m => ids.has(m.id)));
     } catch { candidates.push(...batch.sort((a, b) => b.reply_count - a.reply_count).slice(0, 60)); }
   }
   return candidates.sort((a, b) => b.reply_count - a.reply_count).slice(0, maxSample);
@@ -87,7 +91,7 @@ async function deepAnalyze(sampledMessages, periodLabel, prevSummary = "") {
 
   const usr = `分析周期：${periodLabel}\n${prevSummary ? `前周期摘要（供对比）：${prevSummary}\n` : ""}\n精选消息：\n\n${msgTexts}`;
   const result = await callLLM(sys, usr, 8000);
-  try { return JSON.parse(extractJSON(result)); }
+  try { return JSON.parse(result.trim().replace(/```json|```/g, "").trim()); }
   catch (e) { console.error("Parse error:", e.message); return null; }
 }
 

@@ -48,6 +48,20 @@ async function smartSample(messages, maxSample = 60) {
     const result = await callLLM(sys, usr, 2000);
     try {
       const ids = new Set(JSON.parse(extractJSON(result)).ids);
+      return msgList.filter(m => ids.has(m.id)).slice(0, maxSample);
+    } catch {
+      return msgList.sort((a, b) => b.reply_count - a.reply_count).slice(0, maxSample);
+    }
+  }
+
+  const candidates = [];
+  for (let b = 0; b < Math.ceil(msgList.length / 300); b++) {
+    const batch = msgList.slice(b * 300, (b + 1) * 300);
+    const usr = batch.map(m => `[${m.id}] ${m.author} [${m.reply_count}回复]: ${m.text}`).join("\n");
+    try {
+      const result = await callLLM(sys, usr, 2000);
+      const ids = new Set(JSON.parse(extractJSON(result)).ids);
+      candidates.push(...batch.filter(m => ids.has(m.id)));
     } catch { candidates.push(...batch.sort((a, b) => b.reply_count - a.reply_count).slice(0, 60)); }
   }
   return candidates.sort((a, b) => b.reply_count - a.reply_count).slice(0, maxSample);

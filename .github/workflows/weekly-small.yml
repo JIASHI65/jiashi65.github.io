@@ -26,12 +26,12 @@ jobs:
       - name: Run Weekly Report
         working-directory: .github/scripts
         run: node report_weekly.js small
-     - name: Deploy HTML
-       run: |
-         cp .github/scripts/small-weekly-*.html yoyo-community-report/weekly.html 2>/dev/null || true
-         cp .github/scripts/small-weekly-*.html yoyo-community-report/ 2>/dev/null || true
-         git config user.name "Mochi Bot"
+      - name: Deploy HTML
+        run: |
+          cp .github/scripts/small-weekly-*.html yoyo-community-report/weekly.html
+          cp .github/scripts/small-weekly-*.html yoyo-community-report/
+          git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/
           git diff --staged --quiet || git commit -m "📊 Weekly report $(date +%Y%m%d)"
-          git pull --rebase origin main && git push || true
+          git pull --rebase origin main && git push

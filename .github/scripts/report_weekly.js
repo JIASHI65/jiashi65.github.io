@@ -48,7 +48,10 @@ async function scanMessages(guildId, startTime, endTime) {
   const channelStats = {}, userStats = {};
   const dailyCounts = Array(7).fill(0);
 
+  const SKIP_CHANNELS = new Set(["1427268474996265045"]); // moderator-only (private admin chat)
+
   for (const ch of textChannels) {
+    if (SKIP_CHANNELS.has(ch.id)) { console.error(`⏭️ 跳过: #${ch.name}`); continue; }
     let before = null, done = false, chCount = 0;
     while (!done) {
       try {

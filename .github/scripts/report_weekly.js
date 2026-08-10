@@ -89,10 +89,13 @@ async function scanMessages(guildId, startTime, endTime) {
   return { totalCount, activeUsers: activeUsers.size, channelStats, userStats, dailyCounts, topUsers, allMessages };
 }
 
+// offset 0 = the most recently COMPLETED week (Mon-Sun), offset 1 = the week before it.
+// The cron fires Monday 08:00, so the calendar week containing "now" has barely started
+// and must not be reported on. Shift back one week so offset 0 = last full week.
 function getWeekRange(offset = 0) {
   const now = new Date();
   const dow = now.getDay();
-  const base = new Date(now); base.setDate(base.getDate() - 7 * offset);
+  const base = new Date(now); base.setDate(base.getDate() - 7 * (offset + 1));
   const diff = dow === 0 ? -6 : 1 - dow;
   const mon = new Date(base); mon.setDate(base.getDate() + diff); mon.setHours(0, 0, 0, 0);
   const sun = new Date(mon); sun.setDate(mon.getDate() + 6); sun.setHours(23, 59, 59, 999);

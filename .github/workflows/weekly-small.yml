@@ -28,8 +28,11 @@ jobs:
         run: node report_weekly.js small
       - name: Deploy HTML
         run: |
-          cp .github/scripts/small-weekly-*.html yoyo-community-report/weekly.html
-          cp .github/scripts/small-weekly-*.html yoyo-community-report/
+          set -euo pipefail
+          SRC=".github/scripts/small-weekly-$(date +%Y%m%d).html"
+          test -f "$SRC" || { echo "::error::expected $SRC to exist"; exit 1; }
+          cp "$SRC" yoyo-community-report/weekly.html
+          cp "$SRC" yoyo-community-report/
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/

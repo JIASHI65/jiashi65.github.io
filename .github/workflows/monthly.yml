@@ -28,9 +28,11 @@ jobs:
         run: node report_monthly.js
       - name: Deploy HTML
         run: |
-          cp .github/scripts/monthly-*.html yoyo-community-report/monthly.html
-          cp .github/scripts/monthly-*.html yoyo-community-report/
-          ls yoyo-community-report/monthly.html || { echo "❌ No monthly HTML to deploy"; exit 1; }
+          set -euo pipefail
+          SRC=".github/scripts/monthly-$(date +%Y%m%d).html"
+          test -f "$SRC" || { echo "::error::expected $SRC to exist"; exit 1; }
+          cp "$SRC" yoyo-community-report/monthly.html
+          cp "$SRC" yoyo-community-report/
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
           git add yoyo-community-report/

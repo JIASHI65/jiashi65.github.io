@@ -100,7 +100,7 @@ async function deepAnalyze(sampledMessages, periodLabel, prevSummary = "") {
 要求：话题描述具体（如"VIP礼物延迟"而非"用户提问"）；痛点有具体影响；行动计划可量化；英文原文不翻译。`;
 
   const usr = `分析周期：${periodLabel}\n${prevSummary ? `前周期摘要（供对比）：${prevSummary}\n` : ""}\n精选消息：\n\n${msgTexts}`;
-  const result = await callLLM(sys, usr, 8000);
+  const result = await callLLM(sys, usr, 16000);
   try { return JSON.parse(extractJSON(result)); }
   catch (e) { console.error("Parse error:", e.message); return null; }
 }

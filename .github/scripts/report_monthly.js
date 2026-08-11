@@ -79,9 +79,13 @@ async function scanMessagesMonth(startTime, endTime) {
   return { totalCount, activeUsers: activeUsers.size, channelStats, userStats, dailyCounts, topUsers, allMessages };
 }
 
+// offset 0 = the most recently COMPLETED month, offset 1 = the month before it.
+// The cron fires on the 1st at 08:00, so the calendar month containing "now"
+// is one day old and must not be reported on. Shift back one month.
 function getMonthRange(offsetMonths = 0) {
   const now = new Date();
-  now.setMonth(now.getMonth() - offsetMonths);
+  now.setDate(1); // avoid day-overflow when stepping months (e.g. Mar 31 -> Feb)
+  now.setMonth(now.getMonth() - offsetMonths - 1);
   const y = now.getFullYear(), m = now.getMonth();
   const start = new Date(y, m, 1, 0, 0, 0, 0);
   const end = new Date(y, m + 1, 0, 23, 59, 59, 999);

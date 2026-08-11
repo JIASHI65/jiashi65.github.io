@@ -299,7 +299,11 @@ async function main() {
   console.log("📥 拉取本周消息...");
   const curData = await scanMessages(guild.id, curWeek.start, curWeek.end);
   curData.weekStart = curWeek.start; curData.weekLabel = curWeek.label;
-  console.log(`   ✅ ${curData.totalCount} 条, ${curData.activeUsers} 人\n`);
+  const currentContentCount = curData.allMessages.filter(m => (m.content || "").trim()).length;
+  console.log(`   ✅ ${curData.totalCount} 条, ${curData.activeUsers} 人, 正文 ${currentContentCount} 条\n`);
+  if (curData.totalCount > 0 && currentContentCount === 0) {
+    throw new Error("Discord MESSAGE_CONTENT 未开启：消息正文为 0，已停止生成/推送空 AI 周报");
+  }
   console.log("📥 拉取上周消息...");
   const prevData = await scanMessages(guild.id, prevWeek.start, prevWeek.end);
   console.log(`   ✅ ${prevData.totalCount} 条, ${prevData.activeUsers} 人\n`);

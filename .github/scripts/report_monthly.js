@@ -234,14 +234,18 @@ async function main() {
   console.log(`║  🤖 LLM: DeepSeek V4 Flash`);
   console.log(`╚══════════════════════════════════╝\n`);
 
-  const curMonth = getMonthRange(1), prevMonth = getMonthRange(2);
+  const curMonth = getMonthRange(0), prevMonth = getMonthRange(1);
   console.log(`📅 本月: ${curMonth.label}`);
   console.log(`📅 上月: ${prevMonth.label}\n`);
 
   console.log("📥 拉取本月消息...");
   const curData = await scanMessagesMonth(curMonth.start, curMonth.end);
   curData.monthLabel = curMonth.label;
-  console.log(`   ✅ ${curData.totalCount} 条, ${curData.activeUsers} 人\n`);
+  const currentContentCount = curData.allMessages.filter(m => (m.content || "").trim()).length;
+  console.log(`   ✅ ${curData.totalCount} 条, ${curData.activeUsers} 人, 正文 ${currentContentCount} 条\n`);
+  if (curData.totalCount > 0 && currentContentCount === 0) {
+    throw new Error("Discord MESSAGE_CONTENT 未开启：消息正文为 0，已停止生成/推送空 AI 月报");
+  }
 
   console.log("⏳ 等待 30 秒避免限流...");
   await new Promise(r => setTimeout(r, 30000));

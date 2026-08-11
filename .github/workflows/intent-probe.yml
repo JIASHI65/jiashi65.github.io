@@ -1,0 +1,41 @@
+name: Intent Probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - name: Probe intents + content
+        run: |
+          node -e '
+          const T=process.env.DISCORD_BOT_TOKEN;
+          const H={Authorization:"Bot "+T};
+          const B="https://discord.com/api/v10";
+          (async()=>{
+            const app=await (await fetch(B+"/applications/@me",{headers:H})).json();
+            console.log("=== APPLICATION ===");
+            console.log("name:", app.name);
+            console.log("flags:", app.flags);
+            const F={GATEWAY_MESSAGE_CONTENT:1<<18, GATEWAY_MESSAGE_CONTENT_LIMITED:1<<19,
+                      GATEWAY_GUILD_MEMBERS:1<<14, GATEWAY_GUILD_MEMBERS_LIMITED:1<<15};
+            for(const [k,v] of Object.entries(F))
+              console.log("  "+k+":", !!(app.flags & v));
+            console.log("approximate_guild_count:", app.approximate_guild_count);
+            console.log("approximate_user_install_count:", app.approximate_user_install_count);
+
+            console.log("\n=== CONTENT CHECK (small guild) ===");
+            const chans=await (await fetch(B+"/guilds/1458340952358785193/channels",{headers:H})).json();
+            const text=chans.filter(c=>c.type===0).slice(0,3);
+            for(const ch of text){
+              const msgs=await (await fetch(B+"/channels/"+ch.id+"/messages?limit=20",{headers:H})).json();
+              if(!Array.isArray(msgs)){console.log("#"+ch.name+" -> "+JSON.stringify(msgs).slice(0,120));continue}
+              const human=msgs.filter(m=>!(m.author&&m.author.bot));
+              const withText=human.filter(m=>m.content&&m.content.trim().length>0);
+              console.log("#"+ch.name+": 人类消息="+human.length+" 有正文="+withText.length);
+              await new Promise(r=>setTimeout(r,400));
+            }
+          })().catch(e=>{console.error("FATAL:",e.message);process.exit(1)});
+          '

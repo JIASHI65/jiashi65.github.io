@@ -283,6 +283,18 @@ async function pushFeishu(webhookKey, guildName, htmlUrl, summary, curData, llmA
   return resp.ok;
 }
 
+function reportMarker(guildType, periodStart) {
+  const root = path.resolve(__dirname, "../..");
+  const dir = path.join(root, ".report-sent");
+  const key = new Date(periodStart).toISOString().slice(0, 10);
+  return { dir, file: path.join(dir, `${guildType}-weekly-${key}.json`) };
+}
+
+function markReportSent(marker, payload) {
+  fs.mkdirSync(marker.dir, { recursive: true });
+  fs.writeFileSync(marker.file, JSON.stringify(payload, null, 2) + "\n", "utf8");
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const guildType = args.includes("large") ? "large" : "small";
@@ -322,13 +334,19 @@ async function main() {
   fs.writeFileSync(htmlPath, html, "utf-8");
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
   if (!isDry && process.env.CI) {
-   const webhookKey = guildType === "small" ? "small-weekly" : "large-weekly";
+    const webhookKey = guildType === "small" ? "small-weekly" : "large-weekly";
     const fixedName = guildType === "small" ? "weekly.html" : "large-weekly.html";
     const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/${fixedName}?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本周 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
-    console.log(`📤 推送飞书 [${webhookKey}]...`);
-    await pushFeishu(webhookKey, guild.name, htmlUrl, summary, curData, llmAnalysis);
-    console.log("   ✅ 完成\n");
+    const marker = reportMarker(guildType, curWeek.start);
+    if (fs.existsSync(marker.file)) {
+      console.log(`⏭️ 已推送本周期 ${curWeek.label}，跳过飞书重复发送`);
+    } else {
+      console.log(`📤 推送飞书 [${webhookKey}]...`);
+      const sent = await pushFeishu(webhookKey, guild.name, htmlUrl, summary, curData, llmAnalysis);
+      if (sent) markReportSent(marker, { guild: guild.name, period: curWeek.label, sentAt: new Date().toISOString() });
+      console.log(`   ${sent ? "✅ 完成" : "❌ 推送失败，未写入 marker"}\n`);
+    }
   }
   console.log("✅ 周报生成完毕！");
 }

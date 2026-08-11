@@ -226,6 +226,18 @@ async function pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, use
   return resp.ok;
 }
 
+function reportMarker(periodStart) {
+  const root = path.resolve(__dirname, "../..");
+  const dir = path.join(root, ".report-sent");
+  const key = new Date(periodStart).toISOString().slice(0, 7);
+  return { dir, file: path.join(dir, `monthly-${key}.json`) };
+}
+
+function markReportSent(marker, payload) {
+  fs.mkdirSync(marker.dir, { recursive: true });
+  fs.writeFileSync(marker.file, JSON.stringify(payload, null, 2) + "\n", "utf8");
+}
+
 async function main() {
   const isDry = process.argv.includes("--dry");
   const genDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
@@ -274,11 +286,17 @@ async function main() {
   console.log(`   ✅ ${htmlPath} (${(html.length/1024).toFixed(0)}KB)\n`);
 
   if (!isDry && process.env.CI) {
-   const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/monthly.html?ts=${Date.now()}`;
+    const htmlUrl = `https://jiashi65.github.io/yoyo-community-report/monthly.html?ts=${Date.now()}`;
     const summary = llmAnalysis?.llm_analysis?.summary || `本月 ${curData.totalCount} 条, ${curData.activeUsers} 人`;
-    console.log("📤 推送飞书 monthly...");
-    await pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, userGrowth);
-    console.log("   ✅ 完成\n");
+    const marker = reportMarker(curMonth.start);
+    if (fs.existsSync(marker.file)) {
+      console.log(`⏭️ 已推送本周期 ${curMonth.label}，跳过飞书重复发送`);
+    } else {
+      console.log("📤 推送飞书 monthly...");
+      const sent = await pushFeishu(htmlUrl, summary, curData, llmAnalysis, msgGrowth, userGrowth);
+      if (sent) markReportSent(marker, { guild: GUILD_NAME, period: curMonth.label, sentAt: new Date().toISOString() });
+      console.log(`   ${sent ? "✅ 完成" : "❌ 推送失败，未写入 marker"}\n`);
+    }
   }
   console.log("✅ 月报生成完毕！");
 }

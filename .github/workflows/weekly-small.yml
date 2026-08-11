@@ -35,6 +35,6 @@ jobs:
           cp "$SRC" yoyo-community-report/
           git config user.name "Mochi Bot"
           git config user.email "bot@mochi.dev"
-          git add yoyo-community-report/
+          git add yoyo-community-report/ .report-sent/
           git diff --staged --quiet || git commit -m "📊 Weekly report $(date +%Y%m%d)"
           git pull --rebase origin main && git push

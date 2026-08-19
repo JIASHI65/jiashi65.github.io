@@ -692,6 +692,13 @@ function getRefsWithRanges(){
   
   // Now determine where each ref shows based on its date range
   allRefs.forEach(r => {
+    if(r.pd){
+      const parts = String(r.pd).split('-').map(Number);
+      if(parts.length===3 && curY===parts[0] && curM===parts[1]){
+        result[parts[2]].push({...r});
+      }
+      return;
+    }
     const range = parseRange(r.text);
     if(range){
       // Multi-day range ref
